@@ -21,13 +21,18 @@ export default {
     },
     extend: {
       colors: {
+
+        icon:{
+          DEFAULT: "#000",
+          hover: "#ffa500",
+        },
         primary: {
           DEFAULT: "#292f36",
           hover: "#ffa500",
         },
         secondary: "#4d5053",
         accent: {
-          DEFAULT: "#cda274",
+          DEFAULT: "#ffa500",
           secondary: "#f4f0ec",
           hover: "#b88c5d",
         },
