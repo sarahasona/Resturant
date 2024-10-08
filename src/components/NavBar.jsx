@@ -88,9 +88,9 @@ useEffect(()=>{
           dis &&
           (
             <div className="absolute bg-black z-10 w-screen h-screen -top-[100px] bg-opacity-50 flex justify-end">
-             
-          <ul className={"flex gap-[50px] bg-white flex-col items-end p-10 h-screen w-1/2  "}>
-              <button onClick={disNave}><i className="fa-solid fa-xmark"></i></button>
+             <div className=" bg-white w-1/2 ">
+          <ul className={"flex gap-[50px] flex-col items-center p-10 h-screen align-middle "}>
+              <button onClick={disNave} className="self-end"><i className="fa-solid fa-xmark "></i></button>
               <li>
                 <Link to="/" className={isActive("/") ? "text-primary-hover" : ""}>
                   Home
@@ -130,7 +130,7 @@ useEffect(()=>{
               </li>
         
       </ul>
-        
+        </div>
             </div>
           )
         }

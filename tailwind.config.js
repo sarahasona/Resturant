@@ -22,10 +22,7 @@ export default {
     extend: {
       colors: {
 
-        icon:{
-          DEFAULT: "#000",
-          hover: "#ffa500",
-        },
+     
         primary: {
           DEFAULT: "#292f36",
           hover: "#ffa500",
