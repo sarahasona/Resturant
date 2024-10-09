@@ -47,7 +47,7 @@ function disNave() {
 useEffect(() => {
   if (width.width > 768) {
     setDis1(false)
-    
+    setDis(false)
     
   }else(
     setDis1(true)
