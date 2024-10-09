@@ -35,7 +35,7 @@ function disNave() {
   if (width.width < 768) {
     if (dis) {
     
-      
+      setDis1(false)
       setDis(false)
     }else{
       setDis(true)
@@ -47,7 +47,7 @@ function disNave() {
 useEffect(() => {
   if (width.width > 768) {
     setDis1(false)
-    console.log(dis);
+    
     
   }else(
     setDis1(true)
@@ -64,7 +64,46 @@ useEffect(()=>{
   <>
     <nav className="bg-blue-50 flex justify-between gap-[10px] py-[20px] px-[40px] items-center h-24">
       <img src="da logo.png" className=" w-32" />
-        <UlList show={true}/>
+        <ul className={ "hidden md:flex flex justify-between gap-[30px]  "}>
+        <li>
+          <Link to="/" className={isActive("/") ? "text-primary-hover" : ""}>
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/about"
+            className={isActive("/about") ? "text-primary-hover" : ""}
+          >
+            About
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/about"
+            className={isActive("/menu") ? "text-primary-hover" : ""}
+          >
+            menu
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/about"
+            className={isActive("/services") ? "text-primary-hover" : ""}
+          >
+            services
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/about"
+            className={isActive("/offers") ? "text-primary-hover" : ""}
+          >
+            offers
+          </Link>
+        </li>
+        
+      </ul>
 
       <div  className="flex gap-[20px] justify-self-end hidden md:flex">
 
