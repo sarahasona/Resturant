@@ -21,8 +21,6 @@ export default {
     },
     extend: {
       colors: {
-
-     
         primary: {
           DEFAULT: "#292f36",
           hover: "#ffa500",

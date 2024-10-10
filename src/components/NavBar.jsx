@@ -1,12 +1,12 @@
 import { useState,useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import Search from "./Search";
 function MainNavBar() {
   const isActive = (path) => location.pathname === path;
   const location = useLocation();
   const[dis,setDis]= useState(false)
   const[dis1,setDis1]= useState(false)
-
+  const[showS,setShowS]= useState(false)
 
   const useWindowDimensions = () => {
     const [windowDimensions, setWindowDimensions] = useState({
@@ -53,13 +53,21 @@ useEffect(() => {
     setDis1(true)
   )
 
-},[width])
+},[width,dis])
+
 const locationN = useLocation();
 useEffect(()=>{
   setDis(false)
+  setShowS(false)
 },[locationN])
 
-
+function showSF() {
+    if (showS===false) {
+      setShowS(true)
+    }else{
+      setShowS(false)
+    }
+}
   return (
   <>
     <nav className="bg-blue-50 flex justify-between gap-[10px] py-[20px] px-[40px] items-center h-24">
@@ -107,8 +115,8 @@ useEffect(()=>{
 
       <div  className="flex gap-[20px] justify-self-end hidden md:flex">
 
-       <button className="btn-icon" > <i className="fa-solid fa-magnifying-glass hover:text-icon-hover "></i></button>
-       <button  className="btn-icon"> <i className="fa-solid fa-wallet  hover:text-icon-hover"></i></button>
+       <button className="" onClick={showSF} > <i className="fa-solid fa-magnifying-glass hover:text-primary-hover "></i></button>
+       <button  className=""> <i className="fa-solid fa-wallet  hover:text-primary-hover "></i></button>
         <button   className="btn-accent rounded-3xl h-12 w-20">
           contact
         </button>
@@ -116,8 +124,15 @@ useEffect(()=>{
       <button onClick={disNave}>
       <i className="fa-solid fa-bars md:hidden "></i>
   </button>
+
     </nav>
-    
+    {
+      showS &&
+      (
+         <Search/>
+      )
+    }
+   
     {
       dis1 &&
       (
@@ -185,52 +200,5 @@ useEffect(()=>{
 }
 
 
-function UlList(show) {
-  const isActive = (path) => location.pathname === path;
-  return(
-        <>
-        <ul className={show.show ? "flex justify-between gap-[30px]  hidden md:flex":"flex justify-between gap-[30px]  "}>
-        <li>
-          <Link to="/" className={isActive("/") ? "text-primary-hover" : ""}>
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/about"
-            className={isActive("/about") ? "text-primary-hover" : ""}
-          >
-            About
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/about"
-            className={isActive("/menu") ? "text-primary-hover" : ""}
-          >
-            menu
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/about"
-            className={isActive("/services") ? "text-primary-hover" : ""}
-          >
-            services
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/about"
-            className={isActive("/offers") ? "text-primary-hover" : ""}
-          >
-            offers
-          </Link>
-        </li>
-        
-      </ul>
-        
-        </>
-  )
-}
+
 export default MainNavBar;

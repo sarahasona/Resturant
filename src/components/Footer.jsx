@@ -1,17 +1,24 @@
 import { Link, useLocation } from "react-router-dom";
-
+import "./footer.css"
 
 function Footer() {
   return (
-    <div className=" h-[40vh] w-full bg-slate-50 flex flex-col ">
-      <div className="row  flex-wrap  md: row-start-1 col-span-3 flex justify-between  p-[20px]">
-        <div className="flex flex-col h-fit w-1/4">
-          <img src="da logo.png" className=" h-56 w-56" />
+   <>
+   <div className="footer">
+   <div className=" big-con ">
+      <div className="firstrow  ">
+
+
+        <div className="logo " >
+          <img src="da logo.png" className=" h-56 w-56 " />
           <p>the best resturant in the world with food byond word and warld</p>
         </div>
-        <div>  
-          <h3 className=" pb-6 ">important links</h3>        
-          <ul  className="  flex flex-col gap-4 "> 
+
+
+
+        <div className=" listoflinks" >  
+          <h3 className=" ">important links</h3>        
+          <ul  className=" "> 
 
 
             <li>
@@ -40,7 +47,10 @@ function Footer() {
               </Link>
             </li>
           </ul></div>
-        <div>
+
+
+
+        <div className=" conatct">
           <h3>contant useEffect</h3>
           <ul>
             
@@ -50,17 +60,31 @@ function Footer() {
         </div>
        
       </div>
-      <div className="fine-rwo row-start-2 col-span-3 flex justify-between border-t border-t-[1px] items-center">
+
+
+
+      <div className="scond-row">
         <p>
           copyrihgt fose to the best react devolbers in the world
         </p>
-        <div className="links p-5">
+
+        <div className="links  ">
         <i className="fa-brands fa-facebook"></i>
         <i className="fa-brands fa-twitter"></i>
         <i className="fa-brands fa-discord icon "></i>
         </div>
+
       </div>
+
+
     </div>
+
+
+
+   </div>
+   
+   
+   </>
   )
 }
 
