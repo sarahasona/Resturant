@@ -74,7 +74,7 @@ function showSF() {
       <img src="da logo.png" className=" w-32" />
         <ul className={ "hidden md:flex flex justify-between gap-[30px]  "}>
         <li>
-          <Link to="/" className={isActive("/") ? "text-primary-hover" : ""}>
+          <Link to="/" className={isActive("/") ? "text-primary-hover" : "hover:animate-colorTravel"}>
             Home
           </Link>
         </li>
@@ -117,6 +117,7 @@ function showSF() {
 
        <button className="" onClick={showSF} > <i className="fa-solid fa-magnifying-glass hover:text-primary-hover "></i></button>
        <button  className=""> <i className="fa-solid fa-wallet  hover:text-primary-hover "></i></button>
+       <button> <i className="fa-solid fa-right-to-bracket"></i></button>
         <button   className="btn-accent rounded-3xl h-12 w-20">
           contact
         </button>
@@ -132,7 +133,7 @@ function showSF() {
          <Search/>
       )
     }
-   
+
     {
       dis1 &&
       (
@@ -153,7 +154,7 @@ function showSF() {
               <li>
                 <Link
                   to="/about"
-                  className={isActive("/about") ? "text-primary-hover" : ""}
+                  className={isActive("/about") ? "" : ""}
                 >
                   About
                 </Link>

@@ -13,7 +13,7 @@ html {
     overflow-x: hidden;
     font-family: "Jost", system-ui;
     a {
-      @apply text-[20px] hover:text-primary-hover transition-all duration-300;
+      @apply text-[20px] hover:animate-colorTravel transition-all duration-300;
     }
     h1,
     h2,
@@ -23,6 +23,7 @@ html {
     h6 {
       @apply font-primary text-primary;
     }
+    
     .h1 {
       @apply text-[34px] md:text-[40px] lg:text-[46px] xl:text-[50px] leading-none;
     }

@@ -2,24 +2,26 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    container: {
-      padding: { DEFAULT: "15px" },
-    },
-    screens: {
-      sm: "640px",
-      md: "768px",
-      lg: "960px",
-      xl: "1400px",
-    },
-    fontFamily: {
-      primary: "DM Serif Display",
-      secondary: "Jost",
-    },
-    backgroundImage: {
-      hero: "",
-      grid: "",
-    },
     extend: {
+      keyframes: {
+        colorTravel: {
+          '0%': {
+            backgroundPosition: '0% 50%',
+            color: '#FF6347',
+          },
+          '50%': {
+            backgroundPosition: '100% 50%',
+            color: '#FFD700',
+          },
+          '100%': {
+            backgroundPosition: '100% 50%',
+            color: '#FFA500',
+          },
+        },
+      },
+      animation: {
+        colorTravel: 'colorTravel 0.5s ease-in-out forwards',
+      },
       colors: {
         primary: {
           DEFAULT: "#292f36",
@@ -31,6 +33,24 @@ export default {
           secondary: "#f4f0ec",
           hover: "#b88c5d",
         },
+      },
+      container: {
+        padding: { DEFAULT: "15px" },
+      },
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "960px",
+        xl: "1400px",
+      },
+      fontFamily: {
+        primary: "DM Serif Display",
+        secondary: "Jost",
+      },
+      backgroundImage: {
+        hero: "",
+        grid: "",
+        'gradient-travel': 'linear-gradient(90deg, red, yellow, transparent)',
       },
     },
   },
