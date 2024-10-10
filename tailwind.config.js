@@ -1,7 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "node_modules/tw-elements/dist/js/**/*.js",
+  ],
   theme: {
+<<<<<<< HEAD
+=======
+    container: {
+      padding: { DEFAULT: "15px" },
+    },
+
+    fontFamily: {
+      primary: "DM Serif Display",
+      secondary: "Jost",
+      tertiary: "Bad Script",
+    },
+    backgroundImage: {
+      hero: "",
+      grid: "",
+    },
+>>>>>>> 90891642232dde8084d886239461e7da060921a2
     extend: {
       keyframes: {
         colorTravel: {
