@@ -27,7 +27,7 @@ export default {
         },
         secondary: "#4d5053",
         accent: {
-          DEFAULT: "#cda274",
+          DEFAULT: "#ffa500",
           secondary: "#f4f0ec",
           hover: "#b88c5d",
         },

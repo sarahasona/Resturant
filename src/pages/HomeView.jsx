@@ -5,7 +5,7 @@ import OurServices from "../components/OurServices";
 
 function HomeView() {
   return (
-    <div>
+    <div>    
       <Hero />
       <Catagories />
       <Testimonials />
