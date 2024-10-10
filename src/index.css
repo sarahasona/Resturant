@@ -42,7 +42,10 @@ html body .btn-primary {
   @apply bg-primary hover:bg-primary-hover;
 }
 html body .btn-accent {
-  @apply bg-accent hover:bg-accent-hover;
+  @apply bg-accent  hover:bg-accent-hover;
+}
+html body .responsive-max-width {
+  @apply max-w-[640px] md:max-w-[768px]  md:bg-slate-500 lg:max-w-[960px]  bg-slate-500 xl:max-w-[1500px]  bg-slate-500;
 }
 html body .avatar {
   margin-left: -20px;
