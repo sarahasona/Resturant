@@ -1,7 +1,15 @@
+import Catagories from "../components/Categories";
+import Hero from "../components/Hero";
+import Testimonials from "../components/Testimonials";
+import OurServices from "../components/OurServices";
+
 function HomeView() {
   return (
-    <div className="container min-h-[80vh]">
-      <h1 className="h1">HomeView</h1>
+    <div>
+      <Hero />
+      <Catagories />
+      <Testimonials />
+      <OurServices />
     </div>
   );
 }

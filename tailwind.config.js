@@ -1,19 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "node_modules/tw-elements/dist/js/**/*.js",
+  ],
   theme: {
     container: {
       padding: { DEFAULT: "15px" },
     },
-    screens: {
-      sm: "640px",
-      md: "768px",
-      lg: "960px",
-      xl: "1400px",
-    },
+
     fontFamily: {
       primary: "DM Serif Display",
       secondary: "Jost",
+      tertiary: "Bad Script",
     },
     backgroundImage: {
       hero: "",
