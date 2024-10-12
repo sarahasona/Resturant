@@ -128,7 +128,7 @@ function showSF() {
 
     </nav>
     {
-      showS &&
+      showS && !dis &&
       (
          <Search/>
       )
@@ -142,10 +142,19 @@ function showSF() {
         {
           dis &&
           (
-            <div className="absolute bg-black z-10 w-screen h-screen -top-[100px] bg-opacity-50 flex justify-end">
+            <div className="absolute bg-black z-50 w-screen h-screen -top-[100px] bg-opacity-50 flex justify-end">
              <div className=" bg-white w-1/2 ">
+             
           <ul className={"flex gap-[50px] flex-col items-center p-10 h-screen align-middle "}>
               <button onClick={disNave} className="self-end"><i className="fa-solid fa-xmark "></i></button>
+              <button className="" onClick={showSF} > <i className="fa-solid fa-magnifying-glass hover:text-primary-hover "></i></button>
+              {
+                showS && dis &&
+                (
+                  <Search/>
+                )
+              }
+
               <li>
                 <Link to="/" className={isActive("/") ? "text-primary-hover" : ""}>
                   Home

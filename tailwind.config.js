@@ -6,8 +6,6 @@ export default {
     "node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
-<<<<<<< HEAD
-=======
     container: {
       padding: { DEFAULT: "15px" },
     },
@@ -21,7 +19,6 @@ export default {
       hero: "",
       grid: "",
     },
->>>>>>> 90891642232dde8084d886239461e7da060921a2
     extend: {
       keyframes: {
         colorTravel: {
