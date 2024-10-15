@@ -13,10 +13,11 @@ function App() {
     <LoginProvider>
       <BrowserRouter>
         <Routes>
-          <NavBar/>
+          <Route path="/" element={<Layout />}>
+          
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
-          <Route path="/" element={<Layout />}>
+
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
 
