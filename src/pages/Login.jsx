@@ -5,6 +5,8 @@ import "./login/login.css";
 
 function Login() {
   const { login } = useContext(LoginContext);
+  const { setAdmin } = useContext(LoginContext);
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +44,7 @@ function Login() {
     } else {
       setPasswordError("No user found. Please sign up.");
     }
+    
   };
 
   const resetErrors = () => {

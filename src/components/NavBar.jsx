@@ -1,13 +1,15 @@
-import { useState,useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState,useEffect ,useContext} from "react";
+import { Link, useLocation ,useNavigate  } from "react-router-dom";
+import { LoginContext } from "../context/Login/Login";
 import Search from "./Search";
-function MainNavBar() {
+function NavBar() {
   const isActive = (path) => location.pathname === path;
   const location = useLocation();
   const[dis,setDis]= useState(false)
   const[dis1,setDis1]= useState(false)
   const[showS,setShowS]= useState(false)
-
+  const navigateTo = useNavigate();
+  const { admin } = useContext(LoginContext);
   const useWindowDimensions = () => {
     const [windowDimensions, setWindowDimensions] = useState({
       width: window.innerWidth,
@@ -42,6 +44,10 @@ function disNave() {
     }
   }
   
+}
+function navag() {
+  
+  navigateTo('/login');
 }
 
 useEffect(() => {
@@ -94,14 +100,21 @@ function showSF() {
             menu
           </Link>
         </li>
-        <li>
+
+       {
+        admin &&
+         (
+          <li>
           <Link
-            to="/about"
-            className={isActive("/services") ? "text-primary-hover" : ""}
+            to="/dash"
+            className={isActive("/dash") ? "text-primary-hover" : ""}
           >
-            services
+            Dash Board
           </Link>
         </li>
+        )
+       }
+
         <li>
           <Link
             to="/about"
@@ -118,8 +131,8 @@ function showSF() {
        <button className="" onClick={showSF} > <i className="fa-solid fa-magnifying-glass hover:text-primary-hover "></i></button>
        <button  className=""> <i className="fa-solid fa-wallet  hover:text-primary-hover "></i></button>
        <button> <i className="fa-solid fa-right-to-bracket"></i></button>
-        <button   className="btn-accent rounded-3xl h-12 w-20">
-          contact
+        <button   className="btn-accent rounded-3xl h-12 w-20" onClick={navag} >
+          login
         </button>
       </div>
       <button onClick={disNave}>
@@ -192,6 +205,11 @@ function showSF() {
                   offers
                 </Link>
               </li>
+              <li>
+              <button   className="btn-accent rounded-3xl h-12 w-20" onClick={navag} >
+          login
+        </button>
+              </li>
         
       </ul>
         </div>
@@ -211,4 +229,4 @@ function showSF() {
 
 
 
-export default MainNavBar;
+export default NavBar;
