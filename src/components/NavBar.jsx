@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import { LoginContext } from "../context/Login/Login";
 import Search from "./Search";
 
 function MainNavBar() {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
-
+  const { admin } = useContext(LoginContext);
   const [dis, setDis] = useState(false);
   const [dis1, setDis1] = useState(false);
   const [showS, setShowS] = useState(false);
@@ -64,7 +65,7 @@ function MainNavBar() {
   return (
     <>
       <nav className="bg-blue-50 flex justify-between gap-[10px] py-[20px] px-[40px] items-center h-24">
-        <img src="da logo.png" className="w-32" />
+        <img  src={`${import.meta.env.BASE_URL}da logo.png`} className="w-32" />
         <ul className={"hidden md:flex flex justify-between gap-[30px]"}>
           <li>
             <Link to="/" className={isActive("/") ? "text-primary-hover" : "hover:animate-colorTravel"}>
@@ -81,11 +82,18 @@ function MainNavBar() {
               Menu
             </Link>
           </li>
-          <li>
-            <Link to="/services" className={isActive("/services") ? "text-primary-hover" : ""}>
-              Services
+         
+        {
+          admin && 
+          (
+            <li>
+            <Link to="dash" className={isActive("/services") ? "text-primary-hover" : ""}>
+              Dash Bord
             </Link>
           </li>
+          )
+        }
+
           <li>
             <Link to="/offers" className={isActive("/offers") ? "text-primary-hover" : ""}>
               Offers

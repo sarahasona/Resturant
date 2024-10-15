@@ -6,16 +6,28 @@ import { useContext } from "react";
 
 
 function AdminDash() {
-    const { admin } = useContext(LoginContext);
+  const { admin } = useContext(LoginContext);
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
 
   return (
     <div  className=" flex  justify-between relative">
 
-      <div className="sidM w-1/4 h-[90vh] ">
-        <ul>
+      <div className="sidM w-1/4 h-[90vh] flex  flex-col gap-[20px] bg- p-4 border-r-2 border-gray-300">
+
+        <div className='flex justify-center items-center gap-[10px]'>
+
+        <i className="fa-solid fa-table-columns"></i>
+          <p>
+            Dash Board
+
+          </p>
+         
+        </div>
+        <ul  className="flex flex-col gap-[20px]">
+
           <li>
+          <i className="fa-solid fa-user"></i>
             <Link
               to="user"
               className={isActive("/dash/user") ? "text-primary-hover" : ""}

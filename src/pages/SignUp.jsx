@@ -34,7 +34,7 @@ function SignUp() {
       setConfirmPasswordError("Passwords do not match");
       return;
     }
-    if (password.length < 8) {
+    if (password.length < 8 || !validatePassowrd) {
       setPasswordError("Password length should be at least 8 characters");
       return;
     }
@@ -52,7 +52,7 @@ function SignUp() {
     }
 
     try {
-      const response = await axios.post("https://restaurant-website-dusky-one.vercel.app/user/signUp/", {
+      const response = await axios.post("https://restaurant-website-dusky-one.vercel.app/user/signUp", {
         firstName,
         lastName,
         email,
@@ -60,6 +60,7 @@ function SignUp() {
       });
 
       console.log("User created:", response.data);
+
       
       navigate("/", { replace: true });
     } catch (error) {
@@ -68,12 +69,24 @@ function SignUp() {
       } else {
         setEmailError("An unexpected error occurred. Please try again later.");
       }
+      console.log(error.response);
+      // console.log(response);
+      // console.log(error.response.data);
+      
+      
+      
     }
   };
 
   const validateEmail = () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
+  };
+
+  const validatePassowrd = () => {
+    const emailRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    emailRegex.test(password);
+    return emailRegex.test(password);
   };
 
   return (
