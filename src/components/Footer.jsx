@@ -4,7 +4,7 @@ import "./footer.css"
 function Footer() {
   return (
    <>
-   <div className="footer">
+   <div className="footer mt-10">
    <div className=" big-con ">
       <div className="firstrow  ">
 

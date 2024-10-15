@@ -1,60 +1,91 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/Login/Login";
 import "./login/login.css";
+import axios from "axios";
 
 function Login() {
   const { login } = useContext(LoginContext);
   const { setAdmin } = useContext(LoginContext);
 
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [identifierError, setIdentifierError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [serverError, setServerError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     resetErrors();
+    setSuccessMessage(""); 
 
-    // Validate email
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
-      return;
-    }
+    console.log("Sending:", { identifier, password });
 
-    // Check password length
-    if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters long");
-      return;
-    }
-
-    // Check if user data exists
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    if (userData) {
-      const exist = userData.find(
-        (user) => user.email === email && user.password === password
+    try {
+      const response = await axios.post(
+        "https://restaurant-website-dusky-one.vercel.app/user/signIn/",
+        { identifier, password }
       );
-      if (!exist) {
-        setPasswordError("Email or password is incorrect");
+
+      console.log("Response:", response);
+      console.log("Response data:", response.data);
+
+      if (response.status === 200) {
+        const { token, message } = response.data;
+
+        if (!token) {
+          setServerError("Token not received. Please try again.");
+          console.error("Token is undefined.");
+          return;
+        }
+
+        localStorage.setItem("token", token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+        login(identifier); 
+
+        setSuccessMessage("Login successful! Welcome back!");
+
+        setTimeout(() => {
+          navigate("/");
+        }, 700); 
       } else {
-        login(exist.firstName); // Assuming you're storing firstName in userData
-        navigate("/");
+        setServerError("Unexpected server response. Please try again.");
+        console.error("Error:", response.statusText);
       }
-    } else {
-      setPasswordError("No user found. Please sign up.");
+    } catch (error) {
+      console.error("Error caught:", error);
+      console.log("Error response data:", error.response?.data); 
+
+      if (error.response) {
+        if (error.response.status === 401) {
+          setServerError("Invalid identifier or password.");
+        } else {
+          setServerError(`Error: ${error.response.data.message || 'An unexpected error occurred.'}`);
+        }
+      } else if (error.request) {
+        setServerError("No response from server. Please check your network.");
+      } else {
+        setServerError("Error: Failed to send request.");
+      }
     }
     
   };
 
   const resetErrors = () => {
-    setEmailError("");
+    setIdentifierError("");
     setPasswordError("");
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
+    setServerError("");
+    setSuccessMessage(""); 
   };
 
   return (
@@ -63,19 +94,19 @@ function Login() {
         onSubmit={handleSubmit}
         className="w-full md:w-[60%] lg:w-[50%] mx-auto flex flex-col gap-[30px] border py-[30px] px-[20px] md:px-[50px] mt-[50px] md:mt-[80px] rounded shadow-md form-control"
       >
-        {/* Email */}
+        {/* Identifier */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="email" className="mb-2">Email</label>
+          <label htmlFor="identifier" className="mb-2">Email</label>
           <input
             type="email"
-            placeholder="email"
+            placeholder="Email"
             name="email"
-            id="email"
+            id="identifier"
             className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
             required
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setIdentifier(e.target.value)}
           />
-          {emailError && <div className="text-red-500">{emailError}</div>}
+          {identifierError && <div className="text-red-500">{identifierError}</div>}
         </div>
 
         {/* Password */}
@@ -96,6 +127,12 @@ function Login() {
           {passwordError && <p className="text-red-500">{passwordError}</p>}
         </div>
 
+        {/* Error Message */}
+        {serverError && <p className="text-red-500">{serverError}</p>}
+
+        {/* Success Message */}
+        {successMessage && <p className="text-green-500">{successMessage}</p>} 
+
         {/* Login Button */}
         <button
           type="submit"
@@ -104,8 +141,9 @@ function Login() {
           Login
         </button>
 
-        <p className="text-center">
-          <Link to="/signup">Create an account</Link>
+        <p className="text-center text-lg">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-lg text-orange-500">Create an account</Link>
         </p>
       </form>
     </div>
