@@ -6,7 +6,7 @@ import { useContext } from "react";
 
 
 function AdminDash() {
-  const { admin } = useContext(LoginContext);
+  // const { admin } = useContext(LoginContext);
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
 
