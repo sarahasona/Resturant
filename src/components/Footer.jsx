@@ -4,13 +4,13 @@ import "./footer.css"
 function Footer() {
   return (
    <>
-   <div className="footer">
+   <div className="footer mt-10">
    <div className=" big-con ">
       <div className="firstrow  ">
 
 
         <div className="logo " >
-          <img src="da logo.png" className=" h-56 w-56 " />
+          <img src={`${import.meta.env.BASE_URL}da logo.png`} className=" h-56 w-56 " />
           <p>the best resturant in the world with food byond word and warld</p>
         </div>
 

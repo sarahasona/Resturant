@@ -6,8 +6,8 @@ function Search() {
        
       <div className="overlay">
       </div>
-      <div className="search ">
-        <input type="search" placeholder="Search..." className="" />
+      <div className="search w-1/2 m-auto mt-3 mb-3 rounded-xl border border-solid ">
+        <input type="search" placeholder="Search..." className="w-full rounded-xl border-none pl-2" />
       </div>
       
     </>
