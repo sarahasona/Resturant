@@ -18,7 +18,7 @@ function MealDetail() {
   }, [mealId]);
   return (
     <div className="container flex justify-center items-center mx-auto px-[24px] mt-10">
-      <MealCard item={mealData} showDetails="false" />
+      <MealCard item={mealData} showDetails={false} />
     </div>
   );
 }
