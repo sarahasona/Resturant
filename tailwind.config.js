@@ -25,6 +25,7 @@ export default {
           DEFAULT: "#292f36",
           hover: "#ffa500",
         },
+        darkorange:"#ed9600",
         secondary: "#4d5053",
         accent: {
           DEFAULT: "#ffa500",

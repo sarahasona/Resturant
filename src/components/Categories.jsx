@@ -27,7 +27,7 @@ const categoryItems = [
 
 const Catagories = () => {
   return (
-    <div className="max-w-screen-xl container mx-auto xl:px-24 px-16 py-8">
+    <div className="max-w-screen-xl container mx-auto xl:px-24 p-8">
       <div className="text-center">
         <p className="subtitle">Discover</p>
         <h2 className="title h2">Our Catagories</h2>

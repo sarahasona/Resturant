@@ -1,5 +1,4 @@
-{
-  "dishes": [
+[
     {
       "_id": "642c155b2c4774f05c36eeaa",
       "name": "Haddock",
@@ -480,5 +479,5 @@
       "category": "soup",
       "price": 10.5
     }
+  
   ]
-}
