@@ -27,7 +27,7 @@ function AdminDash() {
         <ul  className="flex flex-col gap-[20px]">
 
           <li>
-          <i className="fa-solid fa-user"></i>
+          <i className="fa-solid fa-user mr-3"></i>
             <Link
               to="user"
               className={isActive("/dash/user") ? "text-primary-hover" : ""}
