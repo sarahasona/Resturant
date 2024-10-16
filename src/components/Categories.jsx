@@ -24,7 +24,7 @@ const categoryItems = [
     image: "../src/assets/images/home/category/img4.png",
   },
 ];
-
+import { Link } from "react-router-dom";
 const Catagories = () => {
   return (
     <div className="max-w-screen-xl container mx-auto xl:px-24 p-8">
@@ -35,7 +35,7 @@ const Catagories = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8 ">
         {categoryItems.map((item, i) => (
-          <div
+          <Link to="/menu"
             key={i}
             className="shadow-lg rounded-md bg-white py-6 px-5 w-[250px] mx-auto text-center cursor-pointer hover:-translate-y-4 transition-all duration-300 z-10"
           >
@@ -50,7 +50,7 @@ const Catagories = () => {
               <h5 className="text-[#1E1E1E] font-semibold">{item.title}</h5>
               <p className="text-secondary text-sm">{item.despriction}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

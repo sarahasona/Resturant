@@ -101,7 +101,7 @@ function MainNavBar() {
           </li>
         </ul>
 
-        <div className="flex gap-[20px] justify-self-end hidden md:flex">
+        <div className="flex gap-[20px] justify-self-end ">
           <button onClick={showSF}>
             <i className="fa-solid fa-magnifying-glass hover:text-primary-hover"></i>
           </button>
@@ -137,9 +137,9 @@ function MainNavBar() {
                   <button onClick={disNave} className="self-end">
                     <i className="fa-solid fa-xmark"></i>
                   </button>
-                  <button onClick={showSF}>
+                  {/* <button onClick={showSF}>
                     <i className="fa-solid fa-magnifying-glass hover:text-primary-hover"></i>
-                  </button>
+                  </button> */}
                   {showS && dis && <Search />}
                   <li>
                     <Link to="/" className={isActive("/") ? "text-primary-hover" : ""}>

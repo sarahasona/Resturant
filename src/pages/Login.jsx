@@ -19,14 +19,14 @@ function Login() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     resetErrors();
-    setSuccessMessage(""); 
+    setSuccessMessage("");
 
     console.log("Sending:", { identifier, password });
 
@@ -49,28 +49,32 @@ function Login() {
         }
 
         localStorage.setItem("token", token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        localStorage.setItem("userId", response.data.user._id);
 
-        login(identifier); 
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        login(identifier);
 
         setSuccessMessage("Login successful! Welcome back!");
 
         setTimeout(() => {
           navigate("/");
-        }, 700); 
+        }, 700);
       } else {
         setServerError("Unexpected server response. Please try again.");
         console.error("Error:", response.statusText);
       }
     } catch (error) {
       console.error("Error caught:", error);
-      console.log("Error response data:", error.response?.data); 
+      console.log("Error response data:", error.response?.data);
 
       if (error.response) {
         if (error.response.status === 401) {
           setServerError("Invalid identifier or password.");
         } else {
-          setServerError(`Error: ${error.response.data.message || 'An unexpected error occurred.'}`);
+          setServerError(
+            `Error: ${error.response.data.message || "An unexpected error occurred."}`
+          );
         }
       } else if (error.request) {
         setServerError("No response from server. Please check your network.");
@@ -78,14 +82,13 @@ function Login() {
         setServerError("Error: Failed to send request.");
       }
     }
-    
   };
 
   const resetErrors = () => {
     setIdentifierError("");
     setPasswordError("");
     setServerError("");
-    setSuccessMessage(""); 
+    setSuccessMessage("");
   };
 
   return (
@@ -96,7 +99,9 @@ function Login() {
       >
         {/* Identifier */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="identifier" className="mb-2">Email</label>
+          <label htmlFor="identifier" className="mb-2">
+            Email
+          </label>
           <input
             type="email"
             placeholder="Email"
@@ -106,12 +111,16 @@ function Login() {
             required
             onChange={(e) => setIdentifier(e.target.value)}
           />
-          {identifierError && <div className="text-red-500">{identifierError}</div>}
+          {identifierError && (
+            <div className="text-red-500">{identifierError}</div>
+          )}
         </div>
 
         {/* Password */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="password" className="mb-2">Password</label>
+          <label htmlFor="password" className="mb-2">
+            Password
+          </label>
           <input
             type="password"
             placeholder="Password"
@@ -131,7 +140,7 @@ function Login() {
         {serverError && <p className="text-red-500">{serverError}</p>}
 
         {/* Success Message */}
-        {successMessage && <p className="text-green-500">{successMessage}</p>} 
+        {successMessage && <p className="text-green-500">{successMessage}</p>}
 
         {/* Login Button */}
         <button
@@ -143,7 +152,9 @@ function Login() {
 
         <p className="text-center text-lg">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-lg text-orange-500">Create an account</Link>
+          <Link to="/signup" className="text-lg text-orange-500">
+            Create an account
+          </Link>
         </p>
       </form>
     </div>
