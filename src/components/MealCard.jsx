@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaHeart, FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const Cards = ({ item }) => {
+const Cards = ({ item, showDetails }) => {
   const [isHeartFilled, setIsHeartFilled] = useState(false);
 
   const handleHeartClick = () => {
@@ -35,9 +35,12 @@ const Cards = ({ item }) => {
             <span className="text-sm text-red-500">$ </span> {item.price}
           </h5>
           <div className="flex gap-2 justify-center items-center">
-            <Link to={`/menu/${item._id}`}>
-              <FaEye className="w-5 h-5 text-primary-hover cursor-pointer hover:text-darkorange" />
-            </Link>
+            {showDetails? (
+              <Link to={`/menu/${item._id}`}>
+                <FaEye className="w-5 h-5 text-primary-hover cursor-pointer hover:text-darkorange" />
+              </Link>
+            ):''}
+
             <button className="btn bg-primary-hover text-white">
               Add to Cart{" "}
             </button>

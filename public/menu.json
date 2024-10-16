@@ -1,7 +1,7 @@
 [
     {
       "_id": "642c155b2c4774f05c36eeaa",
-      "name": "Haddock",
+      "name": "first-Haddock",
       "recipe": "Chargrilled fresh tuna steak (served medium rare) on classic Niçoise salad with French beans.",
       "image": "../src/assets/images/recipes/img1.png",
       "category": "salad",
@@ -9,7 +9,7 @@
     },
     {
       "_id": "642c155b2c4774f05c36eeb9",
-      "name": "Haddock",
+      "name": "second-Haddock",
       "recipe": "Chargrilled fresh tuna steak (served medium rare) on classic Niçoise salad with French beans.",
       "image": "../src/assets/images/recipes/img2.png",
       "category": "drinks",
@@ -17,7 +17,7 @@
     },
     {
       "_id": "642c155b2c4774f05c36ee7c",
-      "name": "Escalope de Veau",
+      "name": "third-Escalope de Veau",
       "recipe": "Roasted duck breast (served pink) with gratin potato and a griottine cherry sauce",
       "image": "../src/assets/images/recipes/img1.png",
       "category": "popular",
@@ -25,7 +25,7 @@
     },
     {
       "_id": "642c155b2c4774f05c36ee88",
-      "name": "Escalope de Veau",
+      "name": "4-Escalope de Veau",
       "recipe": "Pan roasted haddock fillet wrapped in smoked French bacon with pea purée and tomato and chive vinaigrette",
       "image": "../src/assets/images/recipes/img1.png",
       "category": "dessert",
@@ -33,7 +33,7 @@
     },
     {
       "_id": "642c155b2c4774f05c36ee7a",
-      "name": "Roast Duck Breast",
+      "name": "5-Roast Duck Breast",
       "recipe": "Roasted duck breast (served pink) with gratin potato and a griottine cherry sauce",
       "image": "../src/assets/images/recipes/img2.png",
       "category": "popular",
@@ -41,7 +41,7 @@
     },
     {
       "_id": "642c155b2c4774f05c36ee74",
-      "name": "Roast Duck Breast",
+      "name": "6-Roast Duck Breast",
       "recipe": "Roasted duck breast (served pink) with gratin potato and a griottine cherry sauce",
       "image": "../src/assets/images/recipes/img3.png",
       "category": "popular",
@@ -49,7 +49,7 @@
     },
     {
       "_id": "642c155b2c4774f05c36ee712",
-      "name": "Roast Duck Breast",
+      "name": "7-Roast Duck Breast",
       "recipe": "Roasted duck breast (served pink) with gratin potato and a griottine cherry sauce",
       "image": "../src/assets/images/recipes/img1.png",
       "category": "popular",
@@ -57,7 +57,7 @@
     },
     {
       "_id": "642c155b2c4774f05c36ee7x",
-      "name": "Roast Duck Breast",
+      "name": "8-Roast Duck Breast",
       "recipe": "Roasted duck breast (served pink) with gratin potato and a griottine cherry sauce",
       "image": "../src/assets/images/recipes/img2.png",
       "category": "popular",
@@ -65,7 +65,7 @@
     },
     {
       "_id": "642c155b2c4774f05c36ee8c",
-      "name": "Escalope de Veau",
+      "name": "9-Escalope de Veau",
       "recipe": "Pan roasted haddock fillet wrapped in smoked French bacon with pea purée and tomato and chive vinaigrette",
       "image": "../src/assets/images/recipes/img3.png",
       "category": "dessert",
