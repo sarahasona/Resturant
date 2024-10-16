@@ -9,6 +9,10 @@ function LoginProvider({ children }) {
   const logout = () => {
     setUserName("");
   };
+  const  isAdmin = () => {
+    setAdmin(false)
+  }
+
   return (
     <LoginContext.Provider value={{ userName, login, logout ,admin,setAdmin}}>
       {children}
