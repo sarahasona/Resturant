@@ -3,6 +3,7 @@ export const LoginContext = createContext();
 function LoginProvider({ children }) {
   const [userName, setUserName] = useState("");
   const [admin, setAdmin] = useState(false);
+  const [user, setUSer] = useState(false);
   const login = (name) => {
     setUserName(name);
   };

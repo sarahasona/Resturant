@@ -27,10 +27,10 @@ function Users() {
     allU().then((data) => {
       if (data && Array.isArray(data.usersData)) {
         setUsers(data.usersData); 
-        console.log(users);
+    
         
       } else {
-        console.error("Expected an array but received:", data);
+        
       }
     });
   }, []);

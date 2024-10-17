@@ -35,7 +35,7 @@ function Login() {
         "https://restaurant-website-dusky-one.vercel.app/user/signIn/",
         { identifier, password }
       );
-      console.log(response.data);
+    
       
       if (response.data.user.role ==="Admin"){
         setAdmin(true);
