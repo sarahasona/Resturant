@@ -72,7 +72,6 @@ function Login() {
         setTimeout(() => {
           navigate("/");
         }, 700);
-        }, 700);
       } else {
         setServerError("Unexpected server response. Please try again.");
       }

@@ -1,7 +1,5 @@
-import { useState, useEffect ,useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect ,useContext,useRef } from "react";
+import { Link, useLocation ,useNavigate} from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { LoginContext } from "../context/Login/Login";
 import Search from "./Search";
@@ -46,7 +44,8 @@ function MainNavBar() {
   // Hook to check login status on component mount
   useEffect(() => {
     checkLoginStatus();
-  }, []);
+    
+  }, [isLoggedIn]);
 
   const useWindowDimensions = () => {
     const [windowDimensions, setWindowDimensions] = useState({
@@ -180,7 +179,6 @@ function MainNavBar() {
             )
           }
 
-             
           {/* Conditional rendering based on login state */}
           {isLoggedIn ? (
             <div className="relative" ref={accountMenuRef}> {/* Attach ref to the menu container */}
