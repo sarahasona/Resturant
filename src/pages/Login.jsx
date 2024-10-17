@@ -28,16 +28,22 @@ function Login() {
     resetErrors();
     setSuccessMessage(""); 
 
-    console.log("Sending:", { identifier, password });
+    
 
     try {
       const response = await axios.post(
         "https://restaurant-website-dusky-one.vercel.app/user/signIn/",
         { identifier, password }
       );
-
-      console.log("Response:", response);
-      console.log("Response data:", response.data);
+      console.log(response.data);
+      
+      if (response.data.user.role ==="Admin"){
+        setAdmin(true);
+    
+        
+      }else{
+        setAdmin(false);
+      }
 
       if (response.status === 200) {
         const { token, message } = response.data;
@@ -63,9 +69,7 @@ function Login() {
         console.error("Error:", response.statusText);
       }
     } catch (error) {
-      console.error("Error caught:", error);
-      console.log("Error response data:", error.response?.data); 
-
+      
       if (error.response) {
         if (error.response.status === 401) {
           setServerError("Invalid identifier or password.");
@@ -87,6 +91,7 @@ function Login() {
     setServerError("");
     setSuccessMessage(""); 
   };
+  
 
   return (
     <div className="container mx-auto px-4 md:px-8">

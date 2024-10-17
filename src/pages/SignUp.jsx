@@ -14,7 +14,7 @@ function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  
   const resetErrors = () => {
     setEmailError("");
     setPasswordError("");
@@ -59,7 +59,7 @@ function SignUp() {
         password,
       });
 
-      console.log("User created:", response.data);
+  
 
       
       navigate("/", { replace: true });
@@ -69,9 +69,7 @@ function SignUp() {
       } else {
         setEmailError("An unexpected error occurred. Please try again later.");
       }
-      console.log(error.response);
-      // console.log(response);
-      // console.log(error.response.data);
+     
       
       
       

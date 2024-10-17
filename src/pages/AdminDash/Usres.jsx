@@ -1,106 +1,67 @@
-import React, { useState } from 'react'
-import UserCard from './UserCard'
-import Confirm from './confirm';
+import React, { useState, useEffect } from 'react';
+import UserCard from './UserCard';
+import Confirm from './Confirm';
+import axios from 'axios';
 
-const users = [
-  {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    role: 'Admin',
-    order: 1,
-  },
-  {
-    name: 'Jane Smith',
-    email: 'jane.smith@example.com',
-    role: 'User',
-    order: 2,
-  },
-  {
-    name: 'Alice Johnson',
-    email: 'alice.johnson@example.com',
-    role: 'Moderator',
-    order: 3,
-  },
-  {
-    name: 'Michael Brown',
-    email: 'michael.brown@example.com',
-    role: 'User',
-    order: 4,
-  },
-  {
-    name: 'Emily Davis',
-    email: 'emily.davis@example.com',
-    role: 'Admin',
-    order: 5,
-  },
-  {
-    name: 'Daniel Wilson',
-    email: 'daniel.wilson@example.com',
-    role: 'User',
-    order: 6,
-  },
-  {
-    name: 'Olivia White',
-    email: 'olivia.white@example.com',
-    role: 'Moderator',
-    order: 7,
-  },
-  {
-    name: 'James Taylor',
-    email: 'james.taylor@example.com',
-    role: 'User',
-    order: 8,
-  },
-  {
-    name: 'Sophia Martinez',
-    email: 'sophia.martinez@example.com',
-    role: 'Admin',
-    order: 9,
-  },
-  {
-    name: 'Liam Anderson',
-    email: 'liam.anderson@example.com',
-    role: 'User',
-    order: 10,
-  },
-];
+function Users() {
+  const [showc, setShowC] = useState(false);
+  const [users, setUsers] = useState([]);
 
-function Usres() {
-  const[showc,setShowC]=useState(false)
+  const allU = async () => {
+    try {
+      const response = await axios.get(
+        `https://restaurant-website-dusky-one.vercel.app/user/allUsers/`,
+        {
+          headers: {
+            token: `resApp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzBkOTRjMTg2ODVjNzNjODQ0ZmVkZTMiLCJzZXNzaW9uSWQiOiI5NWM2OTJlOC1lZjg5LTQ2Y2MtYWVhNC1hMDZiZjUxZDJhMDYiLCJpYXQiOjE3MjkxNjc4NzIsImV4cCI6MTczMDM3NzQ3Mn0.o_FeXWK-rLSaEWfg9LVASoZxgHvN7wo9e40dtc6JAh8` 
+          },
+        }
+      );
+      return response.data; 
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  useEffect(() => {
+    allU().then((data) => {
+      if (data && Array.isArray(data.usersData)) {
+        setUsers(data.usersData); 
+        console.log(users);
+        
+      } else {
+        console.error("Expected an array but received:", data);
+      }
+    });
+  }, []);
 
   return (
-  
-
-    <div className="overflow-y-scroll scrollbar-hidden h-[90vh] "
-    style={{scrollbarWidth : 'none'}}
-    >
-      {
-        showc &&
-        (
-          <Confirm 
-          setShowC={setShowC}
-          />
-        )
-      }
-      <div className='flex justify-between w-[80%] m-[5%] p-2 border bg-blue-50 '>
-      <h3>#</h3>
-      <h3> name </h3>
-      <h3>email </h3>
-      <h3> role</h3>
-      <h3>action </h3>
+    <div className="overflow-y-scroll scrollbar-hidden h-[90vh]" style={{ scrollbarWidth: 'none' }}>
+      {showc && <Confirm setShowC={setShowC} />}
+      <div className='flex justify-between w-[80%] m-[5%] p-2 border bg-blue-50'>
+        <h3>#</h3>
+        <h3>Name</h3>
+        <h3>Email</h3>
+        <h3>Role</h3>
+        <h3>Action</h3>
+      </div>
+      {users.length > 0 ? (
+        users.map((user, index) => (
+          <UserCard
+          id={user._id}
+           key={user._id}
+           user={user} 
+           order={index}
+           name={user.firstName + " "+user.lastName}
+           role={user.role}
+           email={user.email}
+           setShowC={setShowC} />
+        ))
+      ) : (
+        <p>No users found or loading...</p>
+      )}
     </div>
-     {users.map((user, index) => (
-        <UserCard 
-          setShowC={setShowC}
-          key={index} 
-          name={user.name}
-          email={user.email}
-          role={user.role}
-          order={user.order}
-        />
-      ))}
-    </div>
-  )
+  );
 }
 
-export default Usres
+export default Users;

@@ -7,11 +7,10 @@ import Search from "./Search";
 function MainNavBar() {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
-  // const { admin } = useContext(LoginContext);
+  const { admin } = useContext(LoginContext);
   const [dis, setDis] = useState(false);
   const [dis1, setDis1] = useState(false);
   const [showS, setShowS] = useState(false);
-  const admin=true
   const useWindowDimensions = () => {
     const [windowDimensions, setWindowDimensions] = useState({
       width: window.innerWidth,
