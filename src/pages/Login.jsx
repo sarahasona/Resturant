@@ -6,6 +6,8 @@ import axios from "axios";
 
 function Login() {
   const { login } = useContext(LoginContext);
+  const { setAdmin } = useContext(LoginContext);
+
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ function Login() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
   }, []);
 
@@ -27,12 +29,24 @@ function Login() {
     resetErrors();
     setSuccessMessage("");
     setIsLoading(true);
+    setSuccessMessage("");
+
+    
 
     try {
       const response = await axios.post(
         "https://restaurant-website-dusky-one.vercel.app/user/signIn/",
         { identifier, password }
       );
+    
+      
+      if (response.data.user.role ==="Admin"){
+        setAdmin(true);
+    
+        
+      }else{
+        setAdmin(false);
+      }
 
       if (response.status === 200) {
         const { token } = response.data;
@@ -46,20 +60,33 @@ function Login() {
         sessionStorage.setItem("token", token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         login(identifier);
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", response.data.user._id);
+
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        login(identifier);
+
         setSuccessMessage("Login successful! Welcome back!");
 
         setTimeout(() => {
           navigate("/");
         }, 700);
+        }, 700);
       } else {
         setServerError("Unexpected server response. Please try again.");
       }
     } catch (error) {
+      console.error("Error caught:", error);
+      console.log("Error response data:", error.response?.data);
+
       if (error.response) {
         if (error.response.status === 401) {
           setServerError("Invalid identifier or password.");
         } else {
-          setServerError(`Error: ${error.response.data.message || 'An unexpected error occurred.'}`);
+          setServerError(
+            `Error: ${error.response.data.message || "An unexpected error occurred."}`
+          );
         }
       } else if (error.request) {
         setServerError("No response from server. Please check your network.");
@@ -75,8 +102,9 @@ function Login() {
     setIdentifierError("");
     setPasswordError("");
     setServerError("");
-    setSuccessMessage(""); 
+    setSuccessMessage("");
   };
+  
 
   return (
     <div className="container mx-auto px-4 md:px-8">
@@ -86,7 +114,9 @@ function Login() {
       >
         {/* Identifier */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="identifier" className="mb-2">Email</label>
+          <label htmlFor="identifier" className="mb-2">
+            Email
+          </label>
           <input
             type="email"
             placeholder="Email"
@@ -96,12 +126,16 @@ function Login() {
             required
             onChange={(e) => setIdentifier(e.target.value)}
           />
-          {identifierError && <div className="text-red-500">{identifierError}</div>}
+          {identifierError && (
+            <div className="text-red-500">{identifierError}</div>
+          )}
         </div>
 
         {/* Password */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="password" className="mb-2">Password</label>
+          <label htmlFor="password" className="mb-2">
+            Password
+          </label>
           <input
             type="password"
             placeholder="Password"
@@ -120,6 +154,8 @@ function Login() {
         {serverError && <p className="text-red-500">{serverError}</p>}
 
         {successMessage && <p className="text-green-500">{successMessage}</p>} 
+        {/* Success Message */}
+        {successMessage && <p className="text-green-500">{successMessage}</p>}
 
         <button
           type="submit"
@@ -137,7 +173,9 @@ function Login() {
 
         <p className="text-center text-lg">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-lg text-orange-500">Create an account</Link>
+          <Link to="/signup" className="text-lg text-orange-500">
+            Create an account
+          </Link>
         </p>
       </form>
     </div>

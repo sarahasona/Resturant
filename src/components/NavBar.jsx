@@ -1,6 +1,9 @@
+import { useState, useEffect ,useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import { LoginContext } from "../context/Login/Login";
 import Search from "./Search";
 
 function MainNavBar() {
@@ -8,10 +11,12 @@ function MainNavBar() {
   const navigate = useNavigate(); 
 
   const isActive = (path) => location.pathname === path;
-
+  const { admin } = useContext(LoginContext);
   const [dis, setDis] = useState(false);
   const [dis1, setDis1] = useState(false);
   const [showS, setShowS] = useState(false);
+  const { userID } = useContext(LoginContext);
+  const { setUSer } = useContext(LoginContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const accountMenuRef = useRef(null); // Create a ref for the account menu
@@ -94,6 +99,11 @@ function MainNavBar() {
     setShowS(!showS);
   }
 
+  function handleLogeOut() {
+    localStorage.clear();
+    setUSer('')
+  }
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -111,7 +121,7 @@ function MainNavBar() {
   return (
     <>
       <nav className="bg-blue-50 flex justify-between gap-[10px] py-[20px] px-[40px] items-center h-24">
-        <img src="da logo.png" className="w-32" />
+        <img  src={`${import.meta.env.BASE_URL}da logo.png`} className="w-32" />
         <ul className={"hidden md:flex flex justify-between gap-[30px]"}>
           <li>
             <Link to="/" className={isActive("/") ? "text-primary-hover" : "hover:animate-colorTravel"}>
@@ -128,11 +138,18 @@ function MainNavBar() {
               Menu
             </Link>
           </li>
-          <li>
-            <Link to="/services" className={isActive("/services") ? "text-primary-hover" : ""}>
-              Services
+         
+        {
+          admin && 
+          (
+            <li>
+            <Link to="dash" className={isActive("/services") ? "text-primary-hover" : ""}>
+              Dash Bord
             </Link>
           </li>
+          )
+        }
+
           <li>
             <Link to="/offers" className={isActive("/offers") ? "text-primary-hover" : ""}>
               Offers
@@ -140,16 +157,29 @@ function MainNavBar() {
           </li>
         </ul>
 
-        <div className="flex gap-[20px] justify-self-end hidden md:flex">
+        <div className="flex gap-[20px] justify-self-end ">
           <button onClick={showSF}>
             <i className="fa-solid fa-magnifying-glass hover:text-primary-hover"></i>
           </button>
           <button>
             <i className="fa-solid fa-wallet hover:text-primary-hover"></i>
           </button>
-          <button>
+          <button onClick={handleLogeOut}>
             <i className="fa-solid fa-right-to-bracket"></i>
           </button>
+          {
+            !userID &&
+
+            (
+              <Link to="/login">
+              <button
+                className="flex items-center gap-2 rounded-full px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition duration-200 ease-in-out"
+              >
+                <FaUser className="text-sm" /> Login
+              </button></Link>
+            )
+          }
+
              
           {/* Conditional rendering based on login state */}
           {isLoggedIn ? (
@@ -210,9 +240,9 @@ function MainNavBar() {
                   <button onClick={disNave} className="self-end">
                     <i className="fa-solid fa-xmark"></i>
                   </button>
-                  <button onClick={showSF}>
+                  {/* <button onClick={showSF}>
                     <i className="fa-solid fa-magnifying-glass hover:text-primary-hover"></i>
-                  </button>
+                  </button> */}
                   {showS && dis && <Search />}
                   <li>
                     <Link to="/" className={isActive("/") ? "text-primary-hover" : ""}>

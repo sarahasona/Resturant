@@ -20,30 +20,13 @@ export default {
       grid: "",
     },
     extend: {
-      keyframes: {
-        colorTravel: {
-          '0%': {
-            backgroundPosition: '0% 50%',
-            color: '#FF6347',
-          },
-          '50%': {
-            backgroundPosition: '100% 50%',
-            color: '#FFD700',
-          },
-          '100%': {
-            backgroundPosition: '100% 50%',
-            color: '#FFA500',
-          },
-        },
-      },
-      animation: {
-        colorTravel: 'colorTravel 0.5s ease-in-out forwards',
-      },
+     
       colors: {
         primary: {
           DEFAULT: "#292f36",
           hover: "#ffa500",
         },
+        darkorange:"#ed9600",
         secondary: "#4d5053",
         accent: {
           DEFAULT: "#ffa500",
