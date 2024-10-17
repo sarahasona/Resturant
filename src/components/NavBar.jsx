@@ -11,6 +11,8 @@ function MainNavBar() {
   const [dis, setDis] = useState(false);
   const [dis1, setDis1] = useState(false);
   const [showS, setShowS] = useState(false);
+  const { userID } = useContext(LoginContext);
+  const { setUSer } = useContext(LoginContext);
   const useWindowDimensions = () => {
     const [windowDimensions, setWindowDimensions] = useState({
       width: window.innerWidth,
@@ -61,6 +63,11 @@ function MainNavBar() {
     setShowS(!showS);
   }
 
+  function handleLogeOut() {
+    localStorage.clear();
+    setUSer('')
+  }
+
   return (
     <>
       <nav className="bg-blue-50 flex justify-between gap-[10px] py-[20px] px-[40px] items-center h-24">
@@ -107,15 +114,21 @@ function MainNavBar() {
           <button>
             <i className="fa-solid fa-wallet hover:text-primary-hover"></i>
           </button>
-          <button>
+          <button onClick={handleLogeOut}>
             <i className="fa-solid fa-right-to-bracket"></i>
           </button>
-          <Link to="/login">
-          <button
-            className="flex items-center gap-2 rounded-full px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition duration-200 ease-in-out"
-          >
-            <FaUser className="text-sm" /> Login
-          </button></Link>
+          {
+            !userID &&
+
+            (
+              <Link to="/login">
+              <button
+                className="flex items-center gap-2 rounded-full px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition duration-200 ease-in-out"
+              >
+                <FaUser className="text-sm" /> Login
+              </button></Link>
+            )
+          }
 
          
         </div>

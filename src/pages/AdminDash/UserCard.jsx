@@ -1,7 +1,16 @@
 import React from 'react'
 
-function UserCard(data,setShowC ) {
- 
+function UserCard(data,setShowC,setDelet ) {
+  
+  function delet() {
+   
+   if(data.role != "Admin"){
+    data.setShowC(true)
+
+    data.setDelet(data.id)
+
+   }
+  }
   
   return (
     <div className=' "
@@ -12,8 +21,7 @@ function UserCard(data,setShowC ) {
       <p>{data.name}</p>
       <p className='text-primary-hover'>{data.email}</p>
       <p>{data.role}</p>
-      <button className='text-primary-hover'><i className="fa-solid fa-user-slash"  onClick={() => data.setShowC(true)}></i></button>
-
+      <button className='text-primary-hover'><i className="fa-solid fa-user-slash"  onClick={delet}></i></button>
     </div></div>
    
   )
