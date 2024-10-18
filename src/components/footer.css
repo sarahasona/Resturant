@@ -1,12 +1,12 @@
 .footer {
   background-color: rgb(239, 246, 255);
-  padding: 5px; /* Further reduced padding */
+  padding: 5px;
 }
 
 .big-con {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 5px; /* Further reduced gap */
+  gap: 5px;
 }
 
 .firstrow {
@@ -22,19 +22,19 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 2px; /* Reduced margin */
-  padding: 1px; /* Reduced padding */
+  margin: 2px; 
+  padding: 1px; 
 }
 
 .description {
   margin-top: 2px; 
-  font-size: 0.7rem; /* Reduced font size */
+  font-size: 0.7rem; 
 }
 
 .listoflinks {
   display: flex;
   flex-direction: column;
-  gap: 2px; /* Further reduced gap */
+  gap: 2px; 
   justify-content: center;
   align-items: center;
 }
@@ -42,14 +42,14 @@
 .listoflinks ul {
   display: flex;
   flex-direction: column;
-  gap: 2px; /* Further reduced gap */
+  gap: 2px; 
   align-items: center;
 }
 
 .listoflinks ul li {
   border-bottom: 1px solid;
-  padding: 1px 0; /* Reduced padding */
-  font-size: 0.7rem; /* Reduced font size */
+  padding: 1px 0; 
+  font-size: 0.7rem; 
 }
 
 .contact {
@@ -65,7 +65,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 5px; /* Reduced margin */
+  margin-top: 5px;
 }
 
 .second-row .links {

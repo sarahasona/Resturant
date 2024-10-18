@@ -4,14 +4,14 @@ import "./footer.css";
 function Footer() {
   return (
     <>
-      <div className="footer mt-4"> {/* Reduced margin-top */}
+      <div className="footer mt-4"> 
         <div className="big-con">
           <div className="firstrow">
             <div className="logo">
               <img
                 src={`${import.meta.env.BASE_URL}da logo.png`}
                 alt="Restaurant Logo"
-                className="h-24 w-24" // Further reduced size
+                className="h-24 w-24" 
               />
               <p className="description">
                 Best restaurant with food beyond words.
@@ -19,7 +19,7 @@ function Footer() {
             </div>
 
             <div className="listoflinks pt-3">
-              <h3>Links</h3> {/* Shortened heading */}
+              <h3>Links</h3>
               <ul>
                 <li>
                   <Link to="/">Home</Link>
@@ -46,12 +46,12 @@ function Footer() {
                 <a href="#"><i className="fa-brands fa-twitter icon"></i></a>
                 <a href="#"><i className="fa-brands fa-square-instagram icon"></i></a>
               </div>
-              <a href="mailto:s2yam@gmail.com">s2yam@gmail.com</a>
+              <a href="mailto:s2yam@gmail.com">Support@gmail.com</a>
             </div>
           </div>
 
           <div className="second-row">
-            <p>&copy; 2024, Best React Developers</p> {/* Shortened text */}
+            <p>&copy; 2024, Best React Developers</p> 
           </div>
         </div>
       </div>
