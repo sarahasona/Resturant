@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
-import { FaClipboardUser } from "react-icons/fa6";
-import { FaMapLocationDot } from "react-icons/fa6";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaClipboardUser, FaMapLocationDot, FaCartShopping } from "react-icons/fa6";
 
 function Sidebar() {
   return (
-    <div className="drawer-side border-l border-gray-300 bg-white ">
+    <div className="drawer-side border-l border-gray-300 bg-white">
       <label
         htmlFor="my-drawer-2"
         aria-label="close sidebar"
@@ -18,7 +16,7 @@ function Sidebar() {
             className="flex items-center p-2 space-x-2"
           >
             <FaClipboardUser className="text-lg" />
-            <span className="hidden sm:inline">Account Info</span>
+            <span>Account Info</span> 
           </Link>
         </li>
         <li className="mb-4 hover:bg-gray-100 transition duration-200 rounded-lg">
@@ -27,7 +25,7 @@ function Sidebar() {
             className="flex items-center p-2 space-x-2"
           >
             <FaMapLocationDot className="text-lg" />
-            <span className="hidden sm:inline">Saved Addresses</span>
+            <span>Saved Addresses</span> 
           </Link>
         </li>
         <li className="hover:bg-gray-100 transition duration-200 rounded-lg">
@@ -36,7 +34,7 @@ function Sidebar() {
             className="flex items-center p-2 space-x-2"
           >
             <FaCartShopping className="text-lg" />
-            <span className="hidden sm:inline">Orders</span>
+            <span>Orders</span> 
           </Link>
         </li>
       </ul>
