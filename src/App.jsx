@@ -13,6 +13,11 @@ import ManageItem from "./pages/AdminDash/ManageItem";
 import ManageOrders from './pages/AdminDash/ManageOrders';
 import MenuView from "./pages/MenuView";
 import MealDetail from './pages/MealDetail'
+<<<<<<< HEAD
+=======
+import ForgotPass from "./pages/ForgotPass";
+
+>>>>>>> 8ef6b27242eff926c09dc217adb2b47e19ffdbec
 import Profile from "./pages/Profile"
 import AccountView from "./pages/AccountView"
 import SavedAddresses from "./pages/SavedAddresses";
@@ -20,6 +25,10 @@ import Orders from "./pages/Orders";
 import ForgotPass from "./pages/ForgotPass";
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8ef6b27242eff926c09dc217adb2b47e19ffdbec
 function App() {
   return (
     <LoginProvider>
@@ -39,6 +48,8 @@ function App() {
             <Route path="Manue"   element={<Manue/>} />
             <Route  path="orders"  element={<ManageOrders/>} />
             <Route  path="item"  element={<ManageItem/>} />
+          </Route>
+
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="account" element={<AccountView />}>
@@ -46,12 +57,6 @@ function App() {
               <Route path="saved-addresses" element={<SavedAddresses />} />
               <Route path="orders" element={<Orders />} />
           </Route>
-
-          
-
-
-          </Route>
-
           </Route>
         </Routes>
       </BrowserRouter>
