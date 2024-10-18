@@ -20,11 +20,11 @@ function LoginProvider({ children }) {
       setIsLoggedIn(false); 
       logout();
     }
-  }, [userID, userName, token]); // Add storedToken to dependencies
+  }, [userID, userName, token]); 
 
   const login = (name) => {
     setUserName(name);
-    setIsLoggedIn(true); // Set loggedIn state to true on login
+    setIsLoggedIn(true); 
   };
 
   const logout = () => {

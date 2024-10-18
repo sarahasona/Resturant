@@ -5,7 +5,7 @@ import "./login/login.css";
 import axios from "axios";
 
 function Login() {
-  const { login, setAdmin, isLoggedIn } = useContext(LoginContext); // Destructure isLoggedIn from context
+  const { login, setAdmin, isLoggedIn } = useContext(LoginContext); 
 
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
@@ -95,10 +95,9 @@ function Login() {
     setSuccessMessage("");
   };
 
-  // Redirect if already logged in
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/"); // Redirect to homepage or a different route if logged in
+      navigate("/"); 
     }
   }, [isLoggedIn, navigate]);
 
