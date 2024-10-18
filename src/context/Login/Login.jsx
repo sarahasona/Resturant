@@ -7,9 +7,9 @@ function LoginProvider({ children }) {
   const [admin, setAdmin] = useState(false);
   const [user, setUser] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
-
   const userID = localStorage.getItem("userId");
   const token = localStorage.getItem("token"); 
+  
 
   useEffect(() => {
     if (userID && token) { 
