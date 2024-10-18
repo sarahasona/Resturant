@@ -1,11 +1,13 @@
-import { useState, useEffect ,useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect ,useContext,useRef } from "react";
+import { Link, useLocation ,useNavigate} from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { LoginContext } from "../context/Login/Login";
 import Search from "./Search";
 
 function MainNavBar() {
   const location = useLocation();
+  const navigate = useNavigate(); 
+
   const isActive = (path) => location.pathname === path;
   const { admin } = useContext(LoginContext);
   const [dis, setDis] = useState(false);
@@ -13,6 +15,38 @@ function MainNavBar() {
   const [showS, setShowS] = useState(false);
   const { userID } = useContext(LoginContext);
   const { setUSer } = useContext(LoginContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
+  const accountMenuRef = useRef(null); // Create a ref for the account menu
+
+  // Toggle account menu visibility
+  const toggleAccountMenu = () => {
+    setShowAccountMenu(!showAccountMenu);
+  };
+
+  // Handle logout action
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Update state to logged out
+    setShowAccountMenu(false); // Close the account menu
+    navigate("/"); // Redirect to home or login page
+  };
+
+  // Function to check if user is logged in by checking for a token
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem("token"); // Assume token is stored in localStorage
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
+  // Hook to check login status on component mount
+  useEffect(() => {
+    checkLoginStatus();
+    
+  }, [isLoggedIn]);
+
   const useWindowDimensions = () => {
     const [windowDimensions, setWindowDimensions] = useState({
       width: window.innerWidth,
@@ -32,6 +66,7 @@ function MainNavBar() {
 
     return windowDimensions;
   };
+
   let width = useWindowDimensions();
 
   function disNave() {
@@ -67,6 +102,20 @@ function MainNavBar() {
     localStorage.clear();
     setUSer('')
   }
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(event.target)) {
+        setShowAccountMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -130,6 +179,46 @@ function MainNavBar() {
             )
           }
 
+          {/* Conditional rendering based on login state */}
+          {isLoggedIn ? (
+            <div className="relative" ref={accountMenuRef}> {/* Attach ref to the menu container */}
+              <button
+                className="flex items-center gap-2 rounded-full px-4 py-2 text-orange-500  hover:orange-200 transition duration-200 ease-in-out"
+                onClick={toggleAccountMenu}
+              >
+                <FaUser className="text-sm" /> My Account
+              </button>
+
+              {/* Account menu dropdown */}
+              {showAccountMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                  <Link to="/account/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    Account Info
+                  </Link>
+                  <Link to="/account/saved-addresses" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    Saved Addresses
+                  </Link>
+                  <Link to="/account/orders" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    Orders
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login">
+              <button
+                className="flex items-center gap-2 rounded-full px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition duration-200 ease-in-out"
+              >
+                <FaUser className="text-sm" /> Login
+              </button>
+            </Link>
+          )}
          
         </div>
 
@@ -184,8 +273,6 @@ function MainNavBar() {
           )}
         </div>
       )}
-
-     
     </>
   );
 }

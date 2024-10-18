@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios"; // Import Axios
-import "../pages/signup/signup.css";
+import axios from "axios"; 
+import "../pages/signup/signup.css"; 
 
 function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -15,6 +15,8 @@ function SignUp() {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+
   const resetErrors = () => {
     setEmailError("");
     setPasswordError("");
@@ -29,7 +31,7 @@ function SignUp() {
     e.preventDefault();
     resetErrors();
 
-    // Validate Inputs
+    // Validation
     if (password !== confirmPassword) {
       setConfirmPasswordError("Passwords do not match");
       return;
@@ -51,6 +53,8 @@ function SignUp() {
       return;
     }
 
+    setIsLoading(true); 
+
     try {
       const response = await axios.post("https://restaurant-website-dusky-one.vercel.app/user/signUp", {
         firstName,
@@ -62,6 +66,7 @@ function SignUp() {
   
 
       
+      console.log("User created:", response.data);
       navigate("/", { replace: true });
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -73,6 +78,8 @@ function SignUp() {
       
       
       
+    } finally {
+      setIsLoading(false); 
     }
   };
 
@@ -98,9 +105,7 @@ function SignUp() {
       >
         {/* First Name */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="firstName" className="mb-2">
-            First Name
-          </label>
+          <label htmlFor="firstName" className="mb-2">First Name</label>
           <input
             type="text"
             placeholder="First Name"
@@ -115,9 +120,7 @@ function SignUp() {
 
         {/* Last Name */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="lastName" className="mb-2">
-            Last Name
-          </label>
+          <label htmlFor="lastName" className="mb-2">Last Name</label>
           <input
             type="text"
             placeholder="Last Name"
@@ -132,12 +135,10 @@ function SignUp() {
 
         {/* Email */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="email" className="mb-2">
-            Email
-          </label>
+          <label htmlFor="email" className="mb-2">Email</label>
           <input
             type="email"
-            placeholder="email"
+            placeholder="Email"
             name="email"
             id="email"
             className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
@@ -149,9 +150,7 @@ function SignUp() {
 
         {/* Password */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="password" className="mb-2">
-            Password
-          </label>
+          <label htmlFor="password" className="mb-2">Password</label>
           <input
             type="password"
             placeholder="Password"
@@ -166,9 +165,7 @@ function SignUp() {
 
         {/* Confirm Password */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="confirm" className="mb-2">
-            Confirm Password
-          </label>
+          <label htmlFor="confirm" className="mb-2">Confirm Password</label>
           <input
             type="password"
             placeholder="Password"
@@ -178,22 +175,26 @@ function SignUp() {
             required
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          {confirmPasswordError && (
-            <p className="text-red-500">{confirmPasswordError}</p>
-          )}
+          {confirmPasswordError && <p className="text-red-500">{confirmPasswordError}</p>}
         </div>
 
         <button
           type="submit"
-          className="btn bg-orange-950 text-white w-[50%] mx-auto py-2 rounded"
+          className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center"
+          disabled={isLoading}
         >
-          Sign Up
+          {isLoading ? (
+            <>
+              <i className="fas fa-spinner fa-spin mr-2"></i> 
+            </>
+          ) : (
+            'Sign Up'
+          )}
         </button>
+
         <p className="text-center mt-[5px]">
           Already have an account?{" "}
-          <Link to="/login" className="login-word">
-            Login
-          </Link>
+          <Link to="/login" className="login-word">Login</Link>
         </p>
       </form>
     </div>

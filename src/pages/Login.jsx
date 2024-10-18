@@ -15,9 +15,10 @@ function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
@@ -26,6 +27,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     resetErrors();
+    setSuccessMessage("");
+    setIsLoading(true);
     setSuccessMessage("");
 
     
@@ -46,14 +49,17 @@ function Login() {
       }
 
       if (response.status === 200) {
-        const { token, message } = response.data;
+        const { token } = response.data;
 
         if (!token) {
           setServerError("Token not received. Please try again.");
-          console.error("Token is undefined.");
+          setIsLoading(false);
           return;
         }
 
+        sessionStorage.setItem("token", token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        login(identifier);
         localStorage.setItem("token", token);
         localStorage.setItem("userId", response.data.user._id);
 
@@ -68,7 +74,6 @@ function Login() {
         }, 700);
       } else {
         setServerError("Unexpected server response. Please try again.");
-        console.error("Error:", response.statusText);
       }
     } catch (error) {
       console.error("Error caught:", error);
@@ -87,6 +92,8 @@ function Login() {
       } else {
         setServerError("Error: Failed to send request.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -143,18 +150,24 @@ function Login() {
           {passwordError && <p className="text-red-500">{passwordError}</p>}
         </div>
 
-        {/* Error Message */}
         {serverError && <p className="text-red-500">{serverError}</p>}
 
+        {successMessage && <p className="text-green-500">{successMessage}</p>} 
         {/* Success Message */}
         {successMessage && <p className="text-green-500">{successMessage}</p>}
 
-        {/* Login Button */}
         <button
           type="submit"
-          className="btn bg-orange-950 text-white w-[50%] mx-auto py-2 rounded"
+          className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center"
+          disabled={isLoading}
         >
-          Login
+          {isLoading ? (
+            <>
+              <i className="fas fa-spinner fa-spin mr-2"></i> 
+            </>
+          ) : (
+            'Login'
+          )}
         </button>
 
         <p className="text-center text-lg">
