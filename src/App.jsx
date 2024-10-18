@@ -12,9 +12,9 @@ import Manue from "./pages/AdminDash/Manue";
 import ManageItem from "./pages/AdminDash/ManageItem";
 import ManageOrders from './pages/AdminDash/ManageOrders';
 import MenuView from "./pages/MenuView";
-import MealDetail from './pages/MealDetail'
-import Profile from "./pages/Profile"
-import AccountView from "./pages/AccountView"
+import MealDetail from './pages/MealDetail';
+import AccountView from "./pages/AccountView";
+import Profile from "./pages/Profile";
 import SavedAddresses from "./pages/SavedAddresses";
 import Orders from "./pages/Orders";
 
@@ -35,6 +35,8 @@ function App() {
             <Route path="Manue"   element={<Manue/>} />
             <Route  path="orders"  element={<ManageOrders/>} />
             <Route  path="item"  element={<ManageItem/>} />
+          </Route>
+
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="account" element={<AccountView />}>
@@ -42,12 +44,6 @@ function App() {
               <Route path="saved-addresses" element={<SavedAddresses />} />
               <Route path="orders" element={<Orders />} />
           </Route>
-
-          
-
-
-          </Route>
-
           </Route>
         </Routes>
       </BrowserRouter>

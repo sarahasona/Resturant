@@ -194,7 +194,7 @@ function SignUp() {
 
         <p className="text-center mt-[5px]">
           Already have an account?{" "}
-          <Link to="/login" className="login-word">Login</Link>
+          <Link to="/login" className="login-word text-orange-500">Login</Link>
         </p>
       </form>
     </div>

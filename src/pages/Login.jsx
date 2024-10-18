@@ -5,8 +5,7 @@ import "./login/login.css";
 import axios from "axios";
 
 function Login() {
-  const { login } = useContext(LoginContext);
-  const { setAdmin } = useContext(LoginContext);
+  const { login, setAdmin, isLoggedIn } = useContext(LoginContext); // Destructure isLoggedIn from context
 
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
@@ -29,22 +28,18 @@ function Login() {
     resetErrors();
     setSuccessMessage("");
     setIsLoading(true);
-    setSuccessMessage("");
-
-    
 
     try {
       const response = await axios.post(
         "https://restaurant-website-dusky-one.vercel.app/user/signIn/",
         { identifier, password }
       );
-    
-      
-      if (response.data.user.role ==="Admin"){
+
+      console.log(response);
+
+      if (response.data.user.role === "Admin") {
         setAdmin(true);
-    
-        
-      }else{
+      } else {
         setAdmin(false);
       }
 
@@ -58,14 +53,10 @@ function Login() {
         }
 
         sessionStorage.setItem("token", token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         login(identifier);
         localStorage.setItem("token", token);
         localStorage.setItem("userId", response.data.user._id);
-
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-        login(identifier);
 
         setSuccessMessage("Login successful! Welcome back!");
 
@@ -103,7 +94,13 @@ function Login() {
     setServerError("");
     setSuccessMessage("");
   };
-  
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/"); // Redirect to homepage or a different route if logged in
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <div className="container mx-auto px-4 md:px-8">
@@ -152,8 +149,6 @@ function Login() {
 
         {serverError && <p className="text-red-500">{serverError}</p>}
 
-        {successMessage && <p className="text-green-500">{successMessage}</p>} 
-        {/* Success Message */}
         {successMessage && <p className="text-green-500">{successMessage}</p>}
 
         <button
@@ -163,7 +158,7 @@ function Login() {
         >
           {isLoading ? (
             <>
-              <i className="fas fa-spinner fa-spin mr-2"></i> 
+              <i className="fas fa-spinner fa-spin mr-2"></i>
             </>
           ) : (
             'Login'
