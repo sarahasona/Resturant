@@ -1,16 +1,12 @@
 {
-  "homepage": "https://yourusername.github.io/Reactahsasamo",
-  "name": "resturantproject",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "type": "module"
+  ,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"  
+    "preview": "vite preview"
+  
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",

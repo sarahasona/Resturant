@@ -12,11 +12,14 @@ import Manue from "./pages/AdminDash/Manue";
 import ManageItem from "./pages/AdminDash/ManageItem";
 import ManageOrders from './pages/AdminDash/ManageOrders';
 import MenuView from "./pages/MenuView";
-import MealDetail from './pages/MealDetail';
-import AccountView from "./pages/AccountView";
-import Profile from "./pages/Profile";
+import MealDetail from './pages/MealDetail'
+import ForgotPass from "./pages/ForgotPass";
+
+import Profile from "./pages/Profile"
+import AccountView from "./pages/AccountView"
 import SavedAddresses from "./pages/SavedAddresses";
 import Orders from "./pages/Orders";
+
 
 function App() {
   return (
@@ -30,6 +33,8 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
+          <Route path="forgot-password"  element={<ForgotPass />} />
+
           <Route path="dash" element={<AdminDash />} >
             <Route path="user"  element={<Usres/>} />
             <Route path="Manue"   element={<Manue/>} />
