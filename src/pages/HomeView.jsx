@@ -2,6 +2,8 @@ import Catagories from "../components/Categories";
 import Hero from "../components/Hero";
 import Testimonials from "../components/Testimonials";
 import OurServices from "../components/OurServices";
+import SpecialDishes from '../components/SpecialDishes';
+
 
 function HomeView() {
   return (
@@ -10,6 +12,8 @@ function HomeView() {
       <Catagories />
       <Testimonials />
       <OurServices />
+      <SpecialDishes/>
+
     </div>
   );
 }

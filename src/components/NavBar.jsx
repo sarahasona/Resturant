@@ -1,30 +1,28 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import { LoginContext } from "../context/Login/Login"; // Adjust the import to match your structure
+import { LoginContext } from "../context/Login/Login"; 
 import Search from "./Search";
 
 function MainNavBar() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { admin, isLoggedIn, logout } = useContext(LoginContext); // Get isLoggedIn from context
+    const { admin, isLoggedIn, logout } = useContext(LoginContext); 
     const [dis, setDis] = useState(false);
     const [dis1, setDis1] = useState(false);
     const [showS, setShowS] = useState(false);
     const [showAccountMenu, setShowAccountMenu] = useState(false);
-    const accountMenuRef = useRef(null); // Create a ref for the account menu
+    const accountMenuRef = useRef(null); 
 
     const isActive = (path) => location.pathname === path;
 
-    // Toggle account menu visibility
     const toggleAccountMenu = () => {
       setShowAccountMenu((prev) => !prev);
   };
 
-    // Handle logout action
     const handleLogout = () => {
-        logout(); // Call logout from context
-        navigate("/"); // Redirect to home or login page
+        logout(); 
+        navigate("/");
     };
 
     const useWindowDimensions = () => {
@@ -63,7 +61,6 @@ function MainNavBar() {
         setShowS(false);
     }, [location]);
 
-    // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (accountMenuRef.current && !accountMenuRef.current.contains(event.target)) {

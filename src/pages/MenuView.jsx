@@ -1,40 +1,54 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import MealCard from "../components/MealCard";
 import { FaFilter } from "react-icons/fa";
 import Pagination from "../components/Pagination";
+import { useParams } from "react-router-dom";
+import { LoginContext } from "../context/Login/Login";
 
 function MenuView() {
+  const navigate = useNavigate();
+  const { getAllCategories, category:categoryList } = useContext(LoginContext);
+  const location = useLocation();
+  const { catId } = location.state || {}; // Access the state safely
+  const { category } = useParams();
+  // console.log(category);
   const [menu, setMenu] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filteredMenu, setFilteredMenu] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOprion] = useState("default");
 
-    // Pagination states
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(8); // Number of items per page
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(8); // Number of items per page
   // Get Menu Data
-  const getMenuData = async () => {
-    try {
-      const response = await axios.get("/menu.json");
-      const data = await response.data;
-      setMenu(data);
-      setFilteredMenu(data);
-    } catch (err) {
-      console.log(`Error Fetching Data ${err}`);
-    }
-  };
+  //static data
+  // const getMenuData = async () => {
+  //   try {
+  //     const response = await axios.get("/menu.json");
+  //     const data = await response.data;
+  //     setMenu(data);
+  //     setFilteredMenu(data);
+  //   } catch (err) {
+  //     console.log(`Error Fetching Data ${err}`);
+  //   }
+  // };
   // Filter Menu data According to Category
-  const getFilterdData = (category) => {
-    const filtered =
-      category === "all"
-        ? menu
-        : menu.filter((item) => item.category === category);
-    setFilteredMenu(filtered);
-    setSelectedCategory(category);
-    setCurrentPage(1); // Reset page to 1 when category is changed
+  const getFilterdData = (category, id) => {
+    const cat = category.split(" ");
+    console.log(cat.join("_"))
+    navigate(`/menu/${cat.join("_")}`, { state: { catId: id } });
+    // const filtered =
+    //   category === "all"
+    //     ? menu
+    //     : menu.filter((item) => item.category === category);
+    // setFilteredMenu(filtered);
+    // setSelectedCategory(category);
+    // setCurrentPage(1); // Reset page to 1 when category is changed
   };
+
   //Sort Menu According to A-z / Z-A / High to Low Price / Low to High Pric
   const handleSortMenu = (option) => {
     setSortOprion(option);
@@ -62,19 +76,64 @@ function MenuView() {
     setFilteredMenu(sortedItems);
     setCurrentPage(1); // Reset page to 1 when sorting is done
   };
+  // gat All Category
+  //get category according to category id
+  const getCategoryMeals = async () => {
+    try {
+      const response = await axios.get(
+        `https://restaurant-website-dusky-one.vercel.app/menu/category/${catId}`
+      );
+      console.log(response);
+      if (response.status == 200) {
+        setMenu(response.data);
+        setFilteredMenu(response.data.Menuitems);
+        setCurrentPage(1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //get All meals
+  const getAllMeals = async () => {
+    try {
+      const response = await axios.get(
+        "https://restaurant-website-dusky-one.vercel.app/menu"
+      );
+      console.log(response);
+      if (response.status == 200) {
+        console.log(response.data.allMenu);
+        setMenu(response.data.allMenu);
+        setFilteredMenu(response.data.allMenu);
+        setCurrentPage(1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    getMenuData();
-  }, []);
+    getAllCategories();
+    // getMenuData();
+    console.log(catId);
+    if (catId) {
+      getCategoryMeals();
+      console.log(category)
+      setSelectedCategory(category);
+    } else {
+      getAllMeals();
+      setSelectedCategory("all");
+      console.log("no id");
+    }
+  }, [category, location]);
 
-    // Pagination calculations
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredMenu.slice(indexOfFirstItem, indexOfLastItem);
-  
-    const totalPages = Math.ceil(filteredMenu.length / itemsPerPage);
-  
-    // Change page
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // Pagination calculations
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredMenu.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredMenu.length / itemsPerPage);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div>
       {/* header */}
@@ -108,36 +167,18 @@ function MenuView() {
             >
               All
             </button>
-            <button
-              onClick={() => getFilterdData("salad")}
-              className={selectedCategory === "salad" ? "text-darkorange" : ""}
-            >
-              Salad
-            </button>
-            <button
-              onClick={() => getFilterdData("pizza")}
-              className={selectedCategory === "pizza" ? "text-darkorange" : ""}
-            >
-              Pizza
-            </button>
-            <button
-              onClick={() => getFilterdData("soup")}
-              className={selectedCategory === "soup" ? "text-darkorange" : ""}
-            >
-              Soups
-            </button>
-            <button
-              onClick={() => getFilterdData("dessert")}
-              className={selectedCategory === "dessert" ? "text-darkorange" : ""}
-            >
-              Desserts
-            </button>
-            <button
-              onClick={() => getFilterdData("drinks")}
-              className={selectedCategory === "drinks" ? "text-darkorange" : ""}
-            >
-              Drinks
-            </button>
+            {/* <button> {selectedCategory}</button> */}
+            {categoryList.map((item) => (
+              <button
+                key={item._id}
+                onClick={() => getFilterdData(item.name, item._id)}
+                className={
+                  selectedCategory === item.name.split(' ').join('_') ? "text-darkorange" : ""
+                }
+              >
+                {item.name}
+              </button>
+            ))}
           </div>
 
           {/* filter options */}
@@ -161,16 +202,22 @@ function MenuView() {
         </div>
         <div className="meals-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {currentItems.map((item) => (
-            <MealCard key={item._id} item={item} showDetails={true}/>
+            <MealCard
+              key={item._id}
+              item={item}
+              image={item.image.secure_url}
+              category={selectedCategory}
+              showDetails={true}
+            />
           ))}
         </div>
 
         {/* Pagination Controls in Separate Component */}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        paginate={paginate}
-      />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          paginate={paginate}
+        />
       </div>
     </div>
   );

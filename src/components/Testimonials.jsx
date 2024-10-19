@@ -2,7 +2,7 @@ import { FaStar } from "react-icons/fa";
 
 function Testimonials() {
   return (
-    <div className="section-container px-10">
+    <div className="section-container px-10 mt-10">
       <div className="grid md:grid-cols-2 place-items-center justify-items-center grid-cols-1 md:gap-12 gap-2">
         <div>
           <img
