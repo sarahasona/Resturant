@@ -27,8 +27,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="menu" element={<MenuView />} />
-            <Route path="menu/:id" element={<MealDetail />} />
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
