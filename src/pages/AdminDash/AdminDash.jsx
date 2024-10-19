@@ -46,6 +46,7 @@ function AdminDash() {
                 to="Manue"
                 className={isActive("/dash/Manue") ? "text-primary-hover" : ""}
               >
+                <i className="fa-solid fa-utensils mr-3"></i>
                 Manue
               </Link>
             </li>

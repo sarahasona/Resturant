@@ -1,91 +1,62 @@
-import { Link, useLocation } from "react-router-dom";
-import "./footer.css"
+import { Link } from "react-router-dom";
+import "./footer.css";
 
 function Footer() {
   return (
-   <>
-   <div className="footer mt-10">
-   <div className=" big-con ">
-      <div className="firstrow  ">
+    <>
+      <div className="footer mt-4"> 
+        <div className="big-con">
+          <div className="firstrow">
+            <div className="logo">
+              <img
+                src={`${import.meta.env.BASE_URL}da logo.png`}
+                alt="Restaurant Logo"
+                className="h-24 w-24" 
+              />
+              <p className="description">
+                Best restaurant with food beyond words.
+              </p>
+            </div>
 
+            <div className="listoflinks pt-3">
+              <h3>Links</h3>
+              <ul>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="about">About</Link>
+                </li>
+                <li>
+                  <Link to="/menu">Menu</Link>
+                </li>
+                <li>
+                  <Link to="/">Services</Link>
+                </li>
+                <li>
+                  <Link to="/">Offers</Link>
+                </li>
+              </ul>
+            </div>
 
-        <div className="logo " >
-          <img src={`${import.meta.env.BASE_URL}da logo.png`} className=" h-56 w-56 " />
-          <p>the best resturant in the world with food byond word and warld</p>
+            <div className="contact">
+              <h3 className="mb-3 mt-12">Contact Us</h3> 
+              <div className="links flex gap-3 mb-2"> 
+                <a href="#"> <i className="fa-brands fa-facebook icon"></i></a>
+                <a href="#"><i className="fa-brands fa-twitter icon"></i></a>
+                <a href="#"><i className="fa-brands fa-square-instagram icon"></i></a>
+              </div>
+              <a href="mailto:s2yam@gmail.com">Support@gmail.com</a>
+            </div>
+          </div>
+
+          <div className="second-row">
+            <p>&copy; 2024, Best React Developers</p> 
+          </div>
         </div>
-
-
-
-        <div className=" listoflinks" >  
-          <h3 className=" ">important links</h3>        
-          <ul  className=" "> 
-
-
-            <li>
-              <Link to="/">
-              home
-              </Link>
-            </li>
-            <li>
-              <Link to="about">
-              about
-              </Link>
-            </li>
-            <li>
-              <Link to="/">
-              menu
-              </Link>
-            </li>
-            <li>
-              <Link to="/">
-              servces
-              </Link>
-            </li>
-            <li>
-              <Link to="/">
-              offers
-              </Link>
-            </li>
-          </ul></div>
-
-
-
-        <div className=" conatct">
-          <h3>contant useEffect</h3>
-          <ul>
-            
-            <li>gamil@gamil.com</li>
-            <li> social medai</li>
-          </ul>
-        </div>
-       
       </div>
-
-
-
-      <div className="scond-row">
-        <p>
-          copyrihgt fose to the best react devolbers in the world
-        </p>
-
-        <div className="links  ">
-        <i className="fa-brands fa-facebook"></i>
-        <i className="fa-brands fa-twitter"></i>
-        <i className="fa-brands fa-discord icon "></i>
-        </div>
-
-      </div>
-
-
-    </div>
-
-
-
-   </div>
-   
-   
-   </>
-  )
+    </>
+  );
 }
 
-export default Footer
+export default Footer;

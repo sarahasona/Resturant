@@ -5,9 +5,7 @@ import "./login/login.css";
 import axios from "axios";
 
 function Login() {
-  const { login } = useContext(LoginContext);
-  const { setAdmin } = useContext(LoginContext);
-
+  const { login, setAdmin, isLoggedIn } = useContext(LoginContext); 
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -15,9 +13,10 @@ function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
@@ -27,39 +26,36 @@ function Login() {
     e.preventDefault();
     resetErrors();
     setSuccessMessage("");
-
-    
+    setIsLoading(true);
 
     try {
       const response = await axios.post(
         "https://restaurant-website-dusky-one.vercel.app/user/signIn/",
         { identifier, password }
       );
-    
-      
-      if (response.data.user.role ==="Admin"){
+
+      console.log(response);
+
+      if (response.data.user.role === "Admin") {
         setAdmin(true);
-    
-        
-      }else{
+      } else {
         setAdmin(false);
       }
 
       if (response.status === 200) {
-        const { token, message } = response.data;
+        const { token } = response.data;
 
         if (!token) {
           setServerError("Token not received. Please try again.");
-          console.error("Token is undefined.");
+          setIsLoading(false);
           return;
         }
 
+        sessionStorage.setItem("token", token);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        login(identifier);
         localStorage.setItem("token", token);
         localStorage.setItem("userId", response.data.user._id);
-
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-        login(identifier);
 
         setSuccessMessage("Login successful! Welcome back!");
 
@@ -68,7 +64,6 @@ function Login() {
         }, 700);
       } else {
         setServerError("Unexpected server response. Please try again.");
-        console.error("Error:", response.statusText);
       }
     } catch (error) {
       console.error("Error caught:", error);
@@ -87,6 +82,8 @@ function Login() {
       } else {
         setServerError("Error: Failed to send request.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -96,7 +93,12 @@ function Login() {
     setServerError("");
     setSuccessMessage("");
   };
-  
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/"); 
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <div className="container mx-auto px-4 md:px-8">
@@ -143,18 +145,22 @@ function Login() {
           {passwordError && <p className="text-red-500">{passwordError}</p>}
         </div>
 
-        {/* Error Message */}
         {serverError && <p className="text-red-500">{serverError}</p>}
 
-        {/* Success Message */}
         {successMessage && <p className="text-green-500">{successMessage}</p>}
 
-        {/* Login Button */}
         <button
           type="submit"
-          className="btn bg-orange-950 text-white w-[50%] mx-auto py-2 rounded"
+          className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center"
+          disabled={isLoading}
         >
-          Login
+          {isLoading ? (
+            <>
+              <i className="fas fa-spinner fa-spin mr-2"></i>
+            </>
+          ) : (
+            'Login'
+          )}
         </button>
 
         <p className="text-center text-lg">

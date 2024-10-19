@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import UserCard from './UserCard';
 import Confirm from './Confirm';
 import axios from 'axios';
+import { LoginContext } from "../../context/Login/Login"; 
+
 
 function Users() {
   const [showc, setShowC] = useState(false);
   const [users, setUsers] = useState([]);
+  const { token } = useContext(LoginContext);
+  const [delet,setDelet]=useState("")
+  const [refresh,setRefresh]=useState(true)
 
   const allU = async () => {
     try {
@@ -13,7 +18,7 @@ function Users() {
         `https://restaurant-website-dusky-one.vercel.app/user/allUsers/`,
         {
           headers: {
-            token: `resApp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzBkOTRjMTg2ODVjNzNjODQ0ZmVkZTMiLCJzZXNzaW9uSWQiOiI5NWM2OTJlOC1lZjg5LTQ2Y2MtYWVhNC1hMDZiZjUxZDJhMDYiLCJpYXQiOjE3MjkxNjc4NzIsImV4cCI6MTczMDM3NzQ3Mn0.o_FeXWK-rLSaEWfg9LVASoZxgHvN7wo9e40dtc6JAh8` 
+            token: `resApp ${token}` 
           },
         }
       );
@@ -33,11 +38,18 @@ function Users() {
         
       }
     });
-  }, []);
+  }, [refresh]);
+
+ 
 
   return (
     <div className="overflow-y-scroll scrollbar-hidden h-[90vh]" style={{ scrollbarWidth: 'none' }}>
-      {showc && <Confirm setShowC={setShowC} />}
+      {showc && <Confirm
+                        setShowC={setShowC} 
+                        delet={delet}
+                        setRefresh={setRefresh}  
+                        refresh={refresh}/>}
+
       <div className='flex justify-between w-[80%] m-[5%] p-2 border bg-blue-50'>
         <h3>#</h3>
         <h3>Name</h3>
@@ -48,7 +60,8 @@ function Users() {
       {users.length > 0 ? (
         users.map((user, index) => (
           <UserCard
-          id={user._id}
+          setDelet={setDelet}
+           id={user._id}
            key={user._id}
            user={user} 
            order={index}
