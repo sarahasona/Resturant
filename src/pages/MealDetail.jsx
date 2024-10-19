@@ -1,24 +1,35 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import MealCard from "../components/MealCard";
 function MealDetail() {
-  const [mealId, setMealId] = useState(null);
+  const location = useLocation();
+  const { mealId } = location.state || {}; // Safely access state
+  // const [mealId, setMealId] = useState(null);
   const [mealData, setMealData] = useState({});
-  const { id } = useParams();
+  // const { id } = useParams();
   const getMealData = async () => {
-    const response = await axios.get(`/menu.json`);
-    const item = response.data.find((item) => item._id === id);
-    // const data = await response.data;
-    setMealData(item);
+    try {
+      console.log(mealId)
+      const response = await axios.get(
+        `https://restaurant-website-dusky-one.vercel.app/menu/${mealId}	`
+      );
+      if (response.status == 200) {
+        setMealData(response.data.menuItem);
+        console.log(mealData)
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
-    setMealId(id); // update mealId when route params change
+    // setMealId(id); // update mealId when route params change
     getMealData();
-  }, [mealId]);
+  }, [mealId, location]);
   return (
     <div className="container flex justify-center items-center mx-auto px-[24px] mt-10">
-      <MealCard item={mealData} showDetails={false} />
+      <MealCard item={mealData} image={mealData.image?.secure_url}  showDetails={false} />
     </div>
   );
 }
