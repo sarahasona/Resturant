@@ -7,9 +7,15 @@ function LoginProvider({ children }) {
   const [admin, setAdmin] = useState(false);
   const [user, setUser] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
-
+  const [userOpject,setUserOpject]=useState(JSON.parse(localStorage.getItem("user")))
   const userID = localStorage.getItem("userId");
   const token = localStorage.getItem("token"); 
+console.log(userOpject);
+
+
+  useEffect(()=>{
+    setUserOpject(JSON.parse(localStorage.getItem("user")))
+  },[])
 
   useEffect(() => {
     if (userID && token) { 
@@ -20,11 +26,11 @@ function LoginProvider({ children }) {
       setIsLoggedIn(false); 
       logout();
     }
-  }, [userID, userName, token]); // Add storedToken to dependencies
+  }, [userID, userName, token]); 
 
   const login = (name) => {
     setUserName(name);
-    setIsLoggedIn(true); // Set loggedIn state to true on login
+    setIsLoggedIn(true); 
   };
 
   const logout = () => {
@@ -39,7 +45,7 @@ function LoginProvider({ children }) {
   };
 
   return (
-    <LoginContext.Provider value={{ userID, userName, login, logout, admin, setAdmin, user, setUser, token, isLoggedIn }}>
+    <LoginContext.Provider value={{setUserOpject,userOpject, userID, userName, login, logout, admin, setAdmin, user, setUser, token, isLoggedIn }}>
       {children}
     </LoginContext.Provider>
   );

@@ -54,13 +54,15 @@ function SignUp() {
     }
 
     setIsLoading(true); 
-
+    const phoneNumber=1122327144
     try {
       const response = await axios.post("https://restaurant-website-dusky-one.vercel.app/user/signUp", {
         firstName,
         lastName,
         email,
         password,
+        phoneNumber,
+
       });
 
   

@@ -5,7 +5,7 @@ import "./login/login.css";
 import axios from "axios";
 
 function Login() {
-  const { login, setAdmin, isLoggedIn } = useContext(LoginContext); // Destructure isLoggedIn from context
+  const { login, setAdmin, isLoggedIn,setUserOpject } = useContext(LoginContext); // Destructure isLoggedIn from context
 
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
@@ -35,8 +35,7 @@ function Login() {
         { identifier, password }
       );
 
-      console.log(response);
-
+    localStorage.setItem("user",JSON.stringify(response.data.user))
       if (response.data.user.role === "Admin") {
         setAdmin(true);
       } else {
@@ -59,6 +58,7 @@ function Login() {
         localStorage.setItem("userId", response.data.user._id);
 
         setSuccessMessage("Login successful! Welcome back!");
+        
 
         setTimeout(() => {
           navigate("/");
