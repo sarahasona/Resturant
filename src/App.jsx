@@ -18,19 +18,19 @@ import AccountView from "./pages/AccountView";
 import SavedAddresses from "./pages/SavedAddresses";
 import Orders from "./pages/Orders";
 // import OrderSummary from "./components/OrderSummary";
-import ForgetPass from "./pages/ForgetPass";
-const { createProxyMiddleware } = require('http-proxy-middleware');
+import ForgetPassword from "./pages/ForgetPass";
+// const { createProxyMiddleware } = require('http-proxy-middleware');
 
-module.exports = function(app) {
-  app.use(
-    '/api',
-    createProxyMiddleware({
-      target: 'https://api.example.com',
-      changeOrigin: true,
-    })
-  );
-};
-import ForgotPass from "./pages/ForgotPass";
+// module.exports = function(app) {
+//   app.use(
+//     '/api',
+//     createProxyMiddleware({
+//       target: 'https://api.example.com',
+//       changeOrigin: true,
+//     })
+//   );
+// };
+// import ForgotPass from "./pages/ForgotPass";
 import Cart from './pages/Cart'
 
 function App() {
@@ -43,7 +43,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="forgot-password" element={<ForgetPass />} />
+            <Route path="forgot-password" element={<ForgetPassword />} />
 
             {/* Admin dashboard */}
             <Route path="dash" element={<AdminDash />}>
