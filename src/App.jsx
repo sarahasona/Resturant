@@ -19,7 +19,17 @@ import SavedAddresses from "./pages/SavedAddresses";
 import Orders from "./pages/Orders";
 // import OrderSummary from "./components/OrderSummary";
 import ForgetPass from "./pages/ForgetPass";
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
+module.exports = function(app) {
+  app.use(
+    '/api',
+    createProxyMiddleware({
+      target: 'https://api.example.com',
+      changeOrigin: true,
+    })
+  );
+};
 function App() {
   return (
     <LoginProvider>
