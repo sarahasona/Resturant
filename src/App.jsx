@@ -12,18 +12,6 @@ import Manue from "./pages/AdminDash/Manue";
 import ManageItem from "./pages/AdminDash/ManageItem";
 import ManageOrders from "./pages/AdminDash/ManageOrders";
 import MenuView from "./pages/MenuView";
-<<<<<<< HEAD
-import MealDetail from './pages/MealDetail'
-import ForgotPass from "./pages/ForgotPass";
-
-import Profile from "./pages/Profile"
-import AccountView from "./pages/AccountView"
-import SavedAddresses from "./pages/SavedAddresses";
-import Orders from "./pages/Orders";
-
-
-
-=======
 import MealDetail from './pages/MealDetail';
 import Profile from "./pages/Profile";
 import AccountView from "./pages/AccountView";
@@ -32,7 +20,6 @@ import Orders from "./pages/Orders";
 // import OrderSummary from "./components/OrderSummary";
 import ForgotPass from "./pages/ForgotPass";
 
->>>>>>> 7dd6d2134a3619424fd9e21d511d11a1a17c3a85
 function App() {
   return (
     <LoginProvider>

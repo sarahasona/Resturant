@@ -6,22 +6,16 @@ function LoginProvider({ children }) {
   const [userName, setUserName] = useState("");
   const [admin, setAdmin] = useState(false);
   const [user, setUser] = useState(false);
-<<<<<<< HEAD
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [userOpject,setUserOpject]=useState(JSON.parse(localStorage.getItem("user")))
   const userID = localStorage.getItem("userId");
   const token = localStorage.getItem("token"); 
-console.log(userOpject);
+
 
 
   useEffect(()=>{
     setUserOpject(JSON.parse(localStorage.getItem("user")))
   },[])
-=======
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const userID = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
->>>>>>> 7dd6d2134a3619424fd9e21d511d11a1a17c3a85
 
   useEffect(() => {
     if (userID && token) {
@@ -32,11 +26,7 @@ console.log(userOpject);
       setIsLoggedIn(false);
       logout();
     }
-<<<<<<< HEAD
-  }, [userID, userName, token]); 
-=======
   }, [userID, userName, token]);
->>>>>>> 7dd6d2134a3619424fd9e21d511d11a1a17c3a85
 
   const [category, setCategories] = useState([]);
   const getAllCategories = async () => {
@@ -56,11 +46,7 @@ console.log(userOpject);
   };
   const login = (name) => {
     setUserName(name);
-<<<<<<< HEAD
-    setIsLoggedIn(true); 
-=======
     setIsLoggedIn(true);
->>>>>>> 7dd6d2134a3619424fd9e21d511d11a1a17c3a85
   };
 
   const logout = () => {
@@ -75,9 +61,6 @@ console.log(userOpject);
   };
 
   return (
-<<<<<<< HEAD
-    <LoginContext.Provider value={{setUserOpject,userOpject, userID, userName, login, logout, admin, setAdmin, user, setUser, token, isLoggedIn }}>
-=======
     <LoginContext.Provider
       value={{
         userID,
@@ -92,9 +75,10 @@ console.log(userOpject);
         isLoggedIn,
         getAllCategories,
         category,
+        setUserOpject,
+        userOpject,
       }}
     >
->>>>>>> 7dd6d2134a3619424fd9e21d511d11a1a17c3a85
       {children}
     </LoginContext.Provider>
   );
