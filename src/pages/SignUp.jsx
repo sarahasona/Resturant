@@ -14,7 +14,14 @@ function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [buildingNumber, setBuildingNumber] = useState(1);
+  const [floorNumber, setFloorNumber] = useState(1);
+  const [addressLabel, setAddressLabel] = useState('');
+  const [addressEerro, setAddressError] = useState(null);
+  const [address, setAddress] = useState(false);
+  const [droplist,setdroplist]=useState(false)
   const [isLoading, setIsLoading] = useState(false); 
 
   const resetErrors = () => {
@@ -52,20 +59,32 @@ function SignUp() {
       setEmailError("Please enter a valid email");
       return;
     }
+    if(!validateAdress() || addressEerro){
+
+      
+      return
+    }
 
     setIsLoading(true); 
-    const phoneNumber=1122327144
+
     try {
+ 
+      
       const response = await axios.post("https://restaurant-website-dusky-one.vercel.app/user/signUp", {
         firstName,
         lastName,
         email,
         password,
-        phoneNumber,
-
+ 
+        city,
+        country,
+        buildingNumber,
+        floorNumber,
+        addressLabel,
+        
       });
 
-  
+    
 
       
       console.log("User created:", response.data);
@@ -96,6 +115,32 @@ function SignUp() {
     return emailRegex.test(password);
   };
 
+   const validateAdress = () => {
+    if (typeof city !== 'string' || city.length < 3 || city.length > 50) {
+      setAddressError('City must be a string and between 3 and 50 characters.');
+      return false;
+    } else if (typeof country !== 'string' || country.length < 3 || country.length > 50) {
+      setAddressError('Country must be a string and between 3 and 50 characters.');
+      return false;
+    } else if (typeof addressLabel !== 'string' || addressLabel.length < 3 || addressLabel.length > 50) {
+      setAddressError('Address label must be a string and between 3 and 50 characters.');
+      return false;
+    } else if (isNaN(Number(buildingNumber)) || Number(buildingNumber) < 1 || Number(buildingNumber) > 100) {
+      setAddressError('Building number must be a number between 1 and 100.');
+      return false;
+    } else if (isNaN(Number(floorNumber)) || Number(floorNumber) < 1 || Number(floorNumber) > 15) {
+      setAddressError('Floor number must be a number between 1 and 15.');
+      return false;
+    } else {
+      setAddressError(null);
+      return true;
+    }
+    
+    
+  
+  }
+
+  
   return (
     <div className="container items-center mx-auto px-4 md:px-8">
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 rounded">
@@ -179,6 +224,82 @@ function SignUp() {
           />
           {confirmPasswordError && <p className="text-red-500">{confirmPasswordError}</p>}
         </div>
+        {/* adress          */}
+       <p className="text-center" > adress</p>
+        <i class="fa-solid fa-arrow-down-wide-short text-center "  onClick={()=>setdroplist(!droplist)}></i>
+      {
+        droplist &&
+        (
+          <>
+          <div className="formgroup flex flex-col">
+          <label htmlFor="city" className="mb-2"> city</label>
+          <input
+            type="text"
+            placeholder="city"
+            name="city"
+            id="city"
+            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+            
+            onChange={(e) => setCity(e.target.value)}
+          />
+      
+        </div>
+
+        <div className="formgroup flex flex-col">
+          <label htmlFor="country" className="mb-2"> country</label>
+          <input
+            type="text"
+            placeholder="country"
+            name="country"
+            id="country"
+            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+            
+            onChange={(e) => setCountry(e.target.value)}
+          />
+          {firstNameError && <p className="text-red-500">{firstNameError}</p>}
+        </div>
+        <div className="formgroup flex flex-col">
+          <label htmlFor="bulding number" className="mb-2"> bulding number</label>
+          <input
+            type="text"
+            placeholder="bulding number"
+            name="bulding number"
+            id="bulding number"
+            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+            
+            onChange={(e) => setBuildingNumber(e.target.value)}
+          />
+         
+        </div>
+        <div className="formgroup flex flex-col">
+          <label htmlFor="floor number" className="mb-2"> floor number</label>
+          <input
+            type="text"
+            placeholder="floor number"
+            name="floor number"
+            id="floor number"
+            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+            
+            onChange={(e) => setFloorNumber(e.target.value)}
+          />
+        
+        </div>
+        <div className="formgroup flex flex-col">
+          <label htmlFor="adress" className="mb-2"> adress label</label>
+          <input
+            type="text"
+            placeholder="adress label"
+            name="adress label"
+            id="adress label"
+            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+            
+            onChange={(e) => setAddressLabel(e.target.value)}
+          />
+          {addressEerro && <p className="text-red-500">{addressEerro}</p>}
+        </div>
+</>
+        )
+      }
 
         <button
           type="submit"

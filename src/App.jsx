@@ -37,7 +37,7 @@ function App() {
               <Route path="user" element={<Usres />} />
               <Route path="Manue" element={<Manue />} />
               <Route path="orders" element={<ManageOrders />} />
-              <Route path="item" element={<ManageItem />} />
+              <Route path="catogory" element={<ManageItem />} />
             </Route>
 
             {/* Account section */}
@@ -45,7 +45,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="saved-addresses" element={<SavedAddresses />} />
               <Route path="orders" element={<Orders />}/>
-              
+             
             </Route>
             <Route index element={<Home />} />
             {/* Default category route (redirect to a specific category) */}

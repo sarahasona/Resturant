@@ -34,11 +34,17 @@ function Login() {
         { identifier, password }
       );
 
-    localStorage.setItem("user",JSON.stringify(response.data.user))
+  
+    
+    localStorage.setItem("user",JSON.stringify(response.data.user) )
+    localStorage.setItem("token", response.data.token);
+    
       if (response.data.user.role === "Admin") {
         setAdmin(true);
+    
       } else {
         setAdmin(false);
+     
       }
 
       if (response.status === 200) {
@@ -53,7 +59,7 @@ function Login() {
         sessionStorage.setItem("token", token);
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         login(identifier);
-        localStorage.setItem("token", token);
+        
         localStorage.setItem("userId", response.data.user._id);
 
         setSuccessMessage("Login successful! Welcome back!");

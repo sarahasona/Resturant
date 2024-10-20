@@ -13,7 +13,7 @@ function MainNavBar() {
     const [showS, setShowS] = useState(false);
     const [showAccountMenu, setShowAccountMenu] = useState(false);
     const accountMenuRef = useRef(null); 
-
+    
     const isActive = (path) => location.pathname === path;
 
     const toggleAccountMenu = () => {
