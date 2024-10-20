@@ -5,8 +5,10 @@ export const LoginContext = createContext();
 function LoginProvider({ children }) {
   const [userName, setUserName] = useState("");
   const [admin, setAdmin] = useState(false);
-  const [user, setUser] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userOpject, setUserOpject] = useState(JSON.parse(localStorage.getItem("user")));
+  const [category, setCategories] = useState([]);
+
   const userID = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const [userCart, setUserCart] = useState([]);
@@ -14,32 +16,28 @@ function LoginProvider({ children }) {
   const [totalPrice, setTotalPrice] = useState();
 
   useEffect(() => {
-    if (userID && token) {
-      setAdmin(true);
-      setIsLoggedIn(true);
-    } else {
-      setAdmin(false);
-      setIsLoggedIn(false);
-      logout();
-    }
-  }, [userID, userName, token]);
+    const userData = JSON.parse(localStorage.getItem("user"));
+    setUserOpject(userData);
 
-  const [category, setCategories] = useState([]);
+    if (userID && token) {
+      setIsLoggedIn(true);
+      setAdmin(userData?.role === "Admin");
+    }
+  }, [userID, token]);
+
   const getAllCategories = async () => {
     try {
       const response = await axios.get(
         "https://restaurant-website-dusky-one.vercel.app/category"
       );
-      if (response.status == 200) {
-        response.data?.categories
-          ? setCategories(response.data.categories)
-          : setCategories([]);
+      if (response.status === 200) {
+        setCategories(response.data?.categories || []);
       }
-      // console.log(await response.data.categories);
     } catch (error) {
       console.error(error);
     }
   };
+
   const login = (name) => {
     setUserName(name);
     setIsLoggedIn(true);
@@ -47,8 +45,12 @@ function LoginProvider({ children }) {
 
   const logout = () => {
     setUserName("");
+    setUserOpject(null);
+    setAdmin(false);
+    setIsLoggedIn(false);
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
     setCartCount(0);
   };
@@ -183,13 +185,12 @@ function LoginProvider({ children }) {
         login,
         logout,
         admin,
-        setAdmin,
-        user,
-        setUser,
-        token,
         isLoggedIn,
         getAllCategories,
         category,
+        userOpject,
+        setUserOpject,
+        setAdmin,
         getUserCart,
         userCart,
         cartCount,

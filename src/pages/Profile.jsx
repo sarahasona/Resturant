@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import axios from "axios";
+import { LoginContext } from "../context/Login/Login";
 
 function Profile() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [mobileNumber, setPhoneNumber] = useState("");
   const [newEmail, setNewEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword , setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
@@ -16,20 +17,19 @@ function Profile() {
   const [successMessage, setSuccessMessage] = useState("");
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const { token,userOpject } = useContext(LoginContext);
+  const userID = localStorage.getItem("userId");
 
+  
   useEffect(() => {
-    axios.get("/userData.json") 
-      .then((response) => {
-        const { email, firstName, lastName, phoneNumber } = response.data;
+       
+        
+        const { email, firstName, lastName, mobileNumber } = userOpject;
         setEmail(email || "");
         setFirstName(firstName || "");
         setLastName(lastName || "");
-        setPhoneNumber(phoneNumber || "");
-      })
-      .catch((error) => {
-        console.error("Error fetching profile data:", error);
-        setServerError("Failed to load profile data.");
-      });
+        setPhoneNumber(mobileNumber || "");
+     
   }, []);
 
   const handleSubmit = async (e) => {
@@ -45,19 +45,30 @@ function Profile() {
       setLastNameError("Last name should be more than 3 characters.");
       return;
     }
-    if (phoneNumber.trim() === "" || phoneNumber.length < 10) {
+    if (mobileNumber.trim() === "" || mobileNumber.length < 10) {
       setPhoneNumberError("Phone number should be at least 10 digits.");
       return;
     }
-
+    
     try {
-      const response = await axios.put("https://api.example.com/user/profile", {
+      const response = await axios.patch(`https://restaurant-website-dusky-one.vercel.app/user/`, {
         firstName,
         lastName,
-        phoneNumber,
-      });
+        mobileNumber,
+       
+      },
+      {
+        headers: {
+          token: `resApp ${token}` 
+        }
+      }
+    
+    );
       if (response.status === 200) {
         setSuccessMessage("Profile updated successfully!");
+        localStorage.setItem("user",JSON.stringify(response.data.updatedUser))
+        console.log(response);
+        
       } else {
         setServerError("Error updating profile.");
       }
@@ -98,13 +109,26 @@ function Profile() {
   };
 
   const handleChangePassword = async () => {
-    if (!password) {
+    
+    if (!newPassword ) {
       setServerError("Password cannot be empty.");
       return;
     }
-
+    
     try {
-      const response = await axios.put("https://api.example.com/user/password", { password });
+      const response = await axios.put("https://api.example.com/user/updatePassword", 
+        { 
+          
+          newPassword  
+          ,
+        },
+      
+        {
+          headers: {
+            token: `resApp ${token}` 
+          }
+        }
+      );
       if (response.status === 200) {
         setSuccessMessage("Password updated successfully!");
         setShowPasswordModal(false);
@@ -133,7 +157,7 @@ function Profile() {
             value={email}
             id="email"
             className="p-2 border border-blue-200 outline-none rounded w-full md:w-2/3 text-sm"
-            disabled
+            
           />
         </div>
 
@@ -179,11 +203,11 @@ function Profile() {
           <input
             type="text"
             placeholder="Phone Number"
-            value={phoneNumber}
+            value={mobileNumber}
             id="phoneNumber"
             className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded w-full md:w-2/3 text-sm"
             required
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => setPhoneNumber(e.target.value.toString())}
           />
           {phoneNumberError && <p className="text-red-500 md:ml-4">{phoneNumberError}</p>}
         </div>
@@ -263,7 +287,7 @@ function Profile() {
       
       <input
         type="password"
-        value={password}
+        value={newPassword }
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Current Password"
         className="p-2 border border-blue-200 rounded w-full mb-4"

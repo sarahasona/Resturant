@@ -6,17 +6,18 @@ import { LoginContext } from "../context/Login/Login";
 import Search from "./Search";
 
 function MainNavBar() {
+    const [dis, setDis] = useState(false);
+    const [dis1, setDis1] = useState(false);
+    const [showS, setShowS] = useState(false);
+    const [showAccountMenu, setShowAccountMenu] = useState(false);
+    const accountMenuRef = useRef(null); 
+    
+    const isActive = (path) => location.pathname === path;
   const location = useLocation();
   const navigate = useNavigate();
   const { admin, isLoggedIn, logout, cartCount, userCart, getUserCart } =
     useContext(LoginContext);
-  const [dis, setDis] = useState(false);
-  const [dis1, setDis1] = useState(false);
-  const [showS, setShowS] = useState(false);
-  const [showAccountMenu, setShowAccountMenu] = useState(false);
-  const accountMenuRef = useRef(null);
 
-  const isActive = (path) => location.pathname === path;
 
   const toggleAccountMenu = () => {
     setShowAccountMenu((prev) => !prev);

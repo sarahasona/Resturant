@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 const getSpecialDishes = async () => {
   const response = axios.get("/menu.json");
+
   // const response = data.response;
   // const data = await response.data
   // console.log(await data.dishes);
@@ -12,13 +13,6 @@ const getSpecialDishes = async () => {
 function SpecialDishes() {
   useEffect(() => {
     getSpecialDishes();
-    // fetch("/menu.json")
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     const specials = data.filter((item) => item.category === "popular");
-    //     // console.log(specials)
-    //     setRecipes(specials);
-    //   });
   }, []);
   var settings = {
     dots: true,
