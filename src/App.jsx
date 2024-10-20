@@ -18,7 +18,7 @@ import AccountView from "./pages/AccountView";
 import SavedAddresses from "./pages/SavedAddresses";
 import Orders from "./pages/Orders";
 // import OrderSummary from "./components/OrderSummary";
-import ForgotPass from "./pages/ForgotPass";
+import ForgetPass from "./pages/ForgetPass";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="forgot-password" element={<ForgotPass />} />
+            <Route path="forgot-password" element={<ForgetPass />} />
 
             {/* Admin dashboard */}
             <Route path="dash" element={<AdminDash />}>
