@@ -6,7 +6,9 @@ function LoginProvider({ children }) {
   const [userName, setUserName] = useState("");
   const [admin, setAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userOpject, setUserOpject] = useState(JSON.parse(localStorage.getItem("user")));
+  const [userOpject, setUserOpject] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
   const [category, setCategories] = useState([]);
 
   const userID = localStorage.getItem("userId");
@@ -167,7 +169,7 @@ function LoginProvider({ children }) {
       );
       if (response.status === 200) {
         setCartCount(0);
-        setUserCart([]);  
+        setUserCart([]);
       } else {
         throw new Error(
           "error occured when removing all cart items pleaze try again"
@@ -185,6 +187,7 @@ function LoginProvider({ children }) {
         login,
         logout,
         admin,
+        token,
         isLoggedIn,
         getAllCategories,
         category,
@@ -201,7 +204,7 @@ function LoginProvider({ children }) {
         totalPrice,
         setTotalPrice,
         addToCart,
-        removeAllCartMeals
+        removeAllCartMeals,
       }}
     >
       {children}
