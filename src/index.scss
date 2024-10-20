@@ -13,7 +13,7 @@ html {
     overflow-x: hidden;
     font-family: "Jost", system-ui;
     a {
-      @apply text-[20px] hover:animate-colorTravel transition-all duration-300;
+      @apply text-[20px] transition-all duration-300;
     }
     h1,
     h2,
@@ -37,7 +37,7 @@ html {
       @apply text-primary-hover text-[22px] md:text-[24px] lg:text-[28px] xl:text-[30px] font-tertiary;
     }
     .btn {
-      @apply h-[60px] px-[30px] transition-all duration-300 text-white rounded-[18px] gap-2;
+      @apply py-[5px] px-[20px] transition-all duration-300 text-white rounded-[18px] gap-2;
     }
     .btn-primary {
       @apply bg-primary hover:bg-primary-hover;

@@ -5,7 +5,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 const getSpecialDishes = async () => {
   const response = axios.get("/menu.json");
-  console.log(await response)
   // const response = data.response;
   // const data = await response.data
   // console.log(await data.dishes);
