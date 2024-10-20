@@ -1,12 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../context/Login/Login";
 import PaginatedTable from "../components/CartTable";
+import { useNavigate} from "react-router-dom";
+import { GrFormNextLink } from "react-icons/gr";
 function Cart() {
   const { userCart, token, userID, getUserCart, removeAllCartMeals } =
     useContext(LoginContext);
   const [totalPrice, setTotalPrice] = useState(0);
   const handleRemoveCart = () => {
     removeAllCartMeals();
+  };
+  const navigate = useNavigate();
+  const handleCheckout = () => {
+    navigate("/checkout");
   };
   useEffect(() => {
     getUserCart(); // Fetch user cart on mounting component.
@@ -35,6 +41,11 @@ function Cart() {
             <span className="bg-primary-hover text-white p-1 rounded">
               {totalPrice} LE
             </span>{" "}
+            <div className="flex justify-end mt-4 mb-7"> 
+            <button className="btn bg-orange-500 rounded-md flex items-center" onClick={handleCheckout}>
+              Checkout <GrFormNextLink />
+            </button>
+          </div>
           </p>
         </div>
       ) : (

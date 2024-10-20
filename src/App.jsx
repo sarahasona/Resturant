@@ -19,6 +19,8 @@ import SavedAddresses from "./pages/SavedAddresses";
 import Orders from "./pages/Orders";
 // import OrderSummary from "./components/OrderSummary";
 import ForgetPassword from "./pages/ForgetPass";
+import Checkout from "./pages/Checkout"  
+
 // const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // module.exports = function(app) {
@@ -66,7 +68,11 @@ function App() {
 
             {/* cart Route */}
             <Route path="/cart" element={<Cart/>}/>
+            <Route path="/checkout" element={<Checkout/>}/>
+
           </Route>
+
+
         </Routes>
       </BrowserRouter>
     </LoginProvider>
