@@ -38,7 +38,6 @@ function MenuView() {
   // Filter Menu data According to Category
   const getFilterdData = (category, id) => {
     const cat = category.split(" ");
-    console.log(cat.join("_"))
     navigate(`/menu/${cat.join("_")}`, { state: { catId: id } });
     // const filtered =
     //   category === "all"
@@ -83,7 +82,6 @@ function MenuView() {
       const response = await axios.get(
         `https://restaurant-website-dusky-one.vercel.app/menu/category/${catId}`
       );
-      console.log(response);
       if (response.status == 200) {
         setMenu(response.data);
         setFilteredMenu(response.data.Menuitems);
@@ -99,9 +97,7 @@ function MenuView() {
       const response = await axios.get(
         "https://restaurant-website-dusky-one.vercel.app/menu"
       );
-      console.log(response);
       if (response.status == 200) {
-        console.log(response.data.allMenu);
         setMenu(response.data.allMenu);
         setFilteredMenu(response.data.allMenu);
         setCurrentPage(1);
@@ -113,15 +109,12 @@ function MenuView() {
   useEffect(() => {
     getAllCategories();
     // getMenuData();
-    console.log(catId);
     if (catId) {
       getCategoryMeals();
-      console.log(category)
       setSelectedCategory(category);
     } else {
       getAllMeals();
       setSelectedCategory("all");
-      console.log("no id");
     }
   }, [category, location]);
 

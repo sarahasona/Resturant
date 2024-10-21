@@ -12,7 +12,7 @@ function HomeView() {
       <Catagories />
       <Testimonials />
       <OurServices />
-      <SpecialDishes/>
+      {/* <SpecialDishes/> */}
 
     </div>
   );

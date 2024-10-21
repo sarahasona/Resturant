@@ -18,7 +18,22 @@ import AccountView from "./pages/AccountView";
 import SavedAddresses from "./pages/SavedAddresses";
 import Orders from "./pages/Orders";
 // import OrderSummary from "./components/OrderSummary";
-import ForgetPass from "./pages/ForgetPass";
+import ForgetPassword from "./pages/ForgetPass";
+import Checkout from "./pages/Checkout"  
+
+// const { createProxyMiddleware } = require('http-proxy-middleware');
+
+// module.exports = function(app) {
+//   app.use(
+//     '/api',
+//     createProxyMiddleware({
+//       target: 'https://api.example.com',
+//       changeOrigin: true,
+//     })
+//   );
+// };
+// import ForgotPass from "./pages/ForgotPass";
+import Cart from './pages/Cart'
 
 function App() {
   return (
@@ -30,7 +45,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="forgot-password" element={<ForgetPass />} />
+            <Route path="forgot-password" element={<ForgetPassword />} />
 
             {/* Admin dashboard */}
             <Route path="dash" element={<AdminDash />}>
@@ -39,31 +54,25 @@ function App() {
               <Route path="orders" element={<ManageOrders />} />
               <Route path="catogory" element={<ManageItem />} />
             </Route>
-
             {/* Account section */}
             <Route path="account" element={<AccountView />}>
               <Route path="profile" element={<Profile />} />
-              <Route path="saved-addresses" element={<SavedAddresses />} />
-              <Route path="orders" element={<Orders />}/>
-             
+              <Route path="saved-addresses" element={<SavedAddresses />} />             
+              <Route path="orders" element={<Orders />}/>    
             </Route>
-            <Route index element={<Home />} />
-            {/* Default category route (redirect to a specific category) */}
+            {/* menu section */}
             <Route path="/menu" element={<Navigate to="/menu/all" />} />
             {/* Route based on category */}
             <Route path="/menu/:category" element={<MenuView />} />
-            {/* <Route path="menu" element={<MenuView />} /> */}
             <Route path="menu/:category/:mealName" element={<MealDetail />} />
-            <Route path="about" element={<About />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="dash" element={<AdminDash />}>
-              <Route path="user" element={<Usres />} />
-              <Route path="Manue" element={<Manue />} />
-              <Route path="orders" element={<ManageOrders />} />
-              <Route path="item" element={<ManageItem />} />
-            </Route>
+
+            {/* cart Route */}
+            <Route path="/cart" element={<Cart/>}/>
+            <Route path="/checkout" element={<Checkout/>}/>
+
           </Route>
+
+
         </Routes>
       </BrowserRouter>
     </LoginProvider>
