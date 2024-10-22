@@ -72,7 +72,7 @@ function LoginProvider({ children }) {
       );
       if (response.status === 200) {
         const cartData = response.data.cart.cart;
-        console.log(cartData);
+   
         if (cartData.length > 0) {
           setUserCart(cartData);
           setCartCount(cartData.length);

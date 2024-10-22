@@ -226,7 +226,7 @@ function SignUp() {
         </div>
         {/* adress          */}
        <p className="text-center" > adress</p>
-        <i class="fa-solid fa-arrow-down-wide-short text-center "  onClick={()=>setdroplist(!droplist)}></i>
+        <i className="fa-solid fa-arrow-down-wide-short text-center "  onClick={()=>setdroplist(!droplist)}></i>
       {
         droplist &&
         (
