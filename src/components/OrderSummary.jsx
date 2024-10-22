@@ -1,8 +1,62 @@
+import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IoIosArrowBack } from "react-icons/io";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Rating } from '@mui/material';
+import axios from 'axios'; 
+import { LoginContext } from '../context/Login/Login';
 
 function OrderSummary({ order, onBack }) {
-  console.log(order);
+  const { token } = useContext(LoginContext); 
+  const [open, setOpen] = useState(false); 
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [rating, setRating] = useState(0); 
+  const [reviewTitle, setReviewTitle] = useState(''); 
+  const [reviewContent, setReviewContent] = useState(''); 
+  const [loading, setLoading] = useState(false); 
+
+  const handleOpen = (item) => {
+    setSelectedItem(item);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedItem(null);
+    setReviewTitle('');
+    setReviewContent('');
+    setRating(0);
+  };
+
+  const handleSubmit = async () => {
+    const reviewData = {
+      itemId: selectedItem.menuItem._id, 
+      rating: rating,
+      title: reviewTitle,
+      text: reviewContent, 
+    };
+
+    setLoading(true);
+
+    try {
+      
+      const response = await axios.post(
+        'https://restaurant-website-dusky-one.vercel.app/review',
+        reviewData,
+        {
+          headers: {
+            token: `resApp ${token}`, 
+          },
+        }
+      );
+      console.log('Review submitted successfully:', response.data);
+      setLoading(false); 
+      handleClose(); 
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      setLoading(false); 
+    }
+  };
+
   return (
     <div className="p-4">
       <button
@@ -48,12 +102,16 @@ function OrderSummary({ order, onBack }) {
                 />
                 <div className="flex flex-col justify-between">
                   <p className="font-bold text-lg">{item.menuItem.name}</p>
-                  <p className="text-gray-500 mb-2">
-                     {item.menuItem.description}
-                  </p>
-                  <p>
-                    Quantity: {item.quantity} | Price: {item.menuItem.price.toFixed(2)} LE
-                  </p>
+                  <p className="text-gray-500 mb-2">{item.menuItem.description}</p>
+                  <p>Quantity: {item.quantity} | Price: {item.menuItem.price.toFixed(2)} LE</p>
+                  {order.orderStatus.trim().toLowerCase() === 'delivered' && (
+                    <button 
+                      className="text-orange-500 hover:underline"
+                      onClick={() => handleOpen(item)}
+                    >
+                      Add Review
+                    </button>
+                  )}
                 </div>
               </li>
             ))}
@@ -67,7 +125,7 @@ function OrderSummary({ order, onBack }) {
             <p className='break-words'>{`${order.userId.firstName} ${order.userId.lastName}`}</p>
             {order.deliveryOption === 'delivery' && order.address ? (
               <p>
-               Address: {`${order.address.addressLabel}, Building ${order.address.buildingNumber}, Floor ${order.address.floorNumber}, ${order.address.city}, ${order.address.country}`}
+                Address: {`${order.address.addressLabel}, Building ${order.address.buildingNumber}, Floor ${order.address.floorNumber}, ${order.address.city}, ${order.address.country}`}
               </p>
             ) : (
               <p>Pickup Order</p>
@@ -89,47 +147,59 @@ function OrderSummary({ order, onBack }) {
           </div>
         </div>
       </div>
+
+      
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add Review</DialogTitle>
+        <DialogContent>
+          {selectedItem && (
+            <>
+              <img
+                src={selectedItem.menuItem.image.secure_url} 
+                alt={selectedItem.menuItem.name}
+                className="w-24 h-24 object-cover rounded-md mb-4"
+              />
+              <p className="font-bold mb-4">{selectedItem.menuItem.name}</p>
+            </>
+          )}
+          <Rating
+            name="item-rating"
+            value={rating}
+            precision={0.5}
+            onChange={(event, newValue) => setRating(newValue)}
+          />
+          <TextField
+            label="Title"
+            value={reviewTitle}
+            onChange={(e) => setReviewTitle(e.target.value)}
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            label="Review"
+            value={reviewContent}
+            onChange={(e) => setReviewContent(e.target.value)}
+            fullWidth
+            multiline
+            rows={4}
+            margin="dense"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary" disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
 
 OrderSummary.propTypes = {
-  order: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    orderStatus: PropTypes.string,
-    menuItems: PropTypes.arrayOf(
-      PropTypes.shape({
-        menuItem: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          price: PropTypes.number.isRequired,
-          image: PropTypes.shape({
-            secure_url: PropTypes.string.isRequired,
-          }).isRequired,
-          description: PropTypes.string,
-        }).isRequired,
-        quantity: PropTypes.number.isRequired,
-      })
-    ).isRequired,
-    total: PropTypes.number.isRequired,
-    contactNumber: PropTypes.string.isRequired,
-    userId: PropTypes.shape({
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-    }).isRequired,
-    paymentMethod: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    deliveryOption: PropTypes.string,
-    deliveryFee: PropTypes.number.isRequired,
-    subTotal: PropTypes.number.isRequired,
-    updatedAt: PropTypes.string,  
-    address: PropTypes.shape({
-      city: PropTypes.string.isRequired,
-      country: PropTypes.string.isRequired,
-      buildingNumber: PropTypes.number.isRequired,
-      floorNumber: PropTypes.number.isRequired,
-      addressLabel: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  order: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
 };
 
