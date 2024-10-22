@@ -96,7 +96,9 @@ function Orders() {
                 className="w-16 h-16 object-cover rounded-md mr-3"
               />
               <div className="flex-grow">
-                <h3 className="text-sm font-bold">{order.menuItems[0].menuItem.name}</h3>
+                <h3 className="text-sm font-bold">
+                  On {new Date(order.updatedAt).toLocaleString()}
+                </h3>
                 <p className={`text-xs ${order.orderStatus.trim().toLowerCase() === 'delivered' ? 'text-green-600' : 
                                 order.orderStatus.trim().toLowerCase() === 'canceled' ? 'text-red-600' : 
                                 order.orderStatus.trim().toLowerCase() === 'pending' ? 'text-yellow-600' : 

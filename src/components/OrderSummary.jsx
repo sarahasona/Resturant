@@ -29,7 +29,10 @@ function OrderSummary({ order, onBack }) {
                 {order.orderStatus}
               </p>
             )}
-            <p className="text-sm text-gray-500">Order placed on: {new Date(order.createdAt).toLocaleString()}</p>
+            <p className="text-sm text-gray-500">Order placed on: {new Date(order.updatedAt).toLocaleString()}</p>
+            {order.orderStatus.trim().toLowerCase() === 'delivered' && order.updatedAt && (
+              <p className="text-sm text-gray-500">Delivered on: {new Date(order.updatedAt).toLocaleString()}</p>
+            )}
           </div>
 
           <h3 className="text-lg font-bold mb-4">Delivery Details</h3>
@@ -46,7 +49,7 @@ function OrderSummary({ order, onBack }) {
                 <div className="flex flex-col justify-between">
                   <p className="font-bold text-lg">{item.menuItem.name}</p>
                   <p className="text-gray-500 mb-2">
-                    Description: {item.menuItem.description}
+                     {item.menuItem.description}
                   </p>
                   <p>
                     Quantity: {item.quantity} | Price: {item.menuItem.price.toFixed(2)} LE
@@ -63,14 +66,13 @@ function OrderSummary({ order, onBack }) {
             <h3 className="text-lg break-words font-bold mb-4">Delivery address </h3>
             <p className='break-words'>{`${order.userId.firstName} ${order.userId.lastName}`}</p>
             {order.deliveryOption === 'delivery' && order.address ? (
-            <p>
-             Address: {`${order.address.addressLabel}, Building ${order.address.buildingNumber}, Floor ${order.address.floorNumber}, ${order.address.city}, ${order.address.country}`}
-            </p>
+              <p>
+               Address: {`${order.address.addressLabel}, Building ${order.address.buildingNumber}, Floor ${order.address.floorNumber}, ${order.address.city}, ${order.address.country}`}
+              </p>
             ) : (
-            <p>Pickup Order</p>
+              <p>Pickup Order</p>
             )}
             <p className='break-words'>{order.contactNumber}</p>
-            
           </div>
 
           <div className="p-3 border rounded-lg shadow-lg">
@@ -119,6 +121,7 @@ OrderSummary.propTypes = {
     deliveryOption: PropTypes.string,
     deliveryFee: PropTypes.number.isRequired,
     subTotal: PropTypes.number.isRequired,
+    updatedAt: PropTypes.string,  
     address: PropTypes.shape({
       city: PropTypes.string.isRequired,
       country: PropTypes.string.isRequired,
