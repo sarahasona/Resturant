@@ -1,5 +1,8 @@
 import Payment from "../components/Payment";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 //! change the id to the actual order id
 
 import { useState, useContext, useEffect } from "react";
@@ -10,6 +13,7 @@ import RadioBtns from "../components/Addresses/RadioBtns";
 const Checkout = () => {
   const { getUserCart, userCart, totalPrice, calculateTotalCartPrice, token } =
     useContext(LoginContext);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [userAddress, setUserAddress] = useState([]);
   const [showPaymentBtns, setShowPaymentBtns] = useState(false);
@@ -22,6 +26,7 @@ const Checkout = () => {
   const [phoneError, setPhoneError] = useState("");
   const [orderId, setOrderId] = useState(0);
   const [comment, setComment] = useState("");
+  const [savingData, setSavingData] = useState(false);
   useEffect(() => {
     if (selectedDeliveryMethod == "delivery") {
       console.log("hello");
@@ -122,9 +127,10 @@ const Checkout = () => {
       specialInstructions: comment,
     };
     console.log(orderData);
-    console.log(token)
+    console.log(token);
     // Make API call to save the order data
     try {
+      setSavingData(true);
       const response = await axios.post(
         "https://restaurant-website-dusky-one.vercel.app/order/",
         orderData,
@@ -135,14 +141,20 @@ const Checkout = () => {
         }
       );
       console.log(response);
-      if (response.status === 201) {
-        console.log("Order placed successfully", response.data);
+      if (response.status === 200) {
+        setSavingData(false);
+        console.log("Order placed successfully", response.data.order._id);
         // Optionally, you could reset the state or redirect the user here
         if (selectedMethod == "card") {
           setShowPaymentBtns(true);
-          setOrderId(response.data._id);
+          setOrderId(response.data.order._id);
+          console.log(orderId)
+        } else {
+          setShowPaymentBtns(false);
+          navigate(`/account/orders`);
         }
       } else {
+        toast.error("Error Placing Order", response.data.error);
         console.log("Error placing order", response.data.error);
       }
     } catch (error) {
@@ -282,7 +294,10 @@ const Checkout = () => {
             </div>
             <button
               onClick={completePlaceOrder}
-              className="w-full p-2.5 text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none"
+              className={`w-full p-2.5 text-white bg-indigo-600 
+                rounded-md shadow-sm hover:bg-indigo-700 
+                focus:outline-none ${savingData ? "cursor-not-allowed" : "cursor-pointer"}`}
+              disabled={savingData}
             >
               Place Order {showPaymentBtns && "Complete Payment"}
             </button>
@@ -293,14 +308,14 @@ const Checkout = () => {
       {/* PayPal Section */}
       {showPaymentBtns && (
         <div className="z-10">
-          <button
+          {/* <button
             onClick={() => setShowPaymentBtns(false)}
             className="w-full p-2.5 mb-5 text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none"
           >
             Back To Details
-          </button>
+          </button> */}
 
-          <Payment orderId={"6715b037b25d4c494414ce4c"} />
+          <Payment orderId={orderId} />
         </div>
       )}
     </div>
