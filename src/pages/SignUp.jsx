@@ -70,7 +70,7 @@ function SignUp() {
     try {
  
       
-      const response = await axios.post("https://restaurant-website-dusky-one.vercel.app/user/signUp", {
+      const response = await axios.post("http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/user/signUp", {
         firstName,
         lastName,
         email,

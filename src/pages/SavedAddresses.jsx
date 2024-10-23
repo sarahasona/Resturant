@@ -50,7 +50,7 @@ function SavedAddresses() {
   const handleDeleteAddress = async () => {
     try {
       const response = await axios.delete(
-        `https://restaurant-website-dusky-one.vercel.app/address/${deleteId}`,
+        `http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/address/${deleteId}`,
         {
           headers: {
             token: `resApp ${token}`,

@@ -10,17 +10,20 @@ function Profile() {
   const [mobileNumber, setPhoneNumber] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const { token, userOpject } = useContext(LoginContext);
   const [loading, setLoading] = useState(false);
-  const userID = localStorage.getItem("userId");
 
   useEffect(() => {
     const { email, firstName, lastName, mobileNumber } = userOpject;
@@ -28,7 +31,7 @@ function Profile() {
     setFirstName(firstName || "");
     setLastName(lastName || "");
     setPhoneNumber(mobileNumber || "");
-  }, []);
+  }, [userOpject]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +59,7 @@ function Profile() {
           firstName,
           lastName,
           mobileNumber,
+          email,
         },
         {
           headers: {
@@ -64,21 +68,16 @@ function Profile() {
         }
       );
       if (response.status === 200) {
-        // setSuccessMessage("Profile updated successfully!");
         localStorage.setItem("user", JSON.stringify(response.data.updatedUser));
-        // console.log(response);
         setLoading(false);
         toast.success("Profile updated successfully!");
       } else {
         toast.error("Error updating profile.");
         setLoading(false);
-        // setServerError("Error updating profile.");
       }
     } catch (error) {
-      // console.error("Error:", error);
       toast.error("An error occurred. Please try again.");
       setLoading(false);
-      // setServerError("An error occurred. Please try again.");
     }
   };
 
@@ -87,8 +86,20 @@ function Profile() {
     setFirstNameError("");
     setLastNameError("");
     setPhoneNumberError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
     setServerError("");
     setSuccessMessage("");
+  };
+
+  const validatePassword = (password) => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSymbols = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isValidLength = password.length >= 8;
+
+    return hasUpperCase && hasLowerCase && hasNumbers && hasSymbols && isValidLength;
   };
 
   const handleChangeEmail = async () => {
@@ -98,37 +109,56 @@ function Profile() {
     }
 
     try {
-      const response = await axios.put("https://api.example.com/user/email", {
-        email: newEmail,
-      });
+      const response = await axios.put(
+        "https://restaurant-website-dusky-one.vercel.app/user",
+        {
+          email: newEmail,
+        },
+        {
+          headers: {
+            token: `resApp ${token}`,
+          },
+        }
+      );
       if (response.status === 200) {
         setEmail(newEmail);
         setSuccessMessage("Email updated successfully!");
         setShowEmailModal(false);
       } else {
         toast.error("Error updating email.");
-        // setServerError("Error updating email.");
       }
     } catch (error) {
-      console.error("Error:", error);
-      toast.error("An error occurred while updating email.Please try again.");
-      // setServerError("An error occurred while updating email.");
+      toast.error("An error occurred while updating email. Please try again.");
     }
   };
 
   const handleChangePassword = async () => {
-    if (!newPassword) {
-      setServerError("Password cannot be empty.");
+    resetErrors();
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setServerError("All password fields are required.");
+      return;
+    }
+
+    if (!validatePassword(newPassword)) {
+      setPasswordError(
+        "Password must be at least 8 characters long and contain uppercase, lowercase, numbers, and symbols."
+      );
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match.");
       return;
     }
 
     try {
       const response = await axios.put(
-        "https://api.example.com/user/updatePassword",
+        "https://restaurant-website-dusky-one.vercel.app/user/updatePassword",
         {
+          currentPassword,
           newPassword,
         },
-
         {
           headers: {
             token: `resApp ${token}`,
@@ -137,17 +167,12 @@ function Profile() {
       );
       if (response.status === 200) {
         toast.success("Password updated successfully!");
-        // setSuccessMessage("Password updated successfully!");
         setShowPasswordModal(false);
       } else {
         toast.error("Error updating password.");
-        // setServerError("Error updating password.");
       }
     } catch (error) {
-      // console.error("Error:", error);
       toast.error("An error occurred while updating password.");
-      //
-      // setServerError("An error occurred while updating password.");
     }
   };
 
@@ -170,10 +195,10 @@ function Profile() {
             value={email}
             id="email"
             className="p-2 border border-blue-200 outline-none rounded w-full md:w-2/3 text-sm"
+            readOnly
           />
         </div>
 
-        {/* First Name */}
         <div className="flex flex-col md:flex-row items-start md:items-center">
           <label
             htmlFor="firstName"
@@ -195,7 +220,6 @@ function Profile() {
           )}
         </div>
 
-        {/* Last Name */}
         <div className="flex flex-col md:flex-row items-start md:items-center">
           <label
             htmlFor="lastName"
@@ -217,7 +241,6 @@ function Profile() {
           )}
         </div>
 
-        {/* Phone Number */}
         <div className="flex flex-col md:flex-row items-start md:items-center">
           <label
             htmlFor="phoneNumber"
@@ -232,124 +255,119 @@ function Profile() {
             id="phoneNumber"
             className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded w-full md:w-2/3 text-sm"
             required
-            onChange={(e) => setPhoneNumber(e.target.value.toString())}
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
           {phoneNumberError && (
             <p className="text-red-500 md:ml-4">{phoneNumberError}</p>
           )}
         </div>
-
-        <div className="flex flex-col sm:flex-row items-center justify-between mt-4">
-          <button
-            type="button"
-            className="text-green-500 text-base underline mb-2 sm:mb-0"
-            onClick={() => setShowEmailModal(true)}
-          >
-            CHANGE EMAIL
-          </button>
-          <button
-            type="button"
-            className="text-green-500 text-base underline"
-            onClick={() => setShowPasswordModal(true)}
-          >
-            CHANGE PASSWORD
-          </button>
-        </div>
+        
 
         <button
           type="submit"
-          className={`btn bg-orange-500 text-white w-full sm:w-2/3 md:w-1/2 lg:w-1/3 mx-auto py-2 text-lg rounded ${loading && "cursor-wait"}`}
+          className={`bg-orange-500 text-white py-2 px-4 rounded ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
           disabled={loading}
         >
-          Update
+          {loading ? "Loading..." : "Update Profile"}
         </button>
-
-        {serverError && (
-          <p className="text-red-500 text-center">{serverError}</p>
-        )}
-        {successMessage && (
-          <p className="text-green-500 text-center">{successMessage}</p>
-        )}
+        {successMessage && <p className="text-green-500">{successMessage}</p>}
+        {serverError && <p className="text-red-500">{serverError}</p>}
       </form>
+
+      <div className="flex justify-center gap-4 mt-4">
+        <button
+          onClick={() => setShowEmailModal(true)}
+          className=" text-green-500 py-2 px-4 "
+        >
+          CHANGE EMAIL
+        </button>
+        <button
+          onClick={() => setShowPasswordModal(true)}
+          className=" text-green-500 py-2 px-4"
+        >
+          CHANGE PASSWORD
+        </button>
+      </div>
+
+
       {/* Email Modal */}
       {showEmailModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-md shadow-md w-1/2">
-            <h3 className="text-orange-500 bg-gray-100 mb-0 p-3 rounded-t-md mb-2">
-              Change Email
-            </h3>
-            <input
-              type="password"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              placeholder="Current Password"
-              className="p-2 border border-blue-200 rounded w-full mb-4 focus:border-blue-500"
-            />
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h2 className="text-xl mb-4">Change Email</h2>
             <input
               type="email"
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
-              placeholder="New Email"
-              className="p-2 border border-blue-200 rounded w-full mb-4 focus:border-blue-500"
+              placeholder="Enter new email"
+              className="p-2 border border-gray-300 rounded mb-4 w-full"
             />
-            {emailError && <p className="text-red-500">{emailError}</p>}
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={() => setShowEmailModal(false)}
-                className="bg-white text-green-500 border border-green-500 rounded w-48 p-2"
-              >
-                Cancel
-              </button>
+            <div className="flex justify-end">
               <button
                 onClick={handleChangeEmail}
-                className="bg-green-500 text-white p-2 rounded w-48 ml-4"
+                className="bg-green-500 text-white py-2 px-4 rounded"
               >
                 Update Email
               </button>
+              <button
+                onClick={() => setShowEmailModal(false)}
+                className="ml-2 bg-gray-300 py-2 px-4 rounded"
+              >
+                Cancel
+              </button>
             </div>
+            {emailError && <p className="text-red-500">{emailError}</p>}
           </div>
         </div>
       )}
 
-      {/* Password Modal */}
+      {/* Change Password Modal */}
       {showPasswordModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-md shadow-md w-1/2">
-            <h3 className="text-orange-500 bg-gray-100 p-3  mb-4 font-DM Serif Display">
-              Change Password
-            </h3>
-
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h2 className="text-xl mb-4">Change Password</h2>
+            <input
+              type="password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              placeholder="Current Password"
+              className="p-2 border border-gray-300 rounded mb-4 w-full"
+            />
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Current Password"
-              className="p-2 border border-blue-200 rounded w-full mb-4"
-            />
-            <input
-              type="password"
               placeholder="New Password"
-              className="p-2 border border-blue-200 rounded w-full mb-4"
+              className="p-2 border border-gray-300 rounded mb-4 w-full"
             />
+            {passwordError && <p className="text-red-500">{passwordError}</p>}
             <input
               type="password"
-              placeholder="Confirm Password"
-              className="p-2 border border-blue-200 rounded w-full mb-4"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm New Password"
+              className="p-2 border border-gray-300 rounded mb-4 w-full"
             />
-            <div className="flex justify-between mt-4">
+            {confirmPasswordError && (
+              <p className="text-red-500">{confirmPasswordError}</p>
+            )}
+            <div className="flex justify-end">
+              <button
+                onClick={handleChangePassword}
+                className="bg-green-500 text-white py-2 px-4 rounded"
+              >
+                Update Password
+              </button>
               <button
                 onClick={() => setShowPasswordModal(false)}
-                className="bg-white text-green-500 border border-green-500 rounded w-48 p-2"
+                className="ml-2 bg-gray-300 py-2 px-4 rounded"
               >
                 Cancel
               </button>
-              <button
-                onClick={handleChangePassword}
-                className="bg-green-500 text-white p-2 rounded w-48 ml-4"
-              >
-                Update
-              </button>
             </div>
+            {serverError && <p className="text-red-500">{serverError}</p>}
           </div>
         </div>
       )}

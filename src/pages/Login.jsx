@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/Login/Login";
 import "./login/login.css";
 import axios from "axios";
+import {  toast } from "react-toastify";
 
 function Login() {
   const { login, setAdmin, isLoggedIn,setUserOpject } = useContext(LoginContext); 
@@ -30,13 +31,14 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://restaurant-website-dusky-one.vercel.app/user/signIn/",
+        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/user/signIn/",
         { identifier, password }
       );
 
   
     
     localStorage.setItem("user",JSON.stringify(response.data.user) )
+    
     localStorage.setItem("token", response.data.token);
     
       if (response.data.user.role === "Admin") {
@@ -51,7 +53,7 @@ function Login() {
         const { token } = response.data;
 
         if (!token) {
-          setServerError("Token not received. Please try again.");
+          toast.error("Failed to login. Please try again.");
           setIsLoading(false);
           return;
         }
@@ -62,14 +64,15 @@ function Login() {
         
         localStorage.setItem("userId", response.data.user._id);
 
-        setSuccessMessage("Login successful! Welcome back!");
+        toast.success("Login successful! Welcome back!");
+
         
 
         setTimeout(() => {
           navigate("/");
         }, 700);
       } else {
-        setServerError("Unexpected server response. Please try again.");
+        toast.error("Unexpected server response. Please try again.");
       }
     } catch (error) {
       console.error("Error caught:", error);
@@ -77,7 +80,7 @@ function Login() {
 
       if (error.response) {
         if (error.response.status === 401) {
-          setServerError("Invalid identifier or password.");
+          setServerError("Invalid email or password.");
         } else {
           setServerError(
             `Error: ${error.response.data.message || "An unexpected error occurred."}`

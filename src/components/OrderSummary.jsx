@@ -40,7 +40,7 @@ function OrderSummary({ order, onBack }) {
     try {
       
       const response = await axios.post(
-        'https://restaurant-website-dusky-one.vercel.app/review',
+        'http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/review',
         reviewData,
         {
           headers: {
@@ -96,7 +96,7 @@ function OrderSummary({ order, onBack }) {
             {order.menuItems.map((item, index) => (
               <li key={index} className="flex gap-4 items-start border-b pb-4">
                 <img
-                  src={item.menuItem.image.secure_url} 
+                  src={item.menuItem.image.secure_url}
                   alt={item.menuItem.name}
                   className="w-24 h-24 object-cover rounded-md"
                 />
