@@ -16,13 +16,14 @@ function ManageItem() {
 
 
   const allCato = async () => {
-    console.log(132);
+
     
     try {
       const response = await axios.get(
         `https://restaurant-website-dusky-one.vercel.app/category`,
         {
           headers: {
+            
             token: `resApp ${token}`
           },
         }

@@ -119,7 +119,7 @@ async function delet() {
         setSrefresh(!refresh)
 
       } catch (error) {
-        
+
         setUploadStatus('Failed to upload image.');
         console.error('Error uploading the image', error);
       }
