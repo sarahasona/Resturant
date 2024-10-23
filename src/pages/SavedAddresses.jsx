@@ -1,25 +1,41 @@
-import { useState,useContext } from "react";
+import { useState, useContext } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { LoginContext } from "../context/Login/Login";
 import AddAddress from "../components/AddAddress";
+import axios from "axios";
 
 function SavedAddresses() {
-  const { userOpject ,token} = useContext(LoginContext);
-  const [addresses, setAddresses] = useState(userOpject.addresses);
+  const { userOpject, token } = useContext(LoginContext);
+  const [addresses, setAddresses] = useState(userOpject.addresses || []);
   const [newAddress, setNewAddress] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
-  const [deleteId, setDeleteId] = useState(null); 
+  const [deleteId, setDeleteId] = useState(null);
+  const [editeId, setEditeId] = useState(null);
 
- 
-  
-  const openModal = (content, id = null) => {
+const temp = {
+
+
+  country: "New Country",
+  city: "city",
+  addressLabel: "New Address Label",
+  buildingNumber: 1,
+  floorNumber: 1,}
+
+
+  const openModal = (content, id = null,adress=temp) => {
+    
     setModalContent(content);
+    localStorage.setItem('adress', JSON.stringify(adress));
     if (content === "delete") {
       setDeleteId(id); 
     }
+    if (content === "edit") {
+      setEditeId(id);
+    }
     setModalOpen(true);
   };
+
 
   const closeModal = () => {
     setModalOpen(false);
@@ -27,18 +43,27 @@ function SavedAddresses() {
     setDeleteId(null); 
   };
 
- 
   const handleEditAddress = (id) => {
-  
-    
-    
-
   };
 
-  const handleDeleteAddress = () => {
-    const updatedAddresses = addresses.filter((address) => address.id !== deleteId); 
+  const handleDeleteAddress = async () => {
+    try {
+      const response = await axios.delete(
+        `https://restaurant-website-dusky-one.vercel.app/address/${deleteId}`,
+        {
+          headers: {
+            token: `resApp ${token}`
+          }
+        }
+      );
 
-    
+     
+      setAddresses(addresses.filter((address) => address._id !== deleteId));
+
+      closeModal(); 
+    } catch (error) {
+      console.error("Error deleting address:", error);
+    }
   };
 
   return (
@@ -60,19 +85,27 @@ function SavedAddresses() {
             className="mb-4 flex justify-between items-center border-b border-gray-200 pb-4"
           >
             <div>
-              <p className="font-semibold">Address: <span className="font-normal">{address.country +" "+ address.city +" "+address.addressLabel +" "+ address.buildingNumber + " "+address.floorNumber}</span></p>
-              <p className="text-gray-600 font-semibold">Mobile Number: <span className="font-normal">{userOpject.mobileNumber}</span></p>
+              <p className="font-semibold">
+                Address:{" "}
+                <span className="font-normal">
+                  {address.country + " " + address.city + " " + address.addressLabel + " " + address.buildingNumber + " " + address.floorNumber}
+                </span>
+              </p>
+              <p className="text-gray-600 font-semibold">
+                Mobile Number:{" "}
+                <span className="font-normal">{userOpject.mobileNumber}</span>
+              </p>
             </div>
             <div className="space-x-2">
               <button
                 className="text-green-500 border-none"
-                onClick={() => handleEditAddress(address._id)}
+                onClick={() => openModal("edit", address._id ,address)}
               >
                 Edit
               </button>
               <button
                 className="text-gray-500 border-none"
-                onClick={() => openModal("delete", address._id)} 
+                onClick={() => openModal("delete", address._id,address)}
               >
                 Delete
               </button>
@@ -90,9 +123,13 @@ function SavedAddresses() {
                "Add New Address"}
             </h3>
             {modalContent !== "delete" ? (
-            <AddAddress setModalOpen={setModalOpen} modalOpen={modalOpen}
-            newAddress={newAddress}
-             edit={true}/>
+              <AddAddress
+                setModalOpen={setModalOpen}
+                modalOpen={modalOpen}
+                newAddress={newAddress}
+                modalContent={modalContent}
+                editeId={editeId}
+              />
             ) : (
               <div>
                 <p>Are you sure you want to delete this address?</p>

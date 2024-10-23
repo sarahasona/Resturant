@@ -2,7 +2,7 @@ import React from 'react'
 import { LoginContext } from "../context/Login/Login";
 import axios from "axios";
 import { useState,useEffect,useContext,id } from 'react'
-function AddAddress(setModalOpen,modalOpen ,edit) {
+function AddAddress({setModalOpen,modalOpen ,edit,modalContent,editeId}) {
 
 
 
@@ -16,9 +16,14 @@ function AddAddress(setModalOpen,modalOpen ,edit) {
     const [firstNameError, setIsFirstNameError] = useState(false);
     const { userOpject ,token} = useContext(LoginContext);
     const [newAddress, setNewAddress] = useState(JSON.parse(localStorage.getItem("adress")));
-   
+    if(modalContent==="edit"){
+      
+    }
+
+
+
     useEffect(()=>{
-        if(modalOpen==="edite"){
+        if(modalContent==="edit"){
         setCity(newAddress.city)
         setCountry(newAddress.country)
         setBuildingNumber(newAddress.buildingNumber)
@@ -30,7 +35,7 @@ function AddAddress(setModalOpen,modalOpen ,edit) {
 
     function  cancel(e) {
         e.preventDefault();
-        setModalOpen.setModalOpen(false);
+        setModalOpen(false);
     }
     const subform=  async(e) =>{
         e.preventDefault();
@@ -62,11 +67,11 @@ function AddAddress(setModalOpen,modalOpen ,edit) {
           if  (validateAdress() && !addressEerro) {
             
             
-            if(modalOpen ==="add"){
+            if(modalContent ==="add"){
           
                 try {
                 const response = await axios.post(
-                  `https://restaurant-website-dusky-one.vercel.app/address/`,
+                  `https://restaurant-website-dusky-one.vercel.app/address`,
                   {
                     city,
                     country,
@@ -83,6 +88,7 @@ function AddAddress(setModalOpen,modalOpen ,edit) {
                
                 
                 
+    
                 
                 return response.data; 
               } catch (error) {
@@ -91,7 +97,7 @@ function AddAddress(setModalOpen,modalOpen ,edit) {
             }else{
                 try {
                     const response = await axios.put(
-                      `https://restaurant-website-dusky-one.vercel.app/address/id`,
+                      `https://restaurant-website-dusky-one.vercel.app/address/${editeId}`,
                       {
                         city,
                         country,
@@ -105,9 +111,8 @@ function AddAddress(setModalOpen,modalOpen ,edit) {
                         }
                       }
                     );
-        
+
                     
-          
                     
                     return response.data; 
                   } catch (error) {
@@ -116,7 +121,7 @@ function AddAddress(setModalOpen,modalOpen ,edit) {
             }
 
             localStorage.removeItem("adress")
-            setModalOpen(false)
+
 
             };
 
