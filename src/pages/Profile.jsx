@@ -61,7 +61,7 @@ function Profile() {
     try {
       setLoading(true);
       const response = await axios.patch(
-        `https://restaurant-website-dusky-one.vercel.app/user/`,
+        `http://127.0.0.1:5000/user/`,
         {
           firstName,
           lastName,
@@ -119,7 +119,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "https://restaurant-website-dusky-one.vercel.app/user",
+        "http://127.0.0.1:5000/user",
         {
           email: newEmail,
         },
@@ -163,7 +163,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "https://restaurant-website-dusky-one.vercel.app/user/updatePassword",
+        "http://127.0.0.1:5000/user/updatePassword",
         {
           currentPassword,
           newPassword,

@@ -33,14 +33,11 @@ function LoginProvider({ children }) {
   //geet user address
   const getUserAddress = async () => {
     try {
-      const response = await axios.get(
-        `https://restaurant-website-dusky-one.vercel.app/address`,
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`http://127.0.0.1:5000/address`, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       if (response.status === 200) {
         setUserAddress(response.data?.addresses || []);
       } else {
@@ -52,9 +49,7 @@ function LoginProvider({ children }) {
   };
   const getAllCategories = async () => {
     try {
-      const response = await axios.get(
-        "https://restaurant-website-dusky-one.vercel.app/category"
-      );
+      const response = await axios.get("http://127.0.0.1:5000/category");
       if (response.status === 200) {
         setCategories(response.data?.categories || []);
       } else {
@@ -87,14 +82,11 @@ function LoginProvider({ children }) {
   };
   const getUserCart = async () => {
     try {
-      const response = await axios.get(
-        "https://restaurant-website-dusky-one.vercel.app/cart",
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.get("http://127.0.0.1:5000/cart", {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       if (response.status === 200 && response.data?.cart?.cart) {
         const cartData = response.data.cart.cart;
         if (cartData.length > 0) {
@@ -128,7 +120,7 @@ function LoginProvider({ children }) {
   const removeMealFromCart = async (mealId) => {
     try {
       const response = await axios.delete(
-        `https://restaurant-website-dusky-one.vercel.app/cart/${mealId}`,
+        `http://127.0.0.1:5000/cart/${mealId}`,
         {
           headers: {
             token: `resApp ${token}`,
@@ -153,7 +145,7 @@ function LoginProvider({ children }) {
   const addToCart = async (mealId, quantity) => {
     try {
       const response = await axios.post(
-        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/cart/update",
+        "http://127.0.0.1:5000/cart/update",
         { itemId: mealId, count: quantity },
         {
           headers: {
@@ -176,14 +168,11 @@ function LoginProvider({ children }) {
   };
   const removeAllCartMeals = async () => {
     try {
-      const response = await axios.delete(
-        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/cart/clear",
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete("http://127.0.0.1:5000/cart/clear", {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       if (response.status === 200) {
         setCartCount(0);
         setUserCart([]);
@@ -202,7 +191,7 @@ function LoginProvider({ children }) {
   const getAllFavourit = async () => {
     try {
       const response = await axios.get(
-        `http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/menu/favourite
+        `http://127.0.0.1:5000/menu/favourite
 `,
         {
           headers: {

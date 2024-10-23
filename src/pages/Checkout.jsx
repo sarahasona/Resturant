@@ -69,14 +69,11 @@ const Checkout = () => {
   //get order Data
   const getUserOrder = async () => {
     try {
-      const response = await axios.get(
-        "https://restaurant-website-dusky-one.vercel.app/order",
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.get("http://127.0.0.1:5000/order", {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       console.log(response);
       if (response.status == 200) {
         console.log(response.data);
@@ -132,7 +129,7 @@ const Checkout = () => {
     try {
       setSavingData(true);
       const response = await axios.post(
-        "https://restaurant-website-dusky-one.vercel.app/order/",
+        "http://127.0.0.1:5000/order/",
         orderData,
         {
           headers: {
@@ -148,7 +145,7 @@ const Checkout = () => {
         if (selectedMethod == "card") {
           setShowPaymentBtns(true);
           setOrderId(response.data.order._id);
-          console.log(orderId)
+          console.log(orderId);
         } else {
           setShowPaymentBtns(false);
           navigate(`/account/orders`);
@@ -164,14 +161,11 @@ const Checkout = () => {
 
   //get user Adresses
   const getUserAddresses = async () => {
-    const response = await axios.get(
-      "https://restaurant-website-dusky-one.vercel.app/address",
-      {
-        headers: {
-          token: `resApp ${token}`,
-        },
-      }
-    );
+    const response = await axios.get("http://127.0.0.1:5000/address", {
+      headers: {
+        token: `resApp ${token}`,
+      },
+    });
     if (response.status == 200) {
       setUserAddress(response.data.addresses);
       setSelectAddress(response.data.addresses[0]._id);

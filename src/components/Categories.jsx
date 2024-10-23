@@ -14,7 +14,7 @@ const Catagories = () => {
   // const getAllCategories = async () => {
   //   try {
   //     const response = await axios.get(
-  //       "https://restaurant-website-dusky-one.vercel.app/category",
+  //       "http://127.0.0.1:5000/category",
   //       {
   //         headers: {
   //           token: `resApp ${userToken}`,

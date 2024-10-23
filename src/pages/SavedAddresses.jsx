@@ -44,20 +44,20 @@ function SavedAddresses() {
     setDeleteId(null);
   };
 
-
-
   const handleDeleteAddress = async () => {
     try {
       const response = await axios.delete(
-        `http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/address/${deleteId}`,
+        `http://127.0.0.1:5000/address/${deleteId}`,
         {
           headers: {
             token: `resApp ${token}`,
           },
         }
       );
-      if(response.status == 200){
-        setUserAddress(userAddress.filter((address) => address._id !== deleteId));
+      if (response.status == 200) {
+        setUserAddress(
+          userAddress.filter((address) => address._id !== deleteId)
+        );
         toast.warning("Address Deleted Successfuly");
       }
       closeModal();

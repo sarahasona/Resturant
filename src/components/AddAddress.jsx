@@ -89,7 +89,7 @@ function AddAddress({
       if (modalContent === "add") {
         try {
           const response = await axios.post(
-            `https://restaurant-website-dusky-one.vercel.app/address`,
+            `http://127.0.0.1:5000/address`,
             {
               city,
               country,
@@ -104,17 +104,17 @@ function AddAddress({
             }
           );
           setUserAddress((prev) => [...prev, response.data.address]);
-          console.log(response.data.address)
+          console.log(response.data.address);
           setModalOpen(false);
-          toast.success('Address Added Successfuly')
+          toast.success("Address Added Successfuly");
           return response.data;
         } catch (error) {
-          toast.error('Error Adding Address ',error.message)
+          toast.error("Error Adding Address ", error.message);
         }
       } else {
         try {
           const response = await axios.put(
-            `https://restaurant-website-dusky-one.vercel.app/address/${editeId}`,
+            `http://127.0.0.1:5000/address/${editeId}`,
             {
               city,
               country,
@@ -134,10 +134,10 @@ function AddAddress({
             )
           );
           setModalOpen(false);
-          toast.success('Address Edited Successfuly')
+          toast.success("Address Edited Successfuly");
           return response.data;
         } catch (error) {
-          toast.error('Error Editing Address ',error.message)
+          toast.error("Error Editing Address ", error.message);
         }
       }
 

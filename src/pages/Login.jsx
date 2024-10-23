@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/Login/Login";
 import "./login/login.css";
 import axios from "axios";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function Login() {
-  const { login, setAdmin, isLoggedIn, setUserOpject,setIsLoggedIn,token } =
+  const { login, setAdmin, isLoggedIn, setUserOpject, setIsLoggedIn, token } =
     useContext(LoginContext);
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
@@ -17,8 +17,6 @@ function Login() {
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     resetErrors();
@@ -26,17 +24,15 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/user/signIn/",
-        { identifier, password }
-      );
+      const response = await axios.post("http://127.0.0.1:5000/user/signIn/", {
+        identifier,
+        password,
+      });
 
-  
-    
-    localStorage.setItem("user",JSON.stringify(response.data.user) )
-    
-    localStorage.setItem("token", response.data.token);
-    
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      localStorage.setItem("token", response.data.token);
+
       if (response.data.user.role === "Admin") {
         setAdmin(true);
       } else {
@@ -59,8 +55,6 @@ function Login() {
         localStorage.setItem("userId", response.data.user._id);
 
         toast.success("Login successful! Welcome back!");
-
-        
 
         setTimeout(() => {
           navigate("/");

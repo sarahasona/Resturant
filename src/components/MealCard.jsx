@@ -36,7 +36,7 @@ const Cards = ({
         isAlreadyFavorite = favourite.some((fav) => fav._id === mealId);
       }
       const response = await axios.post(
-        "https://restaurant-website-dusky-one.vercel.app/menu/favourite",
+        "http://127.0.0.1:5000/menu/favourite",
         { itemId: mealId },
         {
           headers: {

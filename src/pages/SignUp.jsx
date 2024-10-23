@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios"; 
-import "../pages/signup/signup.css"; 
+import axios from "axios";
+import "../pages/signup/signup.css";
 
 function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -14,15 +14,15 @@ function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [city, setCity] = useState('');
-  const [country, setCountry] = useState('');
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [buildingNumber, setBuildingNumber] = useState(1);
   const [floorNumber, setFloorNumber] = useState(1);
-  const [addressLabel, setAddressLabel] = useState('');
+  const [addressLabel, setAddressLabel] = useState("");
   const [addressEerro, setAddressError] = useState(null);
   const [address, setAddress] = useState(false);
-  const [droplist,setdroplist]=useState(false)
-  const [isLoading, setIsLoading] = useState(false); 
+  const [droplist, setdroplist] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const resetErrors = () => {
     setEmailError("");
@@ -59,34 +59,26 @@ function SignUp() {
       setEmailError("Please enter a valid email");
       return;
     }
-    if(!validateAdress() || addressEerro){
-
-      
-      return
+    if (!validateAdress() || addressEerro) {
+      return;
     }
 
-    setIsLoading(true); 
+    setIsLoading(true);
 
     try {
- 
-      
-      const response = await axios.post("http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/user/signUp", {
+      const response = await axios.post("http://127.0.0.1:5000/user/signUp", {
         firstName,
         lastName,
         email,
         password,
- 
+
         city,
         country,
         buildingNumber,
         floorNumber,
         addressLabel,
-        
       });
 
-    
-
-      
       console.log("User created:", response.data);
       navigate("/", { replace: true });
     } catch (error) {
@@ -95,12 +87,8 @@ function SignUp() {
       } else {
         setEmailError("An unexpected error occurred. Please try again later.");
       }
-     
-      
-      
-      
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
@@ -110,37 +98,54 @@ function SignUp() {
   };
 
   const validatePassowrd = () => {
-    const emailRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const emailRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     emailRegex.test(password);
     return emailRegex.test(password);
   };
 
-   const validateAdress = () => {
-    if (typeof city !== 'string' || city.length < 3 || city.length > 50) {
-      setAddressError('City must be a string and between 3 and 50 characters.');
+  const validateAdress = () => {
+    if (typeof city !== "string" || city.length < 3 || city.length > 50) {
+      setAddressError("City must be a string and between 3 and 50 characters.");
       return false;
-    } else if (typeof country !== 'string' || country.length < 3 || country.length > 50) {
-      setAddressError('Country must be a string and between 3 and 50 characters.');
+    } else if (
+      typeof country !== "string" ||
+      country.length < 3 ||
+      country.length > 50
+    ) {
+      setAddressError(
+        "Country must be a string and between 3 and 50 characters."
+      );
       return false;
-    } else if (typeof addressLabel !== 'string' || addressLabel.length < 3 || addressLabel.length > 50) {
-      setAddressError('Address label must be a string and between 3 and 50 characters.');
+    } else if (
+      typeof addressLabel !== "string" ||
+      addressLabel.length < 3 ||
+      addressLabel.length > 50
+    ) {
+      setAddressError(
+        "Address label must be a string and between 3 and 50 characters."
+      );
       return false;
-    } else if (isNaN(Number(buildingNumber)) || Number(buildingNumber) < 1 || Number(buildingNumber) > 100) {
-      setAddressError('Building number must be a number between 1 and 100.');
+    } else if (
+      isNaN(Number(buildingNumber)) ||
+      Number(buildingNumber) < 1 ||
+      Number(buildingNumber) > 100
+    ) {
+      setAddressError("Building number must be a number between 1 and 100.");
       return false;
-    } else if (isNaN(Number(floorNumber)) || Number(floorNumber) < 1 || Number(floorNumber) > 15) {
-      setAddressError('Floor number must be a number between 1 and 15.');
+    } else if (
+      isNaN(Number(floorNumber)) ||
+      Number(floorNumber) < 1 ||
+      Number(floorNumber) > 15
+    ) {
+      setAddressError("Floor number must be a number between 1 and 15.");
       return false;
     } else {
       setAddressError(null);
       return true;
     }
-    
-    
-  
-  }
+  };
 
-  
   return (
     <div className="container items-center mx-auto px-4 md:px-8">
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 rounded">
@@ -152,7 +157,9 @@ function SignUp() {
       >
         {/* First Name */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="firstName" className="mb-2">First Name</label>
+          <label htmlFor="firstName" className="mb-2">
+            First Name
+          </label>
           <input
             type="text"
             placeholder="First Name"
@@ -167,7 +174,9 @@ function SignUp() {
 
         {/* Last Name */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="lastName" className="mb-2">Last Name</label>
+          <label htmlFor="lastName" className="mb-2">
+            Last Name
+          </label>
           <input
             type="text"
             placeholder="Last Name"
@@ -182,7 +191,9 @@ function SignUp() {
 
         {/* Email */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="email" className="mb-2">Email</label>
+          <label htmlFor="email" className="mb-2">
+            Email
+          </label>
           <input
             type="email"
             placeholder="Email"
@@ -197,7 +208,9 @@ function SignUp() {
 
         {/* Password */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="password" className="mb-2">Password</label>
+          <label htmlFor="password" className="mb-2">
+            Password
+          </label>
           <input
             type="password"
             placeholder="Password"
@@ -212,7 +225,9 @@ function SignUp() {
 
         {/* Confirm Password */}
         <div className="formgroup flex flex-col">
-          <label htmlFor="confirm" className="mb-2">Confirm Password</label>
+          <label htmlFor="confirm" className="mb-2">
+            Confirm Password
+          </label>
           <input
             type="password"
             placeholder="Password"
@@ -222,84 +237,95 @@ function SignUp() {
             required
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          {confirmPasswordError && <p className="text-red-500">{confirmPasswordError}</p>}
+          {confirmPasswordError && (
+            <p className="text-red-500">{confirmPasswordError}</p>
+          )}
         </div>
         {/* adress          */}
-       <p className="text-center" > adress</p>
-        <i className="fa-solid fa-arrow-down-wide-short text-center "  onClick={()=>setdroplist(!droplist)}></i>
-      {
-        droplist &&
-        (
+        <p className="text-center"> adress</p>
+        <i
+          className="fa-solid fa-arrow-down-wide-short text-center "
+          onClick={() => setdroplist(!droplist)}
+        ></i>
+        {droplist && (
           <>
-          <div className="formgroup flex flex-col">
-          <label htmlFor="city" className="mb-2"> city</label>
-          <input
-            type="text"
-            placeholder="city"
-            name="city"
-            id="city"
-            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
-            
-            onChange={(e) => setCity(e.target.value)}
-          />
-      
-        </div>
+            <div className="formgroup flex flex-col">
+              <label htmlFor="city" className="mb-2">
+                {" "}
+                city
+              </label>
+              <input
+                type="text"
+                placeholder="city"
+                name="city"
+                id="city"
+                className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
 
-        <div className="formgroup flex flex-col">
-          <label htmlFor="country" className="mb-2"> country</label>
-          <input
-            type="text"
-            placeholder="country"
-            name="country"
-            id="country"
-            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
-            
-            onChange={(e) => setCountry(e.target.value)}
-          />
-          {firstNameError && <p className="text-red-500">{firstNameError}</p>}
-        </div>
-        <div className="formgroup flex flex-col">
-          <label htmlFor="bulding number" className="mb-2"> bulding number</label>
-          <input
-            type="text"
-            placeholder="bulding number"
-            name="bulding number"
-            id="bulding number"
-            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
-            
-            onChange={(e) => setBuildingNumber(e.target.value)}
-          />
-         
-        </div>
-        <div className="formgroup flex flex-col">
-          <label htmlFor="floor number" className="mb-2"> floor number</label>
-          <input
-            type="text"
-            placeholder="floor number"
-            name="floor number"
-            id="floor number"
-            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
-            
-            onChange={(e) => setFloorNumber(e.target.value)}
-          />
-        
-        </div>
-        <div className="formgroup flex flex-col">
-          <label htmlFor="adress" className="mb-2"> adress label</label>
-          <input
-            type="text"
-            placeholder="adress label"
-            name="adress label"
-            id="adress label"
-            className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
-            
-            onChange={(e) => setAddressLabel(e.target.value)}
-          />
-          {addressEerro && <p className="text-red-500">{addressEerro}</p>}
-        </div>
-</>
-        )
-      }
+            <div className="formgroup flex flex-col">
+              <label htmlFor="country" className="mb-2">
+                {" "}
+                country
+              </label>
+              <input
+                type="text"
+                placeholder="country"
+                name="country"
+                id="country"
+                className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+                onChange={(e) => setCountry(e.target.value)}
+              />
+              {firstNameError && (
+                <p className="text-red-500">{firstNameError}</p>
+              )}
+            </div>
+            <div className="formgroup flex flex-col">
+              <label htmlFor="bulding number" className="mb-2">
+                {" "}
+                bulding number
+              </label>
+              <input
+                type="text"
+                placeholder="bulding number"
+                name="bulding number"
+                id="bulding number"
+                className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+                onChange={(e) => setBuildingNumber(e.target.value)}
+              />
+            </div>
+            <div className="formgroup flex flex-col">
+              <label htmlFor="floor number" className="mb-2">
+                {" "}
+                floor number
+              </label>
+              <input
+                type="text"
+                placeholder="floor number"
+                name="floor number"
+                id="floor number"
+                className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+                onChange={(e) => setFloorNumber(e.target.value)}
+              />
+            </div>
+            <div className="formgroup flex flex-col">
+              <label htmlFor="adress" className="mb-2">
+                {" "}
+                adress label
+              </label>
+              <input
+                type="text"
+                placeholder="adress label"
+                name="adress label"
+                id="adress label"
+                className="p-2 border border-blue-200 focus:border-blue-500 outline-none rounded"
+                onChange={(e) => setAddressLabel(e.target.value)}
+              />
+              {addressEerro && <p className="text-red-500">{addressEerro}</p>}
+            </div>
+          </>
+        )}
 
         <button
           type="submit"
@@ -308,16 +334,18 @@ function SignUp() {
         >
           {isLoading ? (
             <>
-              <i className="fas fa-spinner fa-spin mr-2"></i> 
+              <i className="fas fa-spinner fa-spin mr-2"></i>
             </>
           ) : (
-            'Sign Up'
+            "Sign Up"
           )}
         </button>
 
         <p className="text-center mt-[5px]">
           Already have an account?{" "}
-          <Link to="/login" className="login-word text-orange-500">Login</Link>
+          <Link to="/login" className="login-word text-orange-500">
+            Login
+          </Link>
         </p>
       </form>
     </div>
