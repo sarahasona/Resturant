@@ -1,21 +1,57 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { LoginContext } from "../../context/Login/Login";
+import ShowItem from './CahngeItem';
 
-function AddCtgory({ setShowCay,catchng ,catC,setCatC,setSrefresh,refresh }) {
+function AddCtgory({ setShowCay,catchng ,catC,setCatC,setSrefresh,refresh,setCatchng }) {
   const { token } = useContext(LoginContext);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
   const [name, setName] = useState('');
-
-
+  const [showItems, setShowItems] = useState([]);
+  console.log(catchng.length);
 function handle() {
   setShowCay(true)
   setCatC(false)
-
+  setPreview(null)
+  setImage(null)
+  setName("")
+  setCatchng([])
+  console.log(catchng.length);
+  
   
 }
+
+async  function fetchData() {
+      
+  try {
+    const response = await axios.get(
+      `https://restaurant-website-dusky-one.vercel.app/menu/category/${catchng._id}`,
+
+      {
+        headers: {
+          token: `resApp ${token}`,
+          
+        },
+      }
+    );
+    return  response.data.Menuitems;
+
+    
+    
+
+
+  } catch (error) {
+
+    setUploadStatus('Failed to upload image.');
+    
+    console.error('Error uploading the image', error);
+  return []
+  }
+
+
+    }
 useEffect(()=>{
   
 
@@ -25,14 +61,27 @@ useEffect(()=>{
   setPreview(catchng.image.secure_url)
   setImage(catchng.image.secure_url)
   setName(catchng.name)
+  fetchData().then((data) => {
 
+    
+    if (data ) {
+      setShowItems(data); 
+    } else {
+      
+    }
+  });
+    
   }else{
+
+    
     
   setPreview(null)
   setImage(null)
   setName("")
   }
 },[])
+
+
 
 async function delet() {
 
@@ -79,8 +128,6 @@ async function delet() {
     if (JSON.stringify(catchng).length <3){
 
       try {
-        
-
         const response = await axios.post(
           `https://restaurant-website-dusky-one.vercel.app/category/`,
           formData,
@@ -163,12 +210,25 @@ async function delet() {
         className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5">
         Cancel
       </button>
-      <button 
+      {/* <button 
         type='button'
         onClick={delet} 
         className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5">
         Delete
-      </button>
+      </button> */}
+{/* 
+{
+            showItems.length > 0 ? (
+                showItems.map((category, index) => (
+                  <ShowItem
+                    key={index}
+                    category={category}
+                    setShowCay={setAddCat}
+                    setCatchng={setCatchng}
+                  />
+                ))
+              ) : <p>Loading</p>
+            } */}
     </div>
   );
 }
