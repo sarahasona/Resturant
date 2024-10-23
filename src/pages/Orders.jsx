@@ -13,7 +13,7 @@ function Orders() {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await axios.get("https://restaurant-website-dusky-one.vercel.app/order", {
+        const response = await axios.get("http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/order", {
           headers: {
             token: `resApp ${token}`, 
           },
@@ -40,7 +40,7 @@ function Orders() {
   const fetchOrderDetails = async (orderId) => {
     console.log("Fetching details for order:", orderId);
     try {
-      const response = await axios.get(`https://restaurant-website-dusky-one.vercel.app/order/${orderId}`, {
+      const response = await axios.get(`http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/order/${orderId}`, {
         headers: {
           token: `resApp ${token}`,
         },

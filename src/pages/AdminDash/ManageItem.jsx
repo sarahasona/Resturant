@@ -73,6 +73,7 @@ function ManageItem() {
           setCatC={setCatC}
           setSrefresh={setSrefresh}
           refresh={refresh}
+          setCatchng={setCatchng}
           /> 
         )
       }

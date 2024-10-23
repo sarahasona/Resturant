@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/Login/Login";
 import "./login/login.css";
 import axios from "axios";
-import { toast } from "react-toastify";
+import {  toast } from "react-toastify";
 
 function Login() {
-  const { login, setAdmin, isLoggedIn, setUserOpject,setIsLoggedIn } =
+  const { login, setAdmin, isLoggedIn, setUserOpject,setIsLoggedIn,token } =
     useContext(LoginContext);
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
@@ -17,13 +17,7 @@ function Login() {
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   // const token = sessionStorage.getItem("token");
-  //   if (token) {
-  //     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  //     setIsLoggedIn(true); // Set the login state to true
-  //   }
-  // }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,13 +27,16 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://restaurant-website-dusky-one.vercel.app/user/signIn/",
+        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/user/signIn/",
         { identifier, password }
       );
 
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-      localStorage.setItem("token", response.data.token);
-
+  
+    
+    localStorage.setItem("user",JSON.stringify(response.data.user) )
+    
+    localStorage.setItem("token", response.data.token);
+    
       if (response.data.user.role === "Admin") {
         setAdmin(true);
       } else {
@@ -50,8 +47,7 @@ function Login() {
         const { token } = response.data;
 
         if (!token) {
-          toast.error("Token not received. Please try again.");
-          // setServerError("Token not received. Please try again.");
+          toast.error("Failed to login. Please try again.");
           setIsLoading(false);
           return;
         }
@@ -61,15 +57,16 @@ function Login() {
         login(identifier);
 
         localStorage.setItem("userId", response.data.user._id);
-        toast.succee("Login successful! Welcome back!");
-        // setSuccessMessage("Login successful! Welcome back!");
+
+        toast.success("Login successful! Welcome back!");
+
+        
 
         setTimeout(() => {
           navigate("/");
         }, 700);
       } else {
         toast.error("Unexpected server response. Please try again.");
-        // setServerError("Unexpected server response. Please try again.");
       }
     } catch (error) {
       toast.error("Error Occured ", error.response?.data);
@@ -78,7 +75,7 @@ function Login() {
 
       if (error.response) {
         if (error.response.status === 401) {
-          setServerError("Invalid identifier or password.");
+          setServerError("Invalid email or password.");
         } else {
           setServerError(
             `Error: ${error.response.data.message || "An unexpected error occurred."}`

@@ -153,7 +153,7 @@ function LoginProvider({ children }) {
   const addToCart = async (mealId, quantity) => {
     try {
       const response = await axios.post(
-        "https://restaurant-website-dusky-one.vercel.app/cart/update",
+        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/cart/update",
         { itemId: mealId, count: quantity },
         {
           headers: {
@@ -177,7 +177,7 @@ function LoginProvider({ children }) {
   const removeAllCartMeals = async () => {
     try {
       const response = await axios.delete(
-        "https://restaurant-website-dusky-one.vercel.app/cart/clear",
+        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/cart/clear",
         {
           headers: {
             token: `resApp ${token}`,
@@ -202,7 +202,7 @@ function LoginProvider({ children }) {
   const getAllFavourit = async () => {
     try {
       const response = await axios.get(
-        `https://restaurant-website-dusky-one.vercel.app/menu/favourite
+        `http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/menu/favourite
 `,
         {
           headers: {
