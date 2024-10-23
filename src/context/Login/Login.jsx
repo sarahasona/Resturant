@@ -10,6 +10,7 @@ function LoginProvider({ children }) {
   const [userOpject, setUserOpject] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
+  const [userAddress, setUserAddress] = useState([]);
   const [category, setCategories] = useState([]);
 
   const userID = localStorage.getItem("userId");
@@ -29,7 +30,26 @@ function LoginProvider({ children }) {
       setAdmin(userData?.role === "Admin");
     }
   }, [userID, token]);
-
+  //geet user address
+  const getUserAddress = async () => {
+    try {
+      const response = await axios.get(
+        `https://restaurant-website-dusky-one.vercel.app/address`,
+        {
+          headers: {
+            token: `resApp ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setUserAddress(response.data?.addresses || []);
+      } else {
+        setUserAddress([]);
+      }
+    } catch (error) {
+      // toast.warning(error.message);
+    }
+  };
   const getAllCategories = async () => {
     try {
       const response = await axios.get(
@@ -230,6 +250,9 @@ function LoginProvider({ children }) {
         getAllFavourit,
         favouritList,
         setFavouriteList,
+        getUserAddress,
+        userAddress,
+        setUserAddress,
       }}
     >
       {children}

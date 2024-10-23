@@ -1,4 +1,5 @@
 import Payment from "../components/Payment";
+import axios from "axios";
 //! change the id to the actual order id
 
 import { useState, useContext, useEffect } from "react";
@@ -8,7 +9,6 @@ const Checkout = () => {
   const { getUserCart, userCart, totalPrice, calculateTotalCartPrice, token } =
     useContext(LoginContext);
   const [loading, setLoading] = useState(false);
-
 
   const orderDetails = {
     items: userCart,
@@ -20,7 +20,6 @@ const Checkout = () => {
     }, // Total Price of the Cart Items
     currency: "EGP", // Can be dynamic
   };
-
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -36,7 +35,33 @@ const Checkout = () => {
 
     fetchCart();
   }, []);
-
+  //get order Data
+  const getUserOrder = async () => {
+    try {
+      const response = await axios.get(
+        "https://restaurant-website-dusky-one.vercel.app/order",
+        {
+          headers: {
+            token: `resApp ${token}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.status == 200) {
+        console.log(response.data);
+        // save order data to the database
+      } else {
+        console.log("error in getting order data", response.data.error);
+        // handle error
+      }
+    } catch (error) {
+      console.error("Error getting order data", error.message);
+      // handle error
+    }
+  };
+  useEffect(() => {
+    getUserOrder();
+  }, []);
   // calculate total price
   useEffect(() => {
     calculateTotalCartPrice();
