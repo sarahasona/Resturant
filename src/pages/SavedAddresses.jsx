@@ -56,9 +56,10 @@ function SavedAddresses() {
           },
         }
       );
-
-      setUserAddress(userAddress.filter((address) => address._id !== deleteId));
-      toast.warning("Address Deleted Successfuly");
+      if(response.status == 200){
+        setUserAddress(userAddress.filter((address) => address._id !== deleteId));
+        toast.warning("Address Deleted Successfuly");
+      }
       closeModal();
     } catch (error) {
       toast.error("Error deleting address", error.message);

@@ -222,11 +222,12 @@ function MenuView() {
             currentItems.length > 0 ? (
               <>
                 <div className="meals-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
                   {currentItems.map((item) => (
                     <MealCard
                       key={item._id}
                       item={item}
-                      image={item.image.secure_url}
+                      image={item.image?.secure_url}
                       category={selectedCategory}
                       showDetails={true}
                       favourite={favouritList}

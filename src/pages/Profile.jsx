@@ -20,7 +20,6 @@ function Profile() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const { token, userOpject } = useContext(LoginContext);
   const [loading, setLoading] = useState(false);
-  const userID = localStorage.getItem("userId");
 
   useEffect(() => {
     const { email, firstName, lastName, mobileNumber } = userOpject;

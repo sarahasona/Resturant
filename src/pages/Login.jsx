@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/Login/Login";
 import "./login/login.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Login() {
-  const { login, setAdmin, isLoggedIn,setUserOpject } = useContext(LoginContext); 
+  const { login, setAdmin, isLoggedIn, setUserOpject,setIsLoggedIn } =
+    useContext(LoginContext);
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +21,7 @@ function Login() {
     const token = sessionStorage.getItem("token");
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setIsLoggedIn(true); // Set the login state to true
     }
   }, []);
 
@@ -34,24 +37,21 @@ function Login() {
         { identifier, password }
       );
 
-  
-    
-    localStorage.setItem("user",JSON.stringify(response.data.user) )
-    localStorage.setItem("token", response.data.token);
-    
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("token", response.data.token);
+
       if (response.data.user.role === "Admin") {
         setAdmin(true);
-    
       } else {
         setAdmin(false);
-     
       }
 
       if (response.status === 200) {
         const { token } = response.data;
 
         if (!token) {
-          setServerError("Token not received. Please try again.");
+          toast.error("Token not received. Please try again.");
+          // setServerError("Token not received. Please try again.");
           setIsLoading(false);
           return;
         }
@@ -59,21 +59,22 @@ function Login() {
         sessionStorage.setItem("token", token);
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         login(identifier);
-        
-        localStorage.setItem("userId", response.data.user._id);
 
-        setSuccessMessage("Login successful! Welcome back!");
-        
+        localStorage.setItem("userId", response.data.user._id);
+        toast.succee("Login successful! Welcome back!");
+        // setSuccessMessage("Login successful! Welcome back!");
 
         setTimeout(() => {
           navigate("/");
         }, 700);
       } else {
-        setServerError("Unexpected server response. Please try again.");
+        toast.error("Unexpected server response. Please try again.");
+        // setServerError("Unexpected server response. Please try again.");
       }
     } catch (error) {
-      console.error("Error caught:", error);
-      console.log("Error response data:", error.response?.data);
+      toast.error("Error Occured ", error.response?.data);
+      // console.error("Error caught:", error);
+      // console.log("Error response data:", error.response?.data);
 
       if (error.response) {
         if (error.response.status === 401) {
@@ -102,9 +103,9 @@ function Login() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/"); 
+      navigate("/");
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn]);
 
   return (
     <div className="container mx-auto px-4 md:px-8">
@@ -165,7 +166,7 @@ function Login() {
               <i className="fas fa-spinner fa-spin mr-2"></i>
             </>
           ) : (
-            'Login'
+            "Login"
           )}
         </button>
 
