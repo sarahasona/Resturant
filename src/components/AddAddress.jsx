@@ -23,8 +23,6 @@ function AddAddress({
   const [newAddress, setNewAddress] = useState(
     JSON.parse(localStorage.getItem("adress"))
   );
-  if (modalContent === "edit") {
-  }
 
   useEffect(() => {
     if (modalContent === "edit") {
@@ -106,7 +104,7 @@ function AddAddress({
             }
           );
           setUserAddress((prev) => [...prev, response.data.address]);
-
+          console.log(response.data.address)
           setModalOpen(false);
           toast.success('Address Added Successfuly')
           return response.data;
