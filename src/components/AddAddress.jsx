@@ -89,7 +89,7 @@ function AddAddress({
       if (modalContent === "add") {
         try {
           const response = await axios.post(
-            `http://127.0.0.1:5000/address`,
+            `http://127.0.0.1:8080/address`,
             {
               city,
               country,
@@ -114,7 +114,7 @@ function AddAddress({
       } else {
         try {
           const response = await axios.put(
-            `http://127.0.0.1:5000/address/${editeId}`,
+            `http://127.0.0.1:8080/address/${editeId}`,
             {
               city,
               country,

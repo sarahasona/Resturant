@@ -69,7 +69,7 @@ const Checkout = () => {
   //get order Data
   const getUserOrder = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:5000/order", {
+      const response = await axios.get("http://127.0.0.1:8080/order", {
         headers: {
           token: `resApp ${token}`,
         },
@@ -129,7 +129,7 @@ const Checkout = () => {
     try {
       setSavingData(true);
       const response = await axios.post(
-        "http://127.0.0.1:5000/order/",
+        "http://127.0.0.1:8080/order/",
         orderData,
         {
           headers: {
@@ -161,7 +161,7 @@ const Checkout = () => {
 
   //get user Adresses
   const getUserAddresses = async () => {
-    const response = await axios.get("http://127.0.0.1:5000/address", {
+    const response = await axios.get("http://127.0.0.1:8080/address", {
       headers: {
         token: `resApp ${token}`,
       },

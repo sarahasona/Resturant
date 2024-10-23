@@ -19,7 +19,7 @@ function MealDetail() {
   const getMealData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://127.0.0.1:5000/menu/${mealId}`);
+      const response = await axios.get(`http://127.0.0.1:8080/menu/${mealId}`);
       if (response.status == 200) {
         setMealData(response.data.menuItem);
         setLoading(false);

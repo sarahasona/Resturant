@@ -68,7 +68,7 @@ const ForgetPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/user/otpPassword",
+        "http://127.0.0.1:8080/user/otpPassword",
         { email }
       );
 
@@ -110,7 +110,7 @@ const ForgetPassword = () => {
     setMessage("");
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/user/forgetPassword",
+        "http://127.0.0.1:8080/user/forgetPassword",
         { email, otp, newPassword }
       );
       console.log("Response:", response);
@@ -134,7 +134,7 @@ const ForgetPassword = () => {
     setMessage("");
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/user/otpPassword",
+        "http://127.0.0.1:8080/user/otpPassword",
         { email }
       );
       setMessage("OTP has been resent to your email.");

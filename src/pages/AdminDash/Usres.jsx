@@ -13,7 +13,7 @@ function Users() {
 
   const allU = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/user/allUsers/`, {
+      const response = await axios.get(`http://127.0.0.1:8080/user/allUsers/`, {
         headers: {
           token: `resApp ${token}`,
         },

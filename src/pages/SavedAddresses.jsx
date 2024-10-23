@@ -47,7 +47,7 @@ function SavedAddresses() {
   const handleDeleteAddress = async () => {
     try {
       const response = await axios.delete(
-        `http://127.0.0.1:5000/address/${deleteId}`,
+        `http://127.0.0.1:8080/address/${deleteId}`,
         {
           headers: {
             token: `resApp ${token}`,

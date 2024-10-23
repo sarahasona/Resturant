@@ -13,7 +13,7 @@ function Orders() {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/order", {
+        const response = await axios.get("http://127.0.0.1:8080/order", {
           headers: {
             token: `resApp ${token}`,
           },
@@ -41,7 +41,7 @@ function Orders() {
     console.log("Fetching details for order:", orderId);
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/order/${orderId}`,
+        `http://127.0.0.1:8080/order/${orderId}`,
         {
           headers: {
             token: `resApp ${token}`,

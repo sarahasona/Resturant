@@ -83,7 +83,7 @@ function ChangeItems({
         console.log(123);
 
         const response = await axios.post(
-          `http://127.0.0.1:5000/menu?category=6719260373fdcec35732e0d8`,
+          `http://127.0.0.1:8080/menu?category=6719260373fdcec35732e0d8`,
 
           formData,
           price,
@@ -104,7 +104,7 @@ function ChangeItems({
     } else {
       try {
         const response = await axios.patch(
-          `http://127.0.0.1:5000/menu/${_id}`,
+          `http://127.0.0.1:8080/menu/${_id}`,
 
           formData,
           price,

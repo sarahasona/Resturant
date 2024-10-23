@@ -33,7 +33,7 @@ function LoginProvider({ children }) {
   //geet user address
   const getUserAddress = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/address`, {
+      const response = await axios.get(`http://127.0.0.1:8080/address`, {
         headers: {
           token: `resApp ${token}`,
         },
@@ -49,7 +49,7 @@ function LoginProvider({ children }) {
   };
   const getAllCategories = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:5000/category");
+      const response = await axios.get("http://127.0.0.1:8080/category");
       if (response.status === 200) {
         setCategories(response.data?.categories || []);
       } else {
@@ -82,7 +82,7 @@ function LoginProvider({ children }) {
   };
   const getUserCart = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:5000/cart", {
+      const response = await axios.get("http://127.0.0.1:8080/cart", {
         headers: {
           token: `resApp ${token}`,
         },
@@ -120,7 +120,7 @@ function LoginProvider({ children }) {
   const removeMealFromCart = async (mealId) => {
     try {
       const response = await axios.delete(
-        `http://127.0.0.1:5000/cart/${mealId}`,
+        `http://127.0.0.1:8080/cart/${mealId}`,
         {
           headers: {
             token: `resApp ${token}`,
@@ -145,7 +145,7 @@ function LoginProvider({ children }) {
   const addToCart = async (mealId, quantity) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/cart/update",
+        "http://127.0.0.1:8080/cart/update",
         { itemId: mealId, count: quantity },
         {
           headers: {
@@ -168,7 +168,7 @@ function LoginProvider({ children }) {
   };
   const removeAllCartMeals = async () => {
     try {
-      const response = await axios.delete("http://127.0.0.1:5000/cart/clear", {
+      const response = await axios.delete("http://127.0.0.1:8080/cart/clear", {
         headers: {
           token: `resApp ${token}`,
         },
@@ -191,7 +191,7 @@ function LoginProvider({ children }) {
   const getAllFavourit = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/menu/favourite
+        `http://127.0.0.1:8080/menu/favourite
 `,
         {
           headers: {

@@ -30,7 +30,7 @@ const Payment = ({ orderId }) => {
             createOrder: async (data, actions) => {
               try {
                 const response = await axios.post(
-                  "http://127.0.0.1:5000/pay/intiate",
+                  "http://127.0.0.1:8080/pay/intiate",
                   {
                     orderId: orderId,
                   },
@@ -53,7 +53,7 @@ const Payment = ({ orderId }) => {
               try {
                 const details = await actions.order.capture();
                 await axios.post(
-                  "http://127.0.0.1:5000/pay/update",
+                  "http://127.0.0.1:8080/pay/update",
                   {
                     orderId: orderId,
                     paypalOrderId: details.id,

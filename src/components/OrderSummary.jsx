@@ -47,7 +47,7 @@ function OrderSummary({ order, onBack }) {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/review",
+        "http://127.0.0.1:8080/review",
         reviewData,
         {
           headers: {

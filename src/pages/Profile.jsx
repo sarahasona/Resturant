@@ -61,7 +61,7 @@ function Profile() {
     try {
       setLoading(true);
       const response = await axios.patch(
-        `http://127.0.0.1:5000/user/`,
+        `http://127.0.0.1:8080/user/`,
         {
           firstName,
           lastName,
@@ -119,7 +119,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "http://127.0.0.1:5000/user",
+        "http://127.0.0.1:8080/user",
         {
           email: newEmail,
         },
@@ -163,7 +163,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "http://127.0.0.1:5000/user/updatePassword",
+        "http://127.0.0.1:8080/user/updatePassword",
         {
           currentPassword,
           newPassword,

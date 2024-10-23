@@ -11,7 +11,7 @@ const OrderCard = ({ order }) => {
   const handleUpdateStatus = async () => {
     try {
       await axios.patch(
-        `http://127.0.0.1:5000/order/admin/${order._id}`,
+        `http://127.0.0.1:8080/order/admin/${order._id}`,
         { status: orderStatus },
         {
           headers: {

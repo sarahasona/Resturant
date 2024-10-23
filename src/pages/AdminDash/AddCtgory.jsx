@@ -32,7 +32,7 @@ function AddCtgory({
   async function fetchData() {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/menu/category/${catchng._id}`,
+        `http://127.0.0.1:8080/menu/category/${catchng._id}`,
 
         {
           headers: {
@@ -69,7 +69,7 @@ function AddCtgory({
   async function delet() {
     try {
       const response = await axios.delete(
-        `http://127.0.0.1:5000/category/${catchng._id}`,
+        `http://127.0.0.1:8080/category/${catchng._id}`,
 
         {
           headers: {
@@ -106,7 +106,7 @@ function AddCtgory({
     if (JSON.stringify(catchng).length < 3) {
       try {
         const response = await axios.post(
-          `http://127.0.0.1:5000/category/`,
+          `http://127.0.0.1:8080/category/`,
           formData,
           {
             headers: {
@@ -125,7 +125,7 @@ function AddCtgory({
     } else {
       try {
         const response = await axios.patch(
-          `http://127.0.0.1:5000/category/${catchng._id}`,
+          `http://127.0.0.1:8080/category/${catchng._id}`,
           formData,
           {
             headers: {

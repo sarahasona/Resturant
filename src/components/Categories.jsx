@@ -14,7 +14,7 @@ const Catagories = () => {
   // const getAllCategories = async () => {
   //   try {
   //     const response = await axios.get(
-  //       "http://127.0.0.1:5000/category",
+  //       "http://127.0.0.1:8080/category",
   //       {
   //         headers: {
   //           token: `resApp ${userToken}`,

@@ -72,7 +72,7 @@ function MenuView() {
   const getCategoryMeals = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/menu/category/${catId}`
+        `http://127.0.0.1:8080/menu/category/${catId}`
       );
       if (response.status == 200) {
         setMenu(response.data);
@@ -94,7 +94,7 @@ function MenuView() {
   //get All meals
   const getAllMeals = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:5000/menu");
+      const response = await axios.get("http://127.0.0.1:8080/menu");
       if (response.status == 200) {
         setMenu(response.data.allMenu);
         setFilteredMenu(response.data.allMenu);
