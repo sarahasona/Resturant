@@ -12,7 +12,6 @@ function ManageItem() {
   const [catC, setCatC] = useState(false);
   const [refresh, setSrefresh] = useState(false);
 
-  
 
 
   const allCato = async () => {
@@ -35,11 +34,13 @@ function ManageItem() {
   };
 
   useEffect(() => {
+
     allCato().then((data) => {
       if (data && Array.isArray(data.categories)) {
         setCategories(data.categories);
       }
     });
+
   }, [refresh]);
   
  
