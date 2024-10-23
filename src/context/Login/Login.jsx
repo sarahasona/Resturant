@@ -253,6 +253,7 @@ function LoginProvider({ children }) {
         getUserAddress,
         userAddress,
         setUserAddress,
+        setIsLoggedIn,
       }}
     >
       {children}

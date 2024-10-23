@@ -32,9 +32,9 @@ function TableRow({ mealData, quantity, totalPrice, updateCart }) {
   return (
     <>
       <td className="border border-gray-300 py-2">
-        <p>{mealData.name}</p>
+        <p>{mealData?.name}</p>
         <img
-          src={mealData.image.secure_url}
+          src={mealData?.image?.secure_url}
           alt=""
           className="w-[100px] mx-auto rounded"
         />

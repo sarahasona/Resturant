@@ -98,19 +98,19 @@ const Cards = ({
       <figure className="flex justify-center items-center">
         <img
           src={image}
-          alt={item.name}
+          alt={item?.name}
           className="hover:scale-105 transition-all duration-300 md:h-72 w-[100%]"
         />
       </figure>
       <div className="card-body px-3 flex flex-col justify-between max-h-full">
-        <h2 className="card-title">{item.name}!</h2>
-        <p>{item.description}</p>
+        <h2 className="card-title">{item?.name}!</h2>
+        <p>{item?.description}</p>
         <div className="flex justify-start items-center gap-2">
-          {!showDetails && item.ingredients && (
+          {!showDetails && item?.ingredients && (
             <>
               <span className="text-label">Ingredients: </span>{" "}
               {/* Text before the map */}
-              {item.ingredients.map((ele, i) => (
+              {item?.ingredients.map((ele, i) => (
                 <span
                   key={i}
                   className="rounded p-2 bg-darkorange text-white mr-1"
@@ -124,7 +124,7 @@ const Cards = ({
         <div className="card-actions">
           <div className="flex justify-between items-center mt-2 mb-4">
             <h5 className="font-semibold">
-              <span className="text-sm text-red-500">LE </span> {item.price}
+              <span className="text-sm text-red-500">LE </span> {item?.price}
             </h5>
             <div className="flex gap-2 justify-center items-center">
               {showDetails ? (
@@ -139,7 +139,7 @@ const Cards = ({
               )}
               {token && (
                 <>
-                  {userCart.find((ele) => ele.menuItem._id == item._id) ? (
+                  {userCart.find((ele) => ele.menuItem?._id == item._id) ? (
                     <button
                       className={`btn btn-primary ${isLoading ? "cursor-wait" : ""}`}
                       disabled={isLoading}

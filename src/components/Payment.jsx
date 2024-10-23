@@ -91,7 +91,7 @@ const Payment = ({ orderId }) => {
     };
   }, [orderId]);
 
-  return <div id="paypal-button-container"></div>;
+  return <div id="paypal-button-container" className="z-10"></div>;
 };
 
 export default Payment;

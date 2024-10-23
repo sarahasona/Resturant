@@ -20,7 +20,8 @@ const OrderCard = ({ order }) => {
       console.error("Error updating order:", error);
     }
   };
-
+  console.log(order.menuItems);
+  
   return (
     <div className="border border-orange-300 shadow-md p-4 mb-4 rounded">
       <div className="flex justify-between items-center">
@@ -46,7 +47,9 @@ const OrderCard = ({ order }) => {
       <h3 className="mt-4 font-semibold">Ordered Items:</h3>
       <div className="grid grid-cols-1 gap-4">
         {order.menuItems.map(item => (
-          <div key={item._id} className="border border-gray-200 shadow-sm p-2 rounded">
+         
+          item.menuItem ? (
+            <div key={item._id} className="border border-gray-200 shadow-sm p-2 rounded">
             <img src={item.menuItem.image.secure_url} alt={item.menuItem.name} className="w-20 h-20 object-cover" />
             <div>
               <p className="font-semibold">{item.menuItem.name}</p>
@@ -54,6 +57,11 @@ const OrderCard = ({ order }) => {
               <p>Total Price: ${item.totalPrice}</p>
             </div>
           </div>
+          ):
+          (
+            <div>loding</div>
+          )
+         
         ))}
       </div>
       <p className="mt-4 text-center text-sm">Total: ${order.total}</p>
