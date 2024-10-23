@@ -10,12 +10,14 @@ function ManageItem() {
   const [categories, setCategories] = useState([]);
   const [catchng, setCatchng] = useState([]);
   const [catC, setCatC] = useState(false);
+  const [refresh, setSrefresh] = useState(false);
 
-  console.log(catC);
   
 
 
   const allCato = async () => {
+    console.log(132);
+    
     try {
       const response = await axios.get(
         `https://restaurant-website-dusky-one.vercel.app/category`,
@@ -37,7 +39,7 @@ function ManageItem() {
         setCategories(data.categories);
       }
     });
-  }, []);
+  }, [refresh]);
   
  
   return (
@@ -68,6 +70,8 @@ function ManageItem() {
           catC={catC}
           catchng={catchng}
           setCatC={setCatC}
+          setSrefresh={setSrefresh}
+          refresh={refresh}
           /> 
         )
       }

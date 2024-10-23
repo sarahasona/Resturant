@@ -8,13 +8,12 @@ import { toast } from "react-toastify";
 function SavedAddresses() {
   const { userOpject, token, getUserAddress, userAddress, setUserAddress } =
     useContext(LoginContext);
-  const [addresses, setAddresses] = useState(userOpject.addresses || []);
+
   const [newAddress, setNewAddress] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [deleteId, setDeleteId] = useState(null);
   const [editeId, setEditeId] = useState(null);
-  const [setSelectedEdit, setSelectedEdited] = useState({});
   useEffect(() => {
     getUserAddress();
   }, []);
@@ -45,7 +44,7 @@ function SavedAddresses() {
     setDeleteId(null);
   };
 
-  const handleEditAddress = (id) => {};
+
 
   const handleDeleteAddress = async () => {
     try {

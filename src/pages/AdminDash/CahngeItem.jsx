@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-const CatgoryCard = ({category, setShowCay ,setCatchng}) => {
+const ChangItem = ({category, setShowCay ,setCatchng}) => {
 
 function jandle(){
   setShowCay(false)
@@ -32,4 +32,4 @@ function jandle(){
   )
 }
 
-export default CatgoryCard
+export default ChangItem

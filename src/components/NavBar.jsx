@@ -102,14 +102,7 @@ function MainNavBar() {
               Home
             </Link>
           </li>
-          <li>
-            <Link
-              to="/about"
-              className={isActive("/about") ? "text-primary-hover" : ""}
-            >
-              About
-            </Link>
-          </li>
+         
           <li>
             <Link
               to="/menu"
@@ -128,23 +121,14 @@ function MainNavBar() {
               </Link>
             </li>
           )}
-          <li>
-            <Link
-              to="/offers"
-              className={isActive("/offers") ? "text-primary-hover" : ""}
-            >
-              Offers
-            </Link>
-          </li>
+         
         </ul>
 
         <div className="flex gap-[20px] justify-self-end items-center">
           <button onClick={() => setShowS(!showS)}>
             <i className="fa-solid fa-magnifying-glass hover:text-primary-hover"></i>
           </button>
-          <button>
-            <i className="fa-solid fa-wallet hover:text-primary-hover"></i>
-          </button>
+         
 
           {isLoggedIn ? (
             <>
@@ -234,37 +218,13 @@ function MainNavBar() {
                       Home
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/about" className={isActive("/about") ? "" : ""}>
-                      About
-                    </Link>
-                  </li>
+                 
                   <li>
                     <Link
                       to="/menu"
                       className={isActive("/menu") ? "text-primary-hover" : ""}
                     >
                       Menu
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/services"
-                      className={
-                        isActive("/services") ? "text-primary-hover" : ""
-                      }
-                    >
-                      Services
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/offers"
-                      className={
-                        isActive("/offers") ? "text-primary-hover" : ""
-                      }
-                    >
-                      Offers
                     </Link>
                   </li>
                 </ul>

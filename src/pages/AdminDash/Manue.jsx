@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useContext,useState,useEffect } from 'react'
 import { LoginContext } from "../../context/Login/Login"; 
-import CatgoryCard from './CatgoryCard';
+import ChangItem from './CahngeItem';
 
 function Manue() {
 
@@ -48,10 +48,11 @@ function Manue() {
       {
         categoriess.length > 0 ?(
           categoriess.map((category, index) => (
-            <CatgoryCard
+            <ChangItem
              key={index} 
              category={category}
              
+                  
              />
           ))
         ):<p>Looding</p>
