@@ -210,12 +210,12 @@ async function delet() {
         className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5">
         Cancel
       </button>
-      {/* <button 
+       <button 
         type='button'
         onClick={delet} 
         className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5">
         Delete
-      </button> */}
+      </button> 
 {/* 
 {
             showItems.length > 0 ? (

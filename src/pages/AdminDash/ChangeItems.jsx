@@ -3,7 +3,7 @@ import axios from 'axios';
 import { LoginContext } from "../../context/Login/Login";
 import AboutView from './../AboutView';
 function ChangeItems({ setShowCay,catchng ,item,setCatC,setSrefresh,refresh,setCatchng }) {
-
+  const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [publicId, setPublicId] = useState("");
     const [_id, setId] = useState(item._id);
@@ -38,16 +38,27 @@ useEffect(()=>{
     }
 },[])
 const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    
 
+
+
+    const file = e.target.files[0];
+    setImage(file);
     const reader = new FileReader();
     reader.onloadend = () => {
-    setImageUrl(reader.result);
-    console.log(imageUrl);
-    
+      setImageUrl(reader.result);
     };
     reader.readAsDataURL(file);
   };
+
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //   setImageUrl(reader.result);
+  //   console.log(imageUrl);
+    
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
  async function update(e) {
     e.preventDefault()
@@ -56,29 +67,36 @@ const handleImageChange = (e) => {
     const formData = new FormData();
     formData.append('image', imageUrl);
     formData.append('name', name);
-    formData.append('price', price);
-    formData.append('available', available);
-    formData.append("ingredients",ingredients)
+    // formData.append('price', price);
+    // formData.append('available', available);
+    // formData.append("ingredients",ingredients)
     console.log();
     
     
     console.log(formData.values("imageUrl"));
     
-    console.log({name , imageUrl,price,available,ingredients});
+    
     
     if (item.length==0) {
       try {
         
-
+        console.log(imageUrl)
+        console.log(123);
+        
         const response = await axios.post(
-          `https://restaurant-website-dusky-one.vercel.app/menu/`,
+          `https://restaurant-website-dusky-one.vercel.app/menu?category=67124f6bb580665932063a38`,
           
-            formData
+            formData,
+            price,
+            available,
+            name,
+            ingredients
+            
           
             ,
           {
             headers: {
-                "Content-Type": "multipart/form-data",
+              
 
               token: `resApp ${token}`,
               
@@ -101,7 +119,11 @@ const handleImageChange = (e) => {
         const response = await axios.patch(
           `https://restaurant-website-dusky-one.vercel.app/menu/${_id}`,
           
-            formData
+          formData,
+          price,
+          available,
+          name,
+          ingredients
           
             ,
           {
@@ -218,6 +240,7 @@ const handleImageChange = (e) => {
         className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5">
         Cancel
       </button>
+      
      
     </div>
   )

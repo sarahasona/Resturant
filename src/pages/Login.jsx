@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function Login() {
-  const { login, setAdmin, isLoggedIn, setUserOpject,setIsLoggedIn } =
+  const { login, setAdmin, isLoggedIn, setUserOpject,setIsLoggedIn,token } =
     useContext(LoginContext);
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
@@ -18,7 +18,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       setIsLoggedIn(true); // Set the login state to true
