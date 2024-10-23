@@ -45,7 +45,7 @@ const PaginatedTable = ({ data, rowsPerPage }) => {
             {/* <th className="border border-gray-300 py-2 px-1">id</th> */}
             <th className="border border-gray-300 py-2 px-1">Meal</th>
 
-            <th className="border border-gray-300 py-2 px-1">Image</th>
+            {/* <th className="border border-gray-300 py-2 px-1">Image</th> */}
             {/* <th className="border border-gray-300 py-2 px-1">Order Date</th> */}
 
             <th className="border border-gray-300 py-2 px-1">Quantity</th>

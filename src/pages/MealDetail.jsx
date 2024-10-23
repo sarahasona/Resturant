@@ -1,57 +1,54 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import MealCard from "../components/MealCard";
-import ClipLoader		 from "react-spinners/ClipLoader";
-
-const override = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-};
+import { toast } from "react-toastify";
+import Spinner from "../components/Spinner";
+import { LoginContext } from "../context/Login/Login";
 function MealDetail() {
   const location = useLocation();
   const { mealId } = location.state || {}; // Safely access state
-  // const [mealId, setMealId] = useState(null);
   const [mealData, setMealData] = useState({});
   let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#ffffff");
-
-  // const { id } = useParams();
+  const { favouritList, setFavouriteList, getAllFavourit } =
+    useContext(LoginContext);
   const getMealData = async () => {
     try {
       setLoading(true);
-      console.log(mealId)
       const response = await axios.get(
         `https://restaurant-website-dusky-one.vercel.app/menu/${mealId}	`
       );
       if (response.status == 200) {
         setMealData(response.data.menuItem);
-        console.log(mealData);
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("error fetching meal", error);
+      setMealData({});
       setLoading(false);
     }
   };
   useEffect(() => {
-    // setMealId(id); // update mealId when route params change
     getMealData();
   }, [mealId, location]);
+  // favourite
+  useEffect(() => {
+    getAllFavourit();
+  }, []);
   return (
     <div className="container flex justify-center items-center mx-auto px-[24px] mt-5 min-h-[70vh]">
-      {loading ? (<ClipLoader		
-        color={color}
-        loading={loading}
-        cssOverride={override}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-        
-      />):(<MealCard item={mealData} image={mealData.image?.secure_url}  showDetails={false} />)}
-      
+      {loading ? (
+        <Spinner />
+      ) : (
+        <MealCard
+          item={mealData}
+          image={mealData.image.secure_url}
+          showDetails={false}
+          favourite={favouritList}
+          setFavourite={setFavouriteList}
+        />
+      )}
     </div>
   );
 }

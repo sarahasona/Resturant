@@ -1,10 +1,7 @@
 
 function Checkout() {
   return (
-    <div>
-        HOWDY ! :D
-      
-    </div>
+    <div>Checkout</div>
   )
 }
 

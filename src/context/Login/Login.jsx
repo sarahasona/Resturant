@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 export const LoginContext = createContext();
 
+import { toast } from "react-toastify";
 function LoginProvider({ children }) {
   const [userName, setUserName] = useState("");
   const [admin, setAdmin] = useState(false);
@@ -16,6 +17,8 @@ function LoginProvider({ children }) {
   const [userCart, setUserCart] = useState([]);
   const [cartCount, setCartCount] = useState(0);
   const [totalPrice, setTotalPrice] = useState();
+
+  const [favouritList, setFavouriteList] = useState([]);
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
@@ -34,9 +37,11 @@ function LoginProvider({ children }) {
       );
       if (response.status === 200) {
         setCategories(response.data?.categories || []);
+      } else {
+        setCategories([]);
       }
     } catch (error) {
-      console.error(error);
+      toast.warning(error.message);
     }
   };
 
@@ -70,23 +75,21 @@ function LoginProvider({ children }) {
           },
         }
       );
-      if (response.status === 200) {
+      if (response.status === 200 && response.data?.cart?.cart) {
         const cartData = response.data.cart.cart;
-        console.log(cartData);
         if (cartData.length > 0) {
           setUserCart(cartData);
           setCartCount(cartData.length);
           calculateTotalCartPrice();
           return;
         }
-
-        // const userData = data.filter((item) => item.userId == userID);
-        // getCartCount();
-        // return userData ? setUserCart(userData) : setUserCart([]);
+      } else {
+        setUserCart([]);
+        setCartCount(0);
+        return;
       }
-      return setUserCart([]);
     } catch (error) {
-      console.error(error);
+      return setUserCart([]);
     }
   };
   const calculateTotalCartPrice = () => {
@@ -113,24 +116,21 @@ function LoginProvider({ children }) {
         }
       );
       if (response.status === 200) {
-        console.log(response);
         const cartData = response.data.cart.cart;
-        console.log(cartData);
         setCartCount(cartData.length);
         setUserCart(cartData);
+        toast.warning("Meal removed from cart");
       } else {
         throw new Error(
           "error occured when removing item from cart  pleaze try again"
         );
       }
     } catch (error) {
-      console.error("Error processing cart:", error);
+      toast.error("Error removing from cart:", error.message);
     }
   };
   // increae or decress meal in cart
   const addToCart = async (mealId, quantity) => {
-    console.log(mealId);
-    console.log(quantity);
     try {
       const response = await axios.post(
         "https://restaurant-website-dusky-one.vercel.app/cart/update",
@@ -142,19 +142,16 @@ function LoginProvider({ children }) {
         }
       );
       if (response.status === 200) {
-        console.log(response);
         const cartData = response.data.cart.cart;
-        console.log(response.data.cart.cart);
         setCartCount(cartData.length);
         setUserCart(cartData);
-        // setItemExist(true);
       } else {
         throw new Error(
           "error occured when adding item to cart  pleaze try again"
         );
       }
     } catch (error) {
-      console.error("Error adding to cart:", error);
+      toast.error("Error processing cart:", error.message);
     }
   };
   const removeAllCartMeals = async () => {
@@ -170,13 +167,37 @@ function LoginProvider({ children }) {
       if (response.status === 200) {
         setCartCount(0);
         setUserCart([]);
+        toast.warning("All items removed from cart");
       } else {
         throw new Error(
           "error occured when removing all cart items pleaze try again"
         );
       }
     } catch (error) {
-      console.error("Error removing all cart items:", error);
+      toast.error("Error removing all cart items:", error.message);
+    }
+  };
+
+  // get user favourite
+  const getAllFavourit = async () => {
+    try {
+      const response = await axios.get(
+        `https://restaurant-website-dusky-one.vercel.app/menu/favourite
+`,
+        {
+          headers: {
+            token: `resApp ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setFavouriteList(response.data.user.favourite);
+      } else {
+        setFavouriteList([]);
+        throw new Error("No favourites found");
+      }
+    } catch (error) {
+      // toast.error("Error getting all favourites:", error.message);
     }
   };
   return (
@@ -205,6 +226,10 @@ function LoginProvider({ children }) {
         setTotalPrice,
         addToCart,
         removeAllCartMeals,
+        calculateTotalCartPrice,
+        getAllFavourit,
+        favouritList,
+        setFavouriteList,
       }}
     >
       {children}

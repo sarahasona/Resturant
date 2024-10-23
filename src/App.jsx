@@ -12,28 +12,18 @@ import Manue from "./pages/AdminDash/Manue";
 import ManageItem from "./pages/AdminDash/ManageItem";
 import ManageOrders from "./pages/AdminDash/ManageOrders";
 import MenuView from "./pages/MenuView";
-import MealDetail from './pages/MealDetail';
+import MealDetail from "./pages/MealDetail";
 import Profile from "./pages/Profile";
 import AccountView from "./pages/AccountView";
 import SavedAddresses from "./pages/SavedAddresses";
 import Orders from "./pages/Orders";
 // import OrderSummary from "./components/OrderSummary";
 import ForgetPassword from "./pages/ForgetPass";
-import Checkout from "./pages/Checkout"  
-
-// const { createProxyMiddleware } = require('http-proxy-middleware');
-
-// module.exports = function(app) {
-//   app.use(
-//     '/api',
-//     createProxyMiddleware({
-//       target: 'https://api.example.com',
-//       changeOrigin: true,
-//     })
-//   );
-// };
-// import ForgotPass from "./pages/ForgotPass";
-import Cart from './pages/Cart'
+import Checkout from "./pages/Checkout";
+// toastify
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -57,8 +47,8 @@ function App() {
             {/* Account section */}
             <Route path="account" element={<AccountView />}>
               <Route path="profile" element={<Profile />} />
-              <Route path="saved-addresses" element={<SavedAddresses />} />             
-              <Route path="orders" element={<Orders />}/>    
+              <Route path="saved-addresses" element={<SavedAddresses />} />
+              <Route path="orders" element={<Orders />} />
             </Route>
             {/* menu section */}
             <Route path="/menu" element={<Navigate to="/menu/all" />} />
@@ -67,13 +57,22 @@ function App() {
             <Route path="menu/:category/:mealName" element={<MealDetail />} />
 
             {/* cart Route */}
-            <Route path="/cart" element={<Cart/>}/>
-            <Route path="/checkout" element={<Checkout/>}/>
-
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Route>
-
-
         </Routes>
+        {/* Add ToastContainer */}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </BrowserRouter>
     </LoginProvider>
   );

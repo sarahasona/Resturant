@@ -4,9 +4,18 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { LoginContext } from "../context/Login/Login";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const Cards = ({ item, image, showDetails, category }) => {
+const Cards = ({
+  item,
+  image,
+  showDetails,
+  category,
+  favourite,
+  setFavourite,
+}) => {
   const [isHeartFilled, setIsHeartFilled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [addOrDeleteCartItems, setAddDeleteCartItems] = useState([]);
   const {
     token,
@@ -20,20 +29,15 @@ const Cards = ({ item, image, showDetails, category }) => {
     addToCart,
   } = useContext(LoginContext);
   // const [itemExist, setItemExist] = useState(false);
-  const handleHeartClick = () => {
-    setIsHeartFilled(!isHeartFilled);
-  };
-
-  // Add meal to cart
-  const handleAddToCart = async (mealId) => {
-    addToCart(mealId,1);
-  };
-
-  // Remove meal from cart
-  const removeFromCart = async (mealId) => {
+  const handleHeartClick = async (mealId) => {
     try {
-      const response = await axios.delete(
-        `https://restaurant-website-dusky-one.vercel.app/cart/${mealId}`,
+      let isAlreadyFavorite = false;
+      if (favourite) {
+        isAlreadyFavorite = favourite.some((fav) => fav._id === mealId);
+      }
+      const response = await axios.post(
+        "https://restaurant-website-dusky-one.vercel.app/menu/favourite",
+        { itemId: mealId },
         {
           headers: {
             token: `resApp ${token}`,
@@ -41,33 +45,53 @@ const Cards = ({ item, image, showDetails, category }) => {
         }
       );
       if (response.status === 200) {
-        console.log(response);
-        const cartData = response.data.cart.cart;
-        console.log(cartData);
-        setCartCount(cartData.length);
-        setUserCart(cartData);
+        if (isAlreadyFavorite) {
+          // remove meal from array
+          setFavourite(favourite.filter((fav) => fav._id !== mealId));
+          toast.warning(response.data.message);
+        } else {
+          // add meal to array
+          setFavourite([...favourite, { _id: mealId }]);
+          toast.success(response.data.message);
+        }
+        setIsHeartFilled(!isAlreadyFavorite); // Toggle heart state
       } else {
-        throw new Error(
-          "error occured when removing item from cart  pleaze try again"
-        );
+        throw new Error("Failed to update favorite status");
       }
     } catch (error) {
-      console.error("Error processing cart:", error);
+      toast.error("Error adding or removing to Favourite", error.message);
     }
   };
-  // useEffect(() => {
-  //   // Check if the item exists in the cart after userCart is loaded/updated
-  //   if (userCart.length > 0) {
-  //     checkItemExist();
-  //   }
-  // }, [userCart]); // Re-run check when userCart changes
+  // Add meal to cart
+  const handleAddToCart = async (mealId) => {
+    setIsLoading(true);
+    await addToCart(mealId, 1);
+    setIsLoading(false);
+    toast.success("Meal Added Succssefuly to cart");
+  };
+  // Remove meal from cart
+  const removeFromCart = async (mealId) => {
+    setIsLoading(true);
+    await removeMealFromCart(mealId);
+    setIsLoading(false);
+  };
+  // Set initial heart status when `favourite` changes
+  useEffect(() => {
+    if (favourite) {
+      setIsHeartFilled(
+        favourite.some((fav) => {
+          return fav._id === item._id;
+        })
+      );
+    }
+  }, [favourite, item._id]);
   return (
     <div className="card shadow-xl relative md:my-5 rounded-xl">
       <div
         className={`rounded-full cursor-pointer z-10 rating gap-1 absolute right-0 top-0 p-4 heartStar bg-primary-hover ${
           isHeartFilled ? "text-rose-500" : "text-white"
         }`}
-        onClick={handleHeartClick}
+        onClick={() => handleHeartClick(item._id)}
       >
         <FaHeart className="w-5 h-5 cursor-pointer" />
       </div>
@@ -117,21 +141,23 @@ const Cards = ({ item, image, showDetails, category }) => {
                 <>
                   {userCart.find((ele) => ele.menuItem._id == item._id) ? (
                     <button
-                      className="btn btn-primary"
+                      className={`btn btn-primary ${isLoading ? "cursor-wait" : ""}`}
+                      disabled={isLoading}
                       onClick={() => {
                         removeFromCart(item._id);
                       }}
                     >
-                      Remove
+                      {isLoading ? "Removing" : "Remove"}
                     </button>
                   ) : (
                     <button
-                      className="btn bg-primary-hover text-white"
+                      className={`btn bg-primary-hover text-white ${isLoading ? "cursor-wait" : ""}`}
+                      disabled={isLoading}
                       onClick={() => {
                         handleAddToCart(item._id);
                       }}
                     >
-                      Add to Cart{" "}
+                      {isLoading ? "Adding" : "Add to Cart"}
                     </button>
                   )}
                 </>

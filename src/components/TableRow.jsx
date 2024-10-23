@@ -3,62 +3,56 @@ import { MdDelete } from "react-icons/md";
 
 import { useState, useContext } from "react";
 import { LoginContext } from "../context/Login/Login";
+import { toast } from "react-toastify";
 function TableRow({ mealData, quantity, totalPrice, updateCart }) {
-  const { removeMealFromCart,addToCart } = useContext(LoginContext);
-  //   const [loading, setLoading] = useState(false);
+  const { removeMealFromCart, addToCart } = useContext(LoginContext);
+  const [removeLoading, setRemoveLoading] = useState(false);
+  const [changeQuantity, setChangeQuantity] = useState(false);
   // remove meal from cart
-  const deleteItem = () => {
-    console.log(mealData._id);
-    removeMealFromCart(mealData._id);
+  const deleteItem = async () => {
+    setRemoveLoading(true);
+    await removeMealFromCart(mealData._id);
+    setRemoveLoading(false);
   };
-  const handleDecrease = () => {
-    addToCart(mealData._id,-1);
-
-    // if (quantity > 1) {
-    //   setQuantity((prevQuantity) => {
-    //     const newQuantity = prevQuantity - 1;
-    //     updateCart(data.id, newQuantity);
-    //     return newQuantity;
-    //   });
-    // }
+  const handleDecrease = async () => {
+    setChangeQuantity(true);
+    await addToCart(mealData._id, -1);
+    setChangeQuantity(false);
+    toast.success("Quantity Updated Successfuly");
   };
 
   //   Increase Meal quantity in cart
-  const handleIncrease = () => {
-    addToCart(mealData._id,1);
-
-    // setQuantity((prevQuantity) => {
-    //   const newQuantity = prevQuantity + 1;
-    //   updateCart(data.id, newQuantity);
-    //   return newQuantity;
-    // });
+  const handleIncrease = async () => {
+    setChangeQuantity(true);
+    await addToCart(mealData._id, 1);
+    setChangeQuantity(false);
+    toast.success("Quantity Updated Successfuly");
   };
 
   return (
     <>
-      {/* <td className="border border-gray-300">{data._id}</td> */}
-      <td className="border border-gray-300">{mealData.name}</td>
-
-      <td className="border border-gray-300">
+      <td className="border border-gray-300 py-2">
+        <p>{mealData.name}</p>
         <img
           src={mealData.image.secure_url}
           alt=""
           className="w-[100px] mx-auto rounded"
         />
       </td>
-      {/* <td className="border border-gray-300">{data.id}</td> */}
       <td className="align-middle">
         <div className="flex justify-center items-center">
           <CiCircleMinus
             size={20}
-            className="cursor-pointer"
+            className={`${changeQuantity ? "cursor-wait" : "cursor-pointer"}`}
             onClick={handleDecrease}
+            disabled={changeQuantity}
           />
           {quantity}
           <CiCirclePlus
             size={20}
-            className="cursor-pointer"
+            className={`${changeQuantity ? "cursor-wait" : "cursor-pointer"}`}
             onClick={handleIncrease}
+            disabled={changeQuantity}
           />
         </div>
       </td>
@@ -66,7 +60,8 @@ function TableRow({ mealData, quantity, totalPrice, updateCart }) {
       <td className="border border-gray-300">
         <MdDelete
           onClick={deleteItem}
-          className="text-red-500 cursor-pointer mx-auto"
+          className={`text-red-500 cursor-pointer mx-auto ${removeLoading ? "cursor-wait" : ""}`}
+          disabled={removeLoading}
         />
       </td>
     </>
