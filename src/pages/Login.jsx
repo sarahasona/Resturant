@@ -4,12 +4,12 @@ import { LoginContext } from "../context/Login/Login";
 import "./login/login.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-// import { useSocket } from "../context/socket/socket";
+import { useSocket } from "../context/socket/socket";
 
 function Login() {
   const { login, setAdmin, isLoggedIn, setUserOpject, setIsLoggedIn, token } =
     useContext(LoginContext);
-  // const { initializeSocket } = useSocket();
+  const { initializeSocket } = useSocket();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -52,7 +52,7 @@ function Login() {
           setIsLoading(false);
           return;
         }
-        // initializeSocket(response.data.user._id);
+        initializeSocket(response.data.user._id);
         login(identifier);
 
         localStorage.setItem("userId", response.data.user._id);

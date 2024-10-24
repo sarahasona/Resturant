@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useRef, useState, useEffect } from "react";
 import axios from "axios";
+import { useSocket } from "../socket/socket";
 export const LoginContext = createContext();
 
 import { toast } from "react-toastify";
@@ -24,6 +25,8 @@ function LoginProvider({ children }) {
   const [favouritList, setFavouriteList] = useState([]);
   const [catchng, setCatchng] = useState([]);
   const [showItems, setShowItems] = useState([]);
+  const oneTime = useRef(false);
+  const { initializeSocket } = useSocket();
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     setUserOpject(userData);
@@ -67,6 +70,10 @@ function LoginProvider({ children }) {
     setUserName(name);
     setIsLoggedIn(true);
   };
+  useEffect(() => {
+    if (oneTime.current) return;
+    initializeSocket(userID); //! replace with user id
+  }, [token, userID]);
 
   const logout = () => {
     setUserName("");

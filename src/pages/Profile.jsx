@@ -37,10 +37,7 @@ function Profile() {
     setPhoneNumber(mobileNumber || "");
   }, [userOpject]);
 
-  React.useEffect(() => {
-    if (oneTime.current) return;
-    initializeSocket("test"); //! replace with user id
-  }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

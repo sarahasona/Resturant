@@ -1,16 +1,13 @@
-import React from "react";
 import { useContext } from "react";
 import { LoginContext } from "../../context/Login/Login";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Confirm({ setShowC, delet, setRefresh, refresh }) {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
   const { token } = useContext(LoginContext);
-
   const handleDeletUsr = async () => {
     console.log(refresh);
-
     try {
       const response = await axios.delete(
         `${backendUrl}user/deleteUser/${delet}`,
@@ -20,10 +17,9 @@ function Confirm({ setShowC, delet, setRefresh, refresh }) {
           },
         }
       );
-
-      console.log("User deleted successfully:", response.data);
+      toast.success("User deleted successfully!");
     } catch (error) {
-      console.error(
+      toast.error(
         "Error deleting user:",
         error.response ? error.response.data : error.message
       );
@@ -42,10 +38,7 @@ function Confirm({ setShowC, delet, setRefresh, refresh }) {
           <button className="btn btn-primary" onClick={handleDeletUsr}>
             yes
           </button>
-          <button
-            className="btn btn-primary "
-            onClick={() => setShowC(false)}
-          >
+          <button className="btn btn-primary " onClick={() => setShowC(false)}>
             NO
           </button>
         </div>
