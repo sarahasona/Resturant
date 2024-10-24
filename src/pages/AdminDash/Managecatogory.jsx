@@ -3,7 +3,7 @@ import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
 import CatgoryCard from "./CatgoryCard";
 import AddCtgory from "./AddCtgory";
-
+import Spinner  from './../../components/Spinner';
 function ManageItem() {
   const [addCt, setAddCat] = useState(true);
   const { token, refresh, setSrefresh } = useContext(LoginContext);
@@ -11,6 +11,7 @@ function ManageItem() {
   const [catchng, setCatchng] = useState([]);
   const [catC, setCatC] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 
   const allCato = async () => {
     try {
@@ -47,7 +48,7 @@ function ManageItem() {
               />
             ))
           ) : (
-            <p>Loading</p>
+           <Spinner/>
           )}
           <div
             className="flex justify-center flex-col self-center text-center w-[100%] h-[90%] relative"

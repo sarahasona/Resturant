@@ -5,6 +5,8 @@ import { LoginContext } from "../../context/Login/Login";
 import ShowItem from "./ShowItem";
 import ChangeItems from "./ChangeItems";
 import { useLocation } from "react-router-dom";
+import Spinner from "../../components/Spinner";
+import { toast } from "react-toastify";
 function Manue() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -64,7 +66,19 @@ function Manue() {
       }
     });
   }, [refresh, publicId,item]);
+  const handleDeleteClick = () => {
+    delet()
+    setShowPopup(true);
+  };
 
+  const confirmDelete = () => {
+
+    setShowPopup(false);
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+  };
   return (
     <>
       <button
@@ -86,7 +100,7 @@ function Manue() {
               />
             ))
           ) : (
-            <p>Loading</p>
+            <Spinner/>
           )}
           <div
             className="flex justify-center flex-col self-center text-center w-[100%] h-[90%] relative"

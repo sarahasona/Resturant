@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import UserCard from "./UserCard";
-import Confirm from "./Confirm";
+import Confirm from "./confirm";
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
 import Spinner from "../../components/Spinner";
 import UsersTable from "./UsersTable";
 import TablePagination from "../../components/TablePagination";
 function Users() {
-  
   const [showc, setShowC] = useState(false);
   const [users, setUsers] = useState([]);
   const { token } = useContext(LoginContext);
