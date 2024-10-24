@@ -17,13 +17,7 @@ function Login() {
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      setIsLoggedIn(true); // Set the login state to true
-    }
-  }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,8 +52,8 @@ function Login() {
           return;
         }
 
-        sessionStorage.setItem("token", token);
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        // sessionStorage.setItem("token", token);
+        // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         login(identifier);
 
         localStorage.setItem("userId", response.data.user._id);
