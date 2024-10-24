@@ -2,10 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import "../pages/signup/signup.css";
+import { toast } from "react-toastify";
 
 function SignUp() {
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,14 +15,6 @@ function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [city, setCity] = useState(null);
-  const [country, setCountry] = useState("");
-  const [buildingNumber, setBuildingNumber] = useState(1);
-  const [floorNumber, setFloorNumber] = useState(1);
-  const [addressLabel, setAddressLabel] = useState("");
-  const [addressEerro, setAddressError] = useState(null);
-  const [address, setAddress] = useState(false);
-  const [droplist, setdroplist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const resetErrors = () => {
@@ -36,6 +27,18 @@ function SignUp() {
 
   const navigate = useNavigate();
 
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await axios.get(`https://resapp.thedevlab.tech/user/checkEmail`, {
+        params: { email },
+      });
+      return response.data.exists; 
+    } catch (error) {
+      console.error("Error checking email existence:", error);
+      return false;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     resetErrors();
@@ -45,8 +48,10 @@ function SignUp() {
       setConfirmPasswordError("Passwords do not match");
       return;
     }
-    if (password.length < 8 || !validatePassowrd) {
-      setPasswordError("Password length should be at least 8 characters");
+    if (!validatePassword()) {
+      setPasswordError(
+        "Password must contain uppercase, lowercase, numbers, and symbols"
+      );
       return;
     }
     if (firstName.trim() === "" || firstName.length < 4) {
@@ -58,53 +63,48 @@ function SignUp() {
       return;
     }
     if (email.trim() === "" || !validateEmail()) {
-      setEmailError("Please enter a valid email");
+      setEmailError("Please enter a valid email ");
       return;
     }
-    
 
     setIsLoading(true);
 
+    const emailExists = await checkEmailExists(email);
+    if (emailExists) {
+      setEmailError("Email already exists");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const response = await axios.post(`${backendUrl}user/signUp`, {
+      const response = await axios.post(`https://resapp.thedevlab.tech/user/signUp`, {
         firstName,
         lastName,
         email,
         password,
-
-        city,
-        country,
-        buildingNumber,
-        floorNumber,
-        addressLabel,
       });
+      console.log(response.data);
 
-      console.log("User created:", response.data);
-      navigate("/", { replace: true });
+      toast.success("Account created successfully!");
+      navigate("/login", { replace: true });
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        setEmailError("Email already exists");
-      } else {
-        setEmailError("An unexpected error occurred. Please try again later.");
-      }
+      setEmailError("Enter a valid email.");
     } finally {
       setIsLoading(false);
     }
   };
 
   const validateEmail = () => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net)$/;
     return emailRegex.test(email);
   };
 
-  const validatePassowrd = () => {
-    const emailRegex =
+  const validatePassword = () => {
+    const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    emailRegex.test(password);
-    return emailRegex.test(password);
+    return passwordRegex.test(password);
   };
 
- 
   return (
     <div className="container items-center mx-auto px-4 md:px-8">
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 rounded">
@@ -128,7 +128,7 @@ function SignUp() {
             required
             onChange={(e) => setFirstName(e.target.value)}
           />
-          {firstNameError && <p className="text-red-500">{firstNameError}</p>}
+          {firstNameError && <p className="text-red-500 text-sm">{firstNameError}</p>}
         </div>
 
         {/* Last Name */}
@@ -145,7 +145,7 @@ function SignUp() {
             required
             onChange={(e) => setLastName(e.target.value)}
           />
-          {lastNameError && <p className="text-red-500">{lastNameError}</p>}
+          {lastNameError && <p className="text-red-500 text-sm">{lastNameError}</p>}
         </div>
 
         {/* Email */}
@@ -162,7 +162,7 @@ function SignUp() {
             required
             onChange={(e) => setEmail(e.target.value)}
           />
-          {emailError && <p className="text-red-500">{emailError}</p>}
+          {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
         </div>
 
         {/* Password */}
@@ -179,7 +179,7 @@ function SignUp() {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
-          {passwordError && <p className="text-red-500">{passwordError}</p>}
+          {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
         </div>
 
         {/* Confirm Password */}
@@ -197,10 +197,9 @@ function SignUp() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           {confirmPasswordError && (
-            <p className="text-red-500">{confirmPasswordError}</p>
+            <p className="text-red-500 text-sm">{confirmPasswordError}</p>
           )}
         </div>
-     
 
         <button
           type="submit"
