@@ -1,12 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
-<<<<<<< HEAD
-import { toast } from "react-toastify";
-=======
 import { toast } from 'react-toastify';
 
->>>>>>> 13d030f4783557289f0f214ad7f6ec04e9b68096
 function ChangeItems({
   setShowCay,
   catchng,
