@@ -7,7 +7,6 @@ import Spinner from "../../components/Spinner";
 import UsersTable from "./UsersTable";
 import TablePagination from "../../components/TablePagination";
 function Users() {
-  
   const [showc, setShowC] = useState(false);
   const [users, setUsers] = useState([]);
   const { token } = useContext(LoginContext);

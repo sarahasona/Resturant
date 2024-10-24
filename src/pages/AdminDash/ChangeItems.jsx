@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
-
+import { toast } from "react-toastify";
 function ChangeItems({
   setShowCay,
   catchng,
@@ -26,7 +26,7 @@ function ChangeItems({
   const [averageRating, setAverageRating] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const { token } = useContext(LoginContext);
-
+  const [showPopup, setShowPopup] = useState(false);
   function handle() {
     setShowCay(true);
     setCatchng([]);
@@ -72,7 +72,11 @@ function ChangeItems({
         headers: {
           token: `resApp ${token}`,
         },
-      });
+      }
+    
+    );
+    toast.message()
+    handle()
     } catch (error) {
       if (error.message === "Request failed with status code 404") return [];
     }
@@ -121,6 +125,19 @@ function ChangeItems({
       console.error("Error uploading the image", error.response);
     }
   }
+  const handleDeleteClick = () => {
+    handleDelete()
+    setShowPopup(true);
+  };
+
+  const confirmDelete = () => {
+
+    setShowPopup(false);
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+  };
 
   return (
     <div>
@@ -222,7 +239,7 @@ function ChangeItems({
       </form>
       <button
         type="submit"
-        onClick={handleDelete}
+        onClick={cahngeToitems}
         className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
       >
         Delete
@@ -234,6 +251,28 @@ function ChangeItems({
       >
         Cancel
       </button>
+      
+      {showPopup && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-5 rounded shadow-md">
+              <h3>Are you sure you want to delete this item?</h3>
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={confirmDelete}
+                  className="btn bg-red-500 text-white rounded px-4 py-2"
+                >
+                  Yes, Delete
+                </button>
+                <button
+                  onClick={cancelDelete}
+                  className="btn bg-gray-300 text-black rounded px-4 py-2"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 }

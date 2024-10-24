@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
 import OrderCard from "./OrederCard";
+import Spinner from "../../components/Spinner";
 
 function ManageOrders() {
   const [allOrders, setAllOrders] = useState([]);
@@ -34,7 +35,7 @@ function ManageOrders() {
       {allOrders.length ? (
         allOrders.map((order) => <OrderCard key={order._id} order={order} />)
       ) : (
-        <div>Loading...</div>
+        <Spinner/>
       )}
     </div>
   );

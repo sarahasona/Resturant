@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-
+import { toast } from "react-toastify";
 import { BrowserRouter } from "react-router-dom";
-
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
 import { useNavigate } from "react-router-dom";
@@ -157,6 +156,7 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
   };
 
   const handleDeleteClick = () => {
+    delet()
     setShowPopup(true);
   };
 
