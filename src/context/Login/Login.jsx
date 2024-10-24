@@ -11,6 +11,7 @@ function LoginProvider({ children }) {
     JSON.parse(localStorage.getItem("user"))
   );
   const [userAddress, setUserAddress] = useState([]);
+  const [refresh, setSrefresh] = useState(false);
   const [category, setCategories] = useState([]);
 
   const userID = localStorage.getItem("userId");
@@ -18,9 +19,10 @@ function LoginProvider({ children }) {
   const [userCart, setUserCart] = useState([]);
   const [cartCount, setCartCount] = useState(0);
   const [totalPrice, setTotalPrice] = useState();
-
+  const [publicId, setPublicId] = useState([]);
   const [favouritList, setFavouriteList] = useState([]);
-
+  const [catchng, setCatchng] = useState([]);
+  const [showItems, setShowItems] = useState([]);
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     setUserOpject(userData);
@@ -254,6 +256,14 @@ function LoginProvider({ children }) {
         userAddress,
         setUserAddress,
         setIsLoggedIn,
+        publicId,
+        setPublicId,
+       refresh, 
+       setSrefresh,
+       catchng, 
+       setCatchng,
+       showItems
+       , setShowItems
       }}
     >
       {children}

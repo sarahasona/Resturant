@@ -6,17 +6,13 @@ import AddCtgory from './AddCtgory';
 
 function ManageItem() {
   const [addCt, setAddCat] = useState(true);  
-  const { token } = useContext(LoginContext);
+  const { token,refresh, setSrefresh } = useContext(LoginContext);
   const [categories, setCategories] = useState([]);
   const [catchng, setCatchng] = useState([]);
   const [catC, setCatC] = useState(false);
-  const [refresh, setSrefresh] = useState(false);
-
 
 
   const allCato = async () => {
-
-    
     try {
       const response = await axios.get(
         `https://restaurant-website-dusky-one.vercel.app/category`,
@@ -56,7 +52,7 @@ function ManageItem() {
                     key={index}
                     category={category}
                     setShowCay={setAddCat}
-                    setCatchng={setCatchng}
+                    
                   />
                 ))
               ) : <p>Loading</p>

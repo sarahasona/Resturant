@@ -2,10 +2,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { LoginContext } from "../../context/Login/Login";
 
-function ChangeItems({ setShowCay, catchng, item, setCatC, setSrefresh, refresh, setCatchng }) {
+function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, setCatchng ,setSrefresh}) {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [publicId, setPublicId] = useState("");
+
   const [_id, setId] = useState(item._id);
   const [name, setName] = useState("");
   const [price, setPrice] = useState(1);
@@ -14,14 +14,17 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, setSrefresh, refresh,
   const [orderedTimes, setOrderedTimes] = useState("");
   const [averageRating, setAverageRating] = useState("");
   const [ingredients, setIngredients] = useState([]);
-  const { token } = useContext(LoginContext);
-  const [preview, setPreview] = useState(null);
+  const { token  } = useContext(LoginContext);
+
 
   function handle() {
     setShowCay(true);
     setCatchng([]);
+    setSrefresh(!refresh)
   }
 
+
+  
   useEffect(() => {
     if (JSON.stringify(item).length > 3 && item) {
       setPrice(item.price);
@@ -29,11 +32,11 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, setSrefresh, refresh,
       setOrderedTimes(item.orderedTimes);
       setCategoryId(item.categoryId);
       setAverageRating(item.averageRating);
-      setIngredients(item.ingredients || []); // Ensure ingredients is an array
+      setIngredients(item.ingredients || []);
       setImageUrl(item.image.secure_url);
       setName(item.name);
     }
-  }, [item]);
+  }, [item,publicId]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -47,28 +50,62 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, setSrefresh, refresh,
 
   const handleIngredientsChange = (e) => {
     const inputValue = e.target.value;
-    const ingredientsArray = inputValue.split(",").map((ingredient) => ingredient.trim()); // Split by commas and trim whitespace
+    const ingredientsArray = inputValue.split(",").map((ingredient) => ingredient.trim()); 
     setIngredients(ingredientsArray);
     console.log(ingredients);
     
   };
 
+ async function handleDelete(e) {
+    e.preventDefault();
+    try {
+      const response = await axios.delete(
+        `https://restaurant-website-dusky-one.vercel.app/menu/${item._id}`,
+        {
+          headers: {
+            token: `resApp ${token}` 
+          },
+        }
+      );
+    
+
+      
+      
+    } catch (error) {
+        if(error.message ==="Request failed with status code 404") return[]
+    }
+  }
+
   async function update(e) {
     e.preventDefault();
     setAvailable(available === "true" ? true : false);
-  
     const formData = new FormData();
-    // formData.append('image', image);  // Appending the actual image file, not base64
-    formData.append('name', name);
-    formData.append('price', price);
-    formData.append('available', available);
- 
-    console.log(ingredients);
+
+  ;
+    if (JSON.stringify(item).length > 3 ) {
+      
+      
+        if(image)formData.append('image', image);
+        
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('available', available)
+    }else{
+     
+      
+      formData.append('image', image);
+      formData.append('name', name);
+      formData.append('price', price);
+      formData.append('available', available)
+    }
+    
+    
     
     try {
-      const response = Object.keys(item).length === 0
-        ? await axios.post(
-            `https://restaurant-website-dusky-one.vercel.app/menu?category=6719260373fdcec35732e0d8`,
+      const response = JSON.stringify(item).length > 3
+        ? await axios.patch(
+           
+            `https://restaurant-website-dusky-one.vercel.app/menu/${item._id}`,
             formData,
             {
               headers: {
@@ -77,8 +114,8 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, setSrefresh, refresh,
               },
             }
           )
-        : await axios.patch(
-            `https://restaurant-website-dusky-one.vercel.app/menu/${_id}`,
+        : await axios.post(
+            `https://restaurant-website-dusky-one.vercel.app/menu?category=${publicId._id}`,
             formData,
             {
               headers: {
@@ -87,10 +124,11 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, setSrefresh, refresh,
               },
             }
           );
-  
-      console.log(response.data);
+          
+          handle()
+      
     } catch (error) {
-      console.error('Error uploading the image', error.response?.data || error);
+      console.error('Error uploading the image', error.response);
     }
   }
   
@@ -177,8 +215,16 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, setSrefresh, refresh,
         >
           Update
         </button>
+        
+        
       </form>
-
+<button
+          type="submit"
+          onClick={handleDelete}
+          className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
+        >
+          Delete
+        </button>
       <button
         type="button"
         onClick={handle}

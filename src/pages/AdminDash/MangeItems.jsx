@@ -2,59 +2,106 @@ import React from 'react'
 import axios from 'axios'
 import { useContext,useState,useEffect } from 'react'
 import { LoginContext } from "../../context/Login/Login"; 
-import ShowItem from './CahngeItem';
+import ShowItem from './ShowItem';
 import ChangeItems from './ChangeItems';
-
+import { useLocation } from 'react-router-dom';
 function Manue() {
 
 
 
   const [addCt, setAddCat] = useState(true);  
-  const { token } = useContext(LoginContext);
+  const { token ,publicId,refresh, setSrefresh,showItems,setPublicId } = useContext(LoginContext);
   const [categories, setCategories] = useState([]);
   const [item, setCatchng] = useState([]);
   const [catC, setCatC] = useState(false);
-  const [refresh, setSrefresh] = useState(false);
-console.log(item);
+  const location = useLocation();
+
+
+
+function handelShow() {
+  setPublicId([])
+
+}
+
+
 
   const allCato = async () => {
-    try {
-      const response = await axios.get(
-        `https://restaurant-website-dusky-one.vercel.app/menu
-`,
-        {
-          headers: {
-            token: `resApp ${token}` 
-          },
-        }
-      );
-      return response.data; 
-    } catch (error) {
-      console.error("Error fetching users:", error);
+    if(!( publicId.name)){
+
+      
+      try {
+        const response = await axios.get(
+          `https://restaurant-website-dusky-one.vercel.app/menu`,
+          {
+            headers: {
+              token: `resApp ${token}` 
+            },
+          }
+        );
+ 
+        
+        return response.data
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }else{
+      
+      
+      try {
+        const response = await axios.get(
+          `https://restaurant-website-dusky-one.vercel.app/menu/category/${publicId._id}`,
+          {
+            headers: {
+              token: `resApp ${token}` 
+            },
+          }
+        );
+      
+ 
+        
+        return response.data.Menuitems; 
+      } catch (error) {
+          if(error.message ==="Request failed with status code 404") return[]
+      }
     }
+
   };
 
   useEffect(() => {
     allCato().then((data) => {
-      if (data && Array.isArray(data.allMenu)) {
-        setCategories(data.allMenu); 
+
+      const cond =data.length
+     
+      
+  
+      if ((data && Array.isArray(data.allMenu) || data &&  cond>0)) {
         
-        
-        
+        if(data.allMenu)setCategories(data.allMenu); 
+        if (data.length)setCategories(data)
       } else {
         
       }
     });
-  }, []);
+  }, [refresh,publicId]);
 
+   
+
+    
+    
   
   return (
    <>
+    <button className=' btn bg-orange-500 text-white  mx-auto py-2 rounded flex items-center justify-center mt-s' 
+              onClick={handelShow}
+            >
+              Show all
+            </button>
     {
         addCt ? (
           <div className="container grid grid-cols-2 justify-between items-center gap-[30px] w-[80%] h-fit m-auto relative">
+
             {
-              categories.length > 0 ? (
+              categories && categories.length > 0 ? (
                 categories.map((category, index) => (
                   <ShowItem
                     key={index}
@@ -79,6 +126,8 @@ console.log(item);
           setSrefresh={setSrefresh}
           refresh={refresh}
           setCatchng={setCatchng}
+        publicId=  {publicId}
+
           /> 
         )
       }
