@@ -72,11 +72,7 @@ function SignUp() {
         email,
         password,
 
-        city,
-        country,
-        buildingNumber,
-        floorNumber,
-        addressLabel,
+   
       });
 
       console.log("User created:", response.data);
