@@ -6,8 +6,7 @@ function Testimonials() {
       <div className="grid md:grid-cols-2 place-items-center justify-items-center grid-cols-1 md:gap-12 gap-2">
         <div>
           <img
-            src="/src/assets/images/home/testimonials/testimonials.png"
-            alt=""
+            src={`${import.meta.env.BASE_URL}testimonials/testimonials.png`}
           />
         </div>
         <div>
@@ -24,17 +23,23 @@ function Testimonials() {
               <div className="flex">
                 <div className="avatar">
                   <div className="w-12 cursor-pointer">
-                    <img src="/src/assets/images/home/testimonials/testimonial1.png" />
+                    <img
+                      src={`${import.meta.env.BASE_URL}testimonials/testimonial1.png`}
+                    />
                   </div>
                 </div>
                 <div className="avatar">
                   <div className="w-12 cursor-pointer">
-                    <img src="/src/assets/images/home/testimonials/testimonial2.png" />
+                    <img
+                      src={`${import.meta.env.BASE_URL}testimonials/testimonial2.png`}
+                    />
                   </div>
                 </div>
                 <div className="avatar">
                   <div className="w-12 cursor-pointer">
-                    <img src="/src/assets/images/home/testimonials/testimonial3.png" />
+                    <img
+                      src={`${import.meta.env.BASE_URL}testimonials/testimonial3.png`}
+                    />
                   </div>
                 </div>
               </div>

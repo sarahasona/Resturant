@@ -41,11 +41,16 @@ function Orders() {
   }, [token]);
 
   useEffect(() => {
+    console.log(orderStatus);
     if (orderStatus) {
       setOrders((prevOrders) =>
         prevOrders.map((order) => {
-          return order._id === orderStatus.orderId
-            ? { ...order, status: orderStatus.status }
+          const matchedStatus = orderStatus.find(
+            (statusItem) => statusItem.orderId == order._id
+          );
+          // If found, update the status, otherwise return the original order
+          return matchedStatus
+            ? { ...order, status: matchedStatus.status }
             : order;
         })
       );

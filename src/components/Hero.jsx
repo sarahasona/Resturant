@@ -15,7 +15,7 @@ function Hero() {
       description: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti
               tenetur id debitis libero impedit nam pariatur itaque eveniet,
               repellendus, odio similique eos sed`,
-      img: "../src/assets/images/Hero/img1.jpeg",
+      img: "Hero/img1.jpeg",
     },
     {
       subtitle: "The Elegent",
@@ -23,7 +23,7 @@ function Hero() {
       description: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti
               tenetur id debitis libero impedit nam pariatur itaque eveniet,
               repellendus, odio similique eos sed`,
-      img: "../src/assets/images/Hero/img2.jpeg",
+      img: "Hero/img2.jpeg",
     },
     {
       subtitle: "Delicious",
@@ -31,7 +31,7 @@ function Hero() {
       description: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti
               tenetur id debitis libero impedit nam pariatur itaque eveniet,
               repellendus, odio similique eos sed`,
-      img: "../src/assets/images/Hero/img3.jpeg",
+      img: "Hero/img3.jpeg",
     },
   ];
   return (
@@ -46,7 +46,7 @@ function Hero() {
       {swiperData.map((item, index) => (
         <SwiperSlide className="" key={index}>
           <div className="relative">
-            <img src={item.img} className="brightness-[40%] " />
+            <img src={`${import.meta.env.BASE_URL}${item.img}`} className="brightness-[40%] "/>
             <div className="absolute w-[80%] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center">
               <p className="leading-none text-[30px] md:text-[40px] lg:text-[80px] font-tertiary text-primary-hover mb-0">
                 {item.subtitle}
