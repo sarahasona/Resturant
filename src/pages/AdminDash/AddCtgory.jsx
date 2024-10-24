@@ -1,27 +1,41 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect  } from 'react';
+
+import { BrowserRouter } from 'react-router-dom';
+
 import axios from 'axios';
 import { LoginContext } from "../../context/Login/Login";
-import ShowItem from './CahngeItem';
+import { useNavigate  } from 'react-router-dom';
 
-function AddCtgory({ setShowCay,catchng ,catC,setCatC,setSrefresh,refresh,setCatchng }) {
-  const { token } = useContext(LoginContext);
+
+function AddCtgory({ setShowCay ,catC,setCatC }) {
+  const navigate = useNavigate ();
+  const { token,setPublicId,publicId ,catchng, setCatchng,refresh,setSrefresh, setShowItems} = useContext(LoginContext);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
   const [name, setName] = useState('');
-  const [showItems, setShowItems] = useState([]);
-  console.log(catchng.length);
+
+
+
+
 function handle() {
-  setShowCay(true)
-  setCatC(false)
-  setPreview(null)
-  setImage(null)
-  setName("")
-  setCatchng([])
-  console.log(catchng.length);
-  
-  
+      setShowCay(true)
+      setCatC(false)
+      setPreview(null)
+      setImage(null)
+      setName("")
+      setCatchng([])
+      setPublicId([])
+
 }
+
+function cahngeToitems() {
+  setPublicId(catchng)
+  navigate("/dash/Manue")
+}
+
+
+
 
 async  function fetchData() {
       
@@ -36,6 +50,8 @@ async  function fetchData() {
         },
       }
     );
+    console.log(response);
+    
     return  response.data.Menuitems;
 
     
@@ -44,8 +60,7 @@ async  function fetchData() {
 
   } catch (error) {
 
-    setUploadStatus('Failed to upload image.');
-    
+    set
     console.error('Error uploading the image', error);
   return []
   }
@@ -54,27 +69,17 @@ async  function fetchData() {
     }
 useEffect(()=>{
   
-
+  setPublicId([])
   
   if(JSON.stringify(catchng).length >3){
 
   setPreview(catchng.image.secure_url)
   setImage(catchng.image.secure_url)
   setName(catchng.name)
-  fetchData().then((data) => {
-
-    
-    if (data ) {
-      setShowItems(data); 
-    } else {
-      
-    }
-  });
+ setShowItems(true)
     
   }else{
-
-    
-    
+  setShowItems(false)
   setPreview(null)
   setImage(null)
   setName("")
@@ -106,6 +111,11 @@ async function delet() {
     console.error('Error uploading the image', error);
   }
 }
+
+// ///////////////////////////////////////////////////////////////////////
+
+
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
@@ -119,7 +129,9 @@ async function delet() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('image', image);
+    console.log(typeof(image)==="string");
+    
+    if(!(typeof(image)==="string"))formData.append('image', image);
     formData.append('name', name);
     console.log({name , image});
     
@@ -212,23 +224,17 @@ async function delet() {
       </button>
        <button 
         type='button'
-        onClick={delet} 
+        // onClick={delet} 
         className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5">
         Delete
       </button> 
-{/* 
-{
-            showItems.length > 0 ? (
-                showItems.map((category, index) => (
-                  <ShowItem
-                    key={index}
-                    category={category}
-                    setShowCay={setAddCat}
-                    setCatchng={setCatchng}
-                  />
-                ))
-              ) : <p>Loading</p>
-            } */}
+      <button 
+        type='button'
+        onClick={cahngeToitems}
+        className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5">
+        show the items
+      </button> 
+
     </div>
   );
 }

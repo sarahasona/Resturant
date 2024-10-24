@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect ,useContext} from 'react'
 
-const CatgoryCard = ({category, setShowCay ,setCatchng}) => {
+import { LoginContext } from "../../context/Login/Login";
+
+const CatgoryCard = ({category, setShowCay }) => {
+  const { token, setCatchng } = useContext(LoginContext);
 
 function jandle(){
   setShowCay(false)
-
   setCatchng(category)
 }
   return (

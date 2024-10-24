@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { LoginContext } from "../context/Login/Login";
 import { toast } from "react-toastify";
-
+import { useSocket } from "../context/socket/socket";
 function Profile() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -24,6 +24,8 @@ function Profile() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const { token, userOpject } = useContext(LoginContext);
   const [loading, setLoading] = useState(false);
+  const oneTime = React.useRef(false);
+  const { initializeSocket } = useSocket();
 
   useEffect(() => {
     const { email, firstName, lastName, mobileNumber } = userOpject;
@@ -32,6 +34,11 @@ function Profile() {
     setLastName(lastName || "");
     setPhoneNumber(mobileNumber || "");
   }, [userOpject]);
+
+  React.useEffect(() => {
+    if (oneTime.current) return;
+    initializeSocket("test"); //! replace with user id
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -99,7 +106,9 @@ function Profile() {
     const hasSymbols = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const isValidLength = password.length >= 8;
 
-    return hasUpperCase && hasLowerCase && hasNumbers && hasSymbols && isValidLength;
+    return (
+      hasUpperCase && hasLowerCase && hasNumbers && hasSymbols && isValidLength
+    );
   };
 
   const handleChangeEmail = async () => {
@@ -261,7 +270,6 @@ function Profile() {
             <p className="text-red-500 md:ml-4">{phoneNumberError}</p>
           )}
         </div>
-        
 
         <button
           type="submit"
@@ -290,7 +298,6 @@ function Profile() {
           CHANGE PASSWORD
         </button>
       </div>
-
 
       {/* Email Modal */}
       {showEmailModal && (

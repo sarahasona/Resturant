@@ -43,6 +43,14 @@ function AdminDash() {
   
             <li>
               <Link
+                to="catogory"
+                className={isActive("/dash/catogory") ? "text-primary-hover" : ""}
+              >
+                catogory
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="Manue"
                 className={isActive("/dash/Manue") ? "text-primary-hover" : ""}
               >
@@ -60,14 +68,6 @@ function AdminDash() {
               </Link>
             </li>
   
-            <li>
-              <Link
-                to="catogory"
-                className={isActive("/dash/catogory") ? "text-primary-hover" : ""}
-              >
-                catogory
-              </Link>
-            </li>
           </ul>
           
         </div>
