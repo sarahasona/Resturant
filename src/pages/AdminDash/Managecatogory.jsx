@@ -36,7 +36,8 @@ function ManageItem() {
   return (
     <>
       {addCt ? (
-        <div className="container grid grid-cols-2 justify-between items-center gap-[30px] w-[80%] h-fit m-auto relative">
+        <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-between items-center gap-[30px] w-[80%] h-fit m-auto relative
+">
           {categories.length > 0 ? (
             categories.map((category, index) => (
               <CatgoryCard
