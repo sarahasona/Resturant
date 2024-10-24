@@ -10,7 +10,7 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [notifications, setNotifications] = useState([]);
-  const [orderStatus, setOrderStatus] = useState(null);
+  const [orderStatus, setOrderStatus] = useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const initializeSocket = useCallback(
     (userId) => {
@@ -35,7 +35,7 @@ export const SocketProvider = ({ children }) => {
         socketIo.on("orderStatus", (status) => {
           console.log("Order status received:", status);
           console.log(orderStatus);
-          setOrderStatus(status);
+          setOrderStatus((prev) => [...prev, status]);
         });
 
         socketIo.on("disconnect", () => {
