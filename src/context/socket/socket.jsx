@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
+import { toast } from "react-toastify";
 import { io } from "socket.io-client";
 
 const SocketContext = createContext();
@@ -27,14 +28,14 @@ export const SocketProvider = ({ children }) => {
         });
 
         socketIo.on("notification", (notification) => {
-          alert(`Notification received: ${notification.message}`);
           console.log(notification);
           setNotifications((prev) => [...prev, notification]);
         });
 
         socketIo.on("orderStatus", (status) => {
-          console.log("Order status received:", status);
-          console.log(orderStatus);
+          toast.success(`Order No ${status.orderId} ${status.status}`);
+          // console.log("Order status received:", status);
+          // console.log(orderStatus);
           setOrderStatus((prev) => [...prev, status]);
         });
 
