@@ -17,14 +17,7 @@ function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [city, setCity] = useState(null);
-  const [country, setCountry] = useState("");
-  const [buildingNumber, setBuildingNumber] = useState(1);
-  const [floorNumber, setFloorNumber] = useState(1);
-  const [addressLabel, setAddressLabel] = useState("");
-  const [addressEerro, setAddressError] = useState(null);
-  const [address, setAddress] = useState(false);
-  const [droplist, setdroplist] = useState(false);
+  
   const [isLoading, setIsLoading] = useState(false);
 
   const resetErrors = () => {
@@ -36,6 +29,18 @@ function SignUp() {
   };
 
   const navigate = useNavigate();
+
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await axios.get(`${backendUrl}user/checkEmail`, {
+        params: { email },
+      });
+      return response.data.exists; 
+    } catch (error) {
+      console.error("Error checking email existence:", error);
+      return false;
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,12 +64,18 @@ function SignUp() {
       return;
     }
     if (email.trim() === "" || !validateEmail()) {
-      setEmailError("Please enter a valid email");
+      setEmailError("Please enter a valid email ");
       return;
     }
-    
 
     setIsLoading(true);
+
+    const emailExists = await checkEmailExists(email);
+    if (emailExists) {
+      setEmailError("Email already exists");
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const response = await axios.post(`${backendUrl}user/signUp`, {
@@ -72,11 +83,11 @@ function SignUp() {
         lastName,
         email,
         password,
-
-   
       });
-      toast.success("User created successfuly")
-      navigate("/", { replace: true });
+      console.log(response.data);
+
+      toast.success("Account created successfully!");
+      navigate("/login", { replace: true });
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setEmailError("Email already exists");
@@ -89,7 +100,7 @@ function SignUp() {
   };
 
   const validateEmail = () => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net)$/;
     return emailRegex.test(email);
   };
 
@@ -100,7 +111,6 @@ function SignUp() {
     return emailRegex.test(password);
   };
 
- 
   return (
     <div className="container items-center mx-auto px-4 md:px-8">
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 rounded">
@@ -124,7 +134,7 @@ function SignUp() {
             required
             onChange={(e) => setFirstName(e.target.value)}
           />
-          {firstNameError && <p className="text-red-500">{firstNameError}</p>}
+          {firstNameError && <p className="text-red-500 text-sm">{firstNameError}</p>}
         </div>
 
         {/* Last Name */}
@@ -141,7 +151,7 @@ function SignUp() {
             required
             onChange={(e) => setLastName(e.target.value)}
           />
-          {lastNameError && <p className="text-red-500">{lastNameError}</p>}
+          {lastNameError && <p className="text-red-500 text-sm">{lastNameError}</p>}
         </div>
 
         {/* Email */}
@@ -158,7 +168,7 @@ function SignUp() {
             required
             onChange={(e) => setEmail(e.target.value)}
           />
-          {emailError && <p className="text-red-500">{emailError}</p>}
+          {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
         </div>
 
         {/* Password */}
@@ -175,7 +185,7 @@ function SignUp() {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
-          {passwordError && <p className="text-red-500">{passwordError}</p>}
+          {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
         </div>
 
         {/* Confirm Password */}
@@ -193,10 +203,9 @@ function SignUp() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           {confirmPasswordError && (
-            <p className="text-red-500">{confirmPasswordError}</p>
+            <p className="text-red-500 text-sm">{confirmPasswordError}</p>
           )}
         </div>
-     
 
         <button
           type="submit"
