@@ -61,9 +61,7 @@ function SignUp() {
       setEmailError("Please enter a valid email");
       return;
     }
-    if ((!validateAdress() || addressEerro ) ) {
-      return;
-    }
+    
 
     setIsLoading(true);
 
