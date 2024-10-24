@@ -2,6 +2,7 @@ import { useState } from "react";
 import TableRow from "./TableRow";
 import { LoginContext } from "../context/Login/Login";
 import { useContext } from "react";
+import TablePagination from "./TablePagination";
 const PaginatedTable = ({ data, rowsPerPage }) => {
   const { setUserCart } = useContext(LoginContext);
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,46 +57,23 @@ const PaginatedTable = ({ data, rowsPerPage }) => {
         <tbody>
           {currentData.map((item) => (
             <tr key={item._id} className="bg-white border-b">
-              <TableRow mealData={item.menuItem} quantity={item.quantity} totalPrice={item.totalPrice} updateCart={updateCart} />
+              <TableRow
+                mealData={item.menuItem}
+                quantity={item.quantity}
+                totalPrice={item.totalPrice}
+                updateCart={updateCart}
+              />
             </tr>
           ))}
         </tbody>
       </table>
 
       {/* Pagination Controls */}
-      <div className="flex justify-between items-center mt-4">
-        <button
-          className={`px-3 py-1 bg-gray-300 rounded ${currentPage === 1 && "opacity-50 cursor-not-allowed"}`}
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-
-        <div>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-              className={`px-3 py-1 mx-1 ${
-                currentPage === index + 1
-                  ? "bg-darkorange text-white"
-                  : "bg-gray-300"
-              } rounded`}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-
-        <button
-          className={`px-3 py-1 bg-gray-300 rounded ${currentPage === totalPages && "opacity-50 cursor-not-allowed"}`}
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      <TablePagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };

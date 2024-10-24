@@ -12,19 +12,17 @@ function AdminDash() {
     {
       admin && 
       (
-        <div className="lg:flex lg:justify-between relative">
+        <div className="lg:flex lg: relative ">
 
-          {/* Sidebar for larger screens, top navigation for lg and below */}
           <div className="w-full lg:w-1/4 lg:h-[90vh] bg- p-4 border-r-2 border-gray-300 lg:border-none lg:bg-transparent lg:flex lg:flex-col">
 
-            {/* Top Navigation for smaller screens, Sidebar for large */}
-            <ul className="flex lg:flex-col justify-between lg:justify-start items-center lg:items-start w-full lg:gap-[20px] gap-0">
+            <ul className="flex lg:flex-col justify-between lg:justify-start items-center lg:items-start w-full lg:gap-[20px] gap-0 sm:w-[] flex-wrap">
 
               <li className="flex items-center lg:flex-row flex-row">
                 <i className="fa-solid fa-user lg:mr-3 mr-2"></i>
                 <Link
-                  to="user"
-                  className={isActive("/dash/user") ? "text-primary-hover" : ""}
+                  to="/dash"
+                  className={isActive("/dash") ? "text-primary-hover" : ""}
                 >
                   Users
                 </Link>
@@ -63,7 +61,6 @@ function AdminDash() {
             </ul>
           </div>
 
-          {/* Outlet (content area) */}
           <div className="lg:w-3/4 w-full lg:mt-0 mt-6">
             <Outlet />
           </div>

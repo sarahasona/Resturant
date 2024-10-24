@@ -40,7 +40,7 @@ function App() {
 
               {/* Admin dashboard */}
               <Route path="dash" element={<AdminDash />}>
-                <Route path="user" element={<Usres />} />
+                <Route index element={<Usres />} />
                 <Route path="Manue" element={<Manue />} />
                 <Route path="orders" element={<ManageOrders />} />
                 <Route path="catogory" element={<ManageItem />} />

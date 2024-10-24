@@ -86,7 +86,7 @@ function MainNavBar() {
 
   return (
     <>
-      <nav className=" bg-blue-50 flex justify-between gap-[40px] py-[20px] px-[20px] items-center h-24">
+      <nav className=" bg-blue-50 flex justify-between gap-[20px] py-[20px] px-[20px] items-center h-24">
         <img src={`${import.meta.env.BASE_URL}da logo.png`} className="w-32" />
         <ul className={"hidden md:flex justify-between gap-[30px] "}>
           <li>
