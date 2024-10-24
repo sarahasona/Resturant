@@ -37,7 +37,7 @@ function ChangeItems({
   useEffect(() => {
     if (JSON.stringify(item).length > 3 && item) {
       setPrice(item.price);
-      setAvailable(item.available);
+      setAvailable(item.available === "true" ?(true):(false));
       setOrderedTimes(item.orderedTimes);
       setCategoryId(item.categoryId);
       setAverageRating(item.averageRating);
@@ -92,12 +92,13 @@ function ChangeItems({
 
       formData.append("name", name);
       formData.append("price", price);
-      formData.append("available", available);
+      formData.append("available", available );
     } else {
       formData.append("image", image);
       formData.append("name", name);
       formData.append("price", price);
       formData.append("available", available);
+      formData.append("ingredients",["asd","adas"])
     }
 
     try {
@@ -188,7 +189,7 @@ function ChangeItems({
   </label>
   <select
     value={available}
-    onChange={(e) => setAvailable(e.target.value === "true")} // Convert string to boolean
+    onChange={(e) => setAvailable(e.target.value=== "true" ?(true):(false) )} 
     className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
   >
     <option value="true">True</option>
