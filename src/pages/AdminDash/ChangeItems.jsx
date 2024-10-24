@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
+import { toast } from 'react-toastify';
 
 function ChangeItems({
   setShowCay,
@@ -73,8 +74,11 @@ function ChangeItems({
           token: `resApp ${token}`,
         },
       });
+      toast.success("Item deleted successfully!");
     } catch (error) {
-      if (error.message === "Request failed with status code 404") return [];
+      if (error.message === "Request failed with status code 404") 
+        toast.error("Error deleting item. Please try again.");
+      return [];
     }
   }
 
@@ -115,23 +119,31 @@ function ChangeItems({
                 },
               }
             );
+            toast.success("Item updated successfully!");
 
       handle();
     } catch (error) {
       console.error("Error uploading the image", error.response);
+      toast.error("Error uploading the item. Please try again."); 
     }
   }
 
   return (
-    <div>
-      <form
-        className="border border-orange-300 shadow-lg rounded-lg p-4 mb-4"
-        onSubmit={update}
-      >
-        <img src={imageUrl} alt="" />
-        <h2 className="text-lg font-semibold text-orange-600">Item Details</h2>
-        <div className="grid grid-cols-1 gap-4 mb-4">
-          <div className="border border-gray-300 shadow-md rounded-md p-4">
+    <div className="p-6 bg-white rounded-lg shadow-lg w-full max-w-4xl mx-auto">
+      <form onSubmit={update}>
+        {/* Image preview */}
+        {imageUrl && (
+          <div className="mb-4 flex justify-center">
+            <img
+              src={imageUrl}
+              alt="Preview"
+              className="w-40 h-40 object-cover rounded-md shadow-md"
+            />
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-2">
+          <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">
               Item Name
             </label>
@@ -139,11 +151,12 @@ function ChangeItems({
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
             />
           </div>
 
-          <div className="border border-gray-300 shadow-md rounded-md p-4">
+          {/* Item Price */}
+          <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">
               Item Price
             </label>
@@ -151,89 +164,103 @@ function ChangeItems({
               type="text"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
             />
           </div>
 
-          <div className="border border-gray-300 shadow-md rounded-md p-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Available?
-            </label>
-            <input
-              type="text"
-              value={available}
-              onChange={(e) => setAvailable(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-            />
-          </div>
+          {/* Available */}
+          <div className="col-span-1">
+  <label className="block text-sm font-medium text-gray-700">
+    Available?
+  </label>
+  <select
+    value={available}
+    onChange={(e) => setAvailable(e.target.value === "true")} // Convert string to boolean
+    className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
+  >
+    <option value="true">True</option>
+    <option value="false">False</option>
+  </select>
+</div>
 
-          <div className="border border-gray-300 shadow-md rounded-md p-4">
+          {/* Ordered Times */}
+          <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">
               Ordered Times
             </label>
             <input
               type="text"
               value={orderedTimes}
-              className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
+              readOnly
             />
           </div>
 
-          <div className="border border-gray-300 shadow-md rounded-md p-4">
+          {/* Average Ratings */}
+          <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">
               Average Ratings
             </label>
             <input
               type="text"
               value={averageRating}
-              className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
+              readOnly
             />
           </div>
 
-          <div className="border border-gray-300 shadow-md rounded-md p-4">
+          {/* Ingredients */}
+          <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">
               Ingredients (comma separated)
             </label>
             <input
               type="text"
-              value={ingredients.join(", ")} // Display ingredients as comma-separated string
+              value={ingredients.join(", ")}
               onChange={handleIngredientsChange}
-              className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
             />
           </div>
 
-          <div className="border border-gray-300 shadow-md rounded-md p-4">
+          {/* Upload Image */}
+          <div className="col-span-2">
             <label className="block text-sm font-medium text-gray-700">
               Upload Image
             </label>
             <input
               type="file"
               onChange={handleImageChange}
-              className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500 shadow-sm"
             />
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
-        >
-          Update
-        </button>
+        {/* Buttons */}
+        <div className="flex justify-center mt-6 space-x-4">
+          <button
+            type="submit"
+            className="bg-orange-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-orange-600 transition-all duration-300"
+          >
+            Update
+          </button>
+
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="bg-red-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-red-600 transition-all duration-300"
+          >
+            Delete
+          </button>
+
+          <button
+            type="button"
+            onClick={handle}
+            className="bg-gray-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-600 transition-all duration-300"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
-      <button
-        type="submit"
-        onClick={handleDelete}
-        className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
-      >
-        Delete
-      </button>
-      <button
-        type="button"
-        onClick={handle}
-        className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
-      >
-        Cancel
-      </button>
     </div>
   );
 }
