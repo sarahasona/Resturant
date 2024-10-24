@@ -197,7 +197,7 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
   
         {preview && (
           <div className="mt-4">
-            <h3>Image Preview:</h3> <i class="fa-solid fa-image"></i>
+            <h3>Image Preview:</h3> 
             <img
               src={preview}
               alt="Preview"
