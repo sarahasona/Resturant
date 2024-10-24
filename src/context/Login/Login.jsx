@@ -62,7 +62,7 @@ function LoginProvider({ children }) {
         setCategories([]);
       }
     } catch (error) {
-      toast.warning(error.message);
+      // toast.warning(error.message);
     }
   };
 

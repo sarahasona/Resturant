@@ -81,12 +81,16 @@ function Manue() {
   };
   return (
     <>
-      <button
+     {
+      publicId.name &&(
+        <button
         className=" btn bg-orange-500 text-white  mx-auto py-2 rounded flex items-center justify-center mt-s"
         onClick={handelShow}
       >
         Show all
       </button>
+      )
+     }
       {addCt ? (
         <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-between items-center gap-[30px] w-[80%] h-fit m-auto relative
 ">
@@ -102,14 +106,9 @@ function Manue() {
           ) : (
             <Spinner/>
           )}
-          <div
-            className="flex justify-center flex-col self-center text-center w-[100%] h-[90%] relative"
-            onClick={() => setAddCat(false)}
-          >
-            <h2>
-              <i className="fa-solid fa-plus text-[200px] self-center"></i>
-            </h2>
-          </div>
+        
+        
+
         </div>
       ) : (
         <ChangeItems
@@ -123,6 +122,18 @@ function Manue() {
           publicId={publicId}
         />
       )}
+      {
+        publicId.name &&(
+            <div
+            className="flex justify-center flex-col self-center text-center w-[100%] h-[90%] relative"
+            onClick={() => setAddCat(false)}
+          >
+            <h2>
+              <i className="fa-solid fa-plus text-[200px] self-center"></i>
+            </h2>
+          </div>
+        )
+      }
     </>
   );
 }

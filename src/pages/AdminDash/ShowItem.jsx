@@ -20,7 +20,7 @@ const ShowItem = ({ category, setShowCay, setCatchng }) => {
 
         <button
           className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-md shadow-md transition-all duration-300 mt-auto"
-          onClick={jandle}
+          onClick={jandle} 
         >
           Show
         </button>

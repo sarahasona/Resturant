@@ -277,7 +277,7 @@ function ChangeItems({
       </form>
       <button
         type="submit"
-        onClick={cahngeToitems}
+        onClick={handleDeleteClick}
         className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
       >
         Delete
