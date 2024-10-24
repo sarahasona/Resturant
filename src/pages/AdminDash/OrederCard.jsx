@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
+import { toast } from "react-toastify";
 const OrderCard = ({ order }) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -21,12 +22,10 @@ const OrderCard = ({ order }) => {
           },
         }
       );
-      console.log("Order status updated successfully.");
     } catch (error) {
-      console.error("Error updating order:", error);
+      toast.error("Error updating order:", error.message);
     }
   };
-  console.log(order.menuItems);
 
   return (
     <div className="border border-orange-300 shadow-md p-4 mb-4 rounded">

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import "../pages/signup/signup.css";
+import { toast } from "react-toastify";
 
 function SignUp() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -74,8 +75,7 @@ function SignUp() {
 
    
       });
-
-      console.log("User created:", response.data);
+      toast.success("User created successfuly")
       navigate("/", { replace: true });
     } catch (error) {
       if (error.response && error.response.status === 409) {

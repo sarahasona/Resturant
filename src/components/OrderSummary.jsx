@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { LoginContext } from "../context/Login/Login";
+import { toast } from "react-toastify";
 
 function OrderSummary({ order, onBack }) {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -52,11 +53,11 @@ function OrderSummary({ order, onBack }) {
           token: `resApp ${token}`,
         },
       });
-      console.log("Review submitted successfully:", response.data);
+      toast.success("Review submitted successfully!");
       setLoading(false);
       handleClose();
     } catch (error) {
-      console.error("Error submitting review:", error);
+      toast.error("Error submitting review:", error?.message);
       setLoading(false);
     }
   };

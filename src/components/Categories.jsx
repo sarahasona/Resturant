@@ -10,7 +10,6 @@ const Catagories = () => {
   const navigate = useNavigate();
 
   const navigateToCatMenu = (category, id) => {
-    console.log(category);
     const cat = category.split(" ");
     navigate(`/menu/${cat.join("_")}`, { state: { catId: id } });
   };

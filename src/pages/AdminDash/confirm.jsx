@@ -7,7 +7,7 @@ function Confirm({ setShowC, delet, setRefresh, refresh }) {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { token } = useContext(LoginContext);
   const handleDeletUsr = async () => {
-    console.log(refresh);
+    // console.log(refresh);
     try {
       const response = await axios.delete(
         `${backendUrl}user/deleteUser/${delet}`,

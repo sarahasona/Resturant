@@ -105,7 +105,6 @@ function AddAddress({
             }
           );
           setUserAddress((prev) => [...prev, response.data.address]);
-          console.log(response.data.address);
           setModalOpen(false);
           toast.success("Address Added Successfuly");
           return response.data;
