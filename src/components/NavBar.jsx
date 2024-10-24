@@ -6,18 +6,17 @@ import { LoginContext } from "../context/Login/Login";
 import Search from "./Search";
 
 function MainNavBar() {
-    const [dis, setDis] = useState(false);
-    const [dis1, setDis1] = useState(false);
-    const [showS, setShowS] = useState(false);
-    const [showAccountMenu, setShowAccountMenu] = useState(false);
-    const accountMenuRef = useRef(null); 
-    
-    const isActive = (path) => location.pathname === path;
+  const [dis, setDis] = useState(false);
+  const [dis1, setDis1] = useState(false);
+  const [showS, setShowS] = useState(false);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
+  const accountMenuRef = useRef(null);
+
+  const isActive = (path) => location.pathname === path;
   const location = useLocation();
   const navigate = useNavigate();
   const { admin, isLoggedIn, logout, cartCount, userCart, getUserCart } =
     useContext(LoginContext);
-
 
   const toggleAccountMenu = () => {
     setShowAccountMenu((prev) => !prev);
@@ -87,9 +86,9 @@ function MainNavBar() {
 
   return (
     <>
-      <nav className="bg-blue-50 flex justify-between gap-[10px] py-[20px] px-[40px] items-center h-24">
+      <nav className=" bg-blue-50 flex justify-between gap-[40px] py-[20px] px-[20px] items-center h-24">
         <img src={`${import.meta.env.BASE_URL}da logo.png`} className="w-32" />
-        <ul className={"hidden md:flex flex justify-between gap-[30px]"}>
+        <ul className={"hidden md:flex justify-between gap-[30px] "}>
           <li>
             <Link
               to="/"
@@ -102,7 +101,7 @@ function MainNavBar() {
               Home
             </Link>
           </li>
-         
+
           <li>
             <Link
               to="/menu"
@@ -121,72 +120,72 @@ function MainNavBar() {
               </Link>
             </li>
           )}
-         
         </ul>
 
-        <div className="flex gap-[20px] justify-self-end items-center">
-          <button onClick={() => setShowS(!showS)}>
-            <i className="fa-solid fa-magnifying-glass hover:text-primary-hover"></i>
-          </button>
-         
+        <div className="w-[30%]">
+          <div className="btnsGroup ml-auto flex gap-[20px] justify-end items-center ">
+            <button onClick={() => setShowS(!showS)}>
+              <i className="fa-solid fa-magnifying-glass hover:text-primary-hover"></i>
+            </button>
 
-          {isLoggedIn ? (
-            <>
-              <Link to="/cart">
-                <div className="shoppingCart relative">
-                  <FaShoppingCart className="" />
-                  <div className="absolute top-[-14px] right-[-10px] rounded-full font-light px-1 text-sm bg-red-400 text-white">
-                    {cartCount}
+            {isLoggedIn ? (
+              <>
+                <Link to="/cart">
+                  <div className="shoppingCart relative">
+                    <FaShoppingCart className="" />
+                    <div className="absolute top-[-14px] right-[-10px] rounded-full font-light px-1 text-sm bg-red-400 text-white">
+                      {cartCount}
+                    </div>
                   </div>
+                </Link>
+
+                <div className="relative" ref={accountMenuRef}>
+                  <button
+                    className="flex items-center gap-2 rounded-full px-4 py-2 text-orange-500  transition duration-200 ease-in-out"
+                    onClick={toggleAccountMenu}
+                  >
+                    <FaUser className="text-md" />
+                  </button>
+
+                  {/* Account menu dropdown */}
+                  {showAccountMenu && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                      <Link
+                        to="/account/profile"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Account Info
+                      </Link>
+                      <Link
+                        to="/account/saved-addresses"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Saved Addresses
+                      </Link>
+                      <Link
+                        to="/account/orders"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Orders
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
                 </div>
-              </Link>
-
-              <div className="relative" ref={accountMenuRef}>
-                <button
-                  className="flex items-center gap-2 rounded-full px-4 py-2 text-orange-500  transition duration-200 ease-in-out"
-                  onClick={toggleAccountMenu}
-                >
-                  <FaUser className="text-md" />
+              </>
+            ) : (
+              <Link to="/login">
+                <button className="flex items-center gap-2 rounded-full px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition duration-200 ease-in-out">
+                  <FaUser className="text-sm" /> Login
                 </button>
-
-                {/* Account menu dropdown */}
-                {showAccountMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-                    <Link
-                      to="/account/profile"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Account Info
-                    </Link>
-                    <Link
-                      to="/account/saved-addresses"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Saved Addresses
-                    </Link>
-                    <Link
-                      to="/account/orders"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Orders
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            <Link to="/login">
-              <button className="flex items-center gap-2 rounded-full px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition duration-200 ease-in-out">
-                <FaUser className="text-sm" /> Login
-              </button>
-            </Link>
-          )}
+              </Link>
+            )}
+          </div>
         </div>
 
         <button onClick={() => setDis(!dis)}>
@@ -218,7 +217,7 @@ function MainNavBar() {
                       Home
                     </Link>
                   </li>
-                 
+
                   <li>
                     <Link
                       to="/menu"
@@ -227,6 +226,18 @@ function MainNavBar() {
                       Menu
                     </Link>
                   </li>
+                  {admin && (
+                    <li>
+                      <Link
+                        to="/dash"
+                        className={
+                          isActive("/services") ? "text-primary-hover" : ""
+                        }
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

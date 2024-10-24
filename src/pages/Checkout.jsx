@@ -11,8 +11,16 @@ import Spinner from "../components/Spinner";
 import NewAddressBtn from "../components/Addresses/NewAddressBtn";
 import RadioBtns from "../components/Addresses/RadioBtns";
 const Checkout = () => {
-  const { getUserCart, userCart, totalPrice, calculateTotalCartPrice, token } =
-    useContext(LoginContext);
+  const {
+    getUserCart,
+    userCart,
+    totalPrice,
+    calculateTotalCartPrice,
+    token,
+    setUserCart,
+    setCartCount,
+    setTotalPrice,
+  } = useContext(LoginContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [userAddress, setUserAddress] = useState([]);
@@ -29,7 +37,6 @@ const Checkout = () => {
   const [savingData, setSavingData] = useState(false);
   useEffect(() => {
     if (selectedDeliveryMethod == "delivery") {
-      console.log("hello");
       setDisplayAddress(true);
     } else {
       setDisplayAddress(false);
@@ -60,39 +67,13 @@ const Checkout = () => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        console.error("Error fetching cart data", error);
+        toast.warning("Error fetching cart data", error.message);
       }
     };
 
     fetchCart();
   }, []);
-  //get order Data
-  const getUserOrder = async () => {
-    try {
-      const response = await axios.get(
-        "https://restaurant-website-dusky-one.vercel.app/order",
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
-      console.log(response);
-      if (response.status == 200) {
-        console.log(response.data);
-        // save order data to the database
-      } else {
-        console.log("error in getting order data", response.data.error);
-        // handle error
-      }
-    } catch (error) {
-      console.error("Error getting order data", error.message);
-      // handle error
-    }
-  };
-  useEffect(() => {
-    getUserOrder();
-  }, []);
+
   // calculate total price
   useEffect(() => {
     calculateTotalCartPrice();
@@ -103,7 +84,6 @@ const Checkout = () => {
   const ValidatePhoneNumber = () => {
     const phoneRegex = /^01[0-2,5][0-9]{8}$/;
     if (!phoneRegex.test(contactPhone)) {
-      console.log("ss");
       setPhoneError("pleaze Enter Valid Phone Number");
       return false;
     } else {
@@ -113,7 +93,8 @@ const Checkout = () => {
   };
   const resetFields = () => {
     setContactPhone("");
-    setSelectAddress("");
+    setUserAddress("");
+    setComment("");
   };
   const completePlaceOrder = async () => {
     //validate phone number
@@ -126,8 +107,6 @@ const Checkout = () => {
       deliveryOption: selectedDeliveryMethod,
       specialInstructions: comment,
     };
-    console.log(orderData);
-    console.log(token);
     // Make API call to save the order data
     try {
       setSavingData(true);
@@ -140,25 +119,26 @@ const Checkout = () => {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         setSavingData(false);
-        console.log("Order placed successfully", response.data.order._id);
+        toast.success("Order placed successfully");
         // Optionally, you could reset the state or redirect the user here
         if (selectedMethod == "card") {
           setShowPaymentBtns(true);
           setOrderId(response.data.order._id);
-          console.log(orderId)
         } else {
           setShowPaymentBtns(false);
+          setUserCart([]);
+          setCartCount(0);
+          setTotalPrice(0);
           navigate(`/account/orders`);
         }
+        resetFields();
       } else {
         toast.error("Error Placing Order", response.data.error);
-        console.log("Error placing order", response.data.error);
       }
     } catch (error) {
-      console.error("Error placing order", error.message);
+      toast.error("Error Placing Order", error.message);
     }
   };
 
@@ -205,7 +185,7 @@ const Checkout = () => {
             </div>
           </div>
         )}
-        {!showPaymentBtns && (
+        {!showPaymentBtns && !loading && (
           <div className="requiredData">
             <h3 className="h3 my-5">Required Data</h3>
             {/* contact phone Number */}
@@ -308,13 +288,6 @@ const Checkout = () => {
       {/* PayPal Section */}
       {showPaymentBtns && (
         <div className="z-10">
-          {/* <button
-            onClick={() => setShowPaymentBtns(false)}
-            className="w-full p-2.5 mb-5 text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none"
-          >
-            Back To Details
-          </button> */}
-
           <Payment orderId={orderId} />
         </div>
       )}

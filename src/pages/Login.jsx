@@ -70,8 +70,6 @@ function Login() {
       }
     } catch (error) {
       toast.error("Error Occured ", error.response?.data);
-      // console.error("Error caught:", error);
-      // console.log("Error response data:", error.response?.data);
 
       if (error.response) {
         if (error.response.status === 401) {

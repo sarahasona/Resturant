@@ -4,9 +4,6 @@ import axios from "axios";
 import { LoginContext } from "../context/Login/Login";
 import { toast } from "react-toastify";
 
-//! Change the URL and user token, and perform actions based on success or failure.
-//! All payment logic is already working; just handle the UI changes.
-
 const Payment = ({ orderId }) => {
   const navigate = useNavigate();
   const { token, setUserCart, setCartCount, setTotalPrice } =
@@ -15,9 +12,7 @@ const Payment = ({ orderId }) => {
 
   useEffect(() => {
     if (paypalRef.current) return;
-    // console.log("PayPal button rendered");
     paypalRef.current = true;
-
     const loadPayPalButton = () => {
       if (window.paypal) {
         window.paypal
@@ -44,9 +39,6 @@ const Payment = ({ orderId }) => {
                 return response.data.orderId;
               } catch (error) {
                 toast.error("Error creating PayPal order:", error);
-                // console.error("Error creating PayPal order:", error);
-                // alert("Error creating order. Please try again.");
-                //! failde to create the order (from our side : backend)
               }
             },
             onApprove: async (data, actions) => {
@@ -72,22 +64,14 @@ const Payment = ({ orderId }) => {
                 setCartCount(0);
                 setTotalPrice(0);
                 navigate(`/account/orders`);
-
-                // alert(
-                //   "Transaction completed by " + details.payer.name.given_name
-                // );
               } catch (error) {
                 toast.error("Error capturing payment:", error);
-                // console.log("Payment capture error:", error);
-                // alert("Payment failed. Please try again.");
                 //! There may be a failure on our backend while verifying the payment,
                 //! even if the purchase was successfully completed on the PayPal side.
               }
             },
             onError: (err) => {
               toast.error("PayPal error:", err);
-              // console.error("PayPal error:", err);
-              // alert("Payment process encountered an error.");
               //! its paypal fault not us!
             },
           })
