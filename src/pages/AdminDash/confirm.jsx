@@ -3,12 +3,8 @@ import { useContext } from "react";
 import { LoginContext } from "../../context/Login/Login";
 import axios from "axios";
 
-function Confirm(setShowC) {
+function Confirm({ setShowC, delet, setRefresh, refresh }) {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-  const delett = setShowC.delet;
-  const setRefresh = setShowC.setRefresh;
-  const refresh = setShowC.refresh;
 
   const { token } = useContext(LoginContext);
 
@@ -17,7 +13,7 @@ function Confirm(setShowC) {
 
     try {
       const response = await axios.delete(
-        `${backendUrl}user/deleteUser/${delett}`,
+        `${backendUrl}user/deleteUser/${delet}`,
         {
           headers: {
             token: `resApp ${token}`,
@@ -35,7 +31,7 @@ function Confirm(setShowC) {
     if (refresh) {
       setRefresh(!refresh);
     }
-    setShowC.setShowC(false);
+    setShowC(false);
   };
 
   return (
@@ -48,7 +44,7 @@ function Confirm(setShowC) {
           </button>
           <button
             className="btn btn-primary "
-            onClick={() => setShowC.setShowC(false)}
+            onClick={() => setShowC(false)}
           >
             NO
           </button>

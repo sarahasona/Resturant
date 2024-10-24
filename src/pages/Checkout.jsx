@@ -154,7 +154,7 @@ const Checkout = () => {
     }
   };
   return (
-    <div className="checkout-container mx-auto px-4 py-8 w-[50%]">
+    <div className="checkout-container mx-auto px-4 py-8 w-[90%] lg:w-[50%]">
       <h1 className="text-3xl font-semibold mb-8 text-center">Checkout</h1>
 
       {/* Order Summary */}
