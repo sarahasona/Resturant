@@ -60,7 +60,6 @@ const Checkout = () => {
     }, // Total Price of the Cart Items
     currency: "EGP", // Can be dynamic
   };
-
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -171,13 +170,17 @@ const Checkout = () => {
                   className="flex justify-between mb-2"
                 >
                   <span>{item.menuItem?.name}</span>
-                  <span>LE {item.menuItem?.price}</span>
+
+                  <span>
+                    Quantity : {item.quantity} | Price: {item.menuItem?.price}{" "}
+                    LE
+                  </span>
                 </li>
               ))}
             </ul>
             <div className="flex justify-between text-lg font-semibold">
               <span>Total:</span>
-              <span>LE {totalPrice}</span>
+              <span> {totalPrice} LE</span>
             </div>
           </div>
         )}
