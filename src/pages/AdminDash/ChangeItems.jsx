@@ -63,7 +63,7 @@ function ChangeItems({
       .split(",")
       .map((ingredient) => ingredient.trim());
     setIngredients(ingredientsArray);
-    console.log(ingredients);
+    // console.log(ingredients);
   };
 
   async function handleDelete(e) {
@@ -124,7 +124,7 @@ function ChangeItems({
 
       handle();
     } catch (error) {
-      console.error("Error uploading the image", error.response);
+      // console.error("Error uploading the image", error.response);
       toast.error("Error uploading the item. Please try again."); 
     }
   }

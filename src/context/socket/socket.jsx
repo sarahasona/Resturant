@@ -23,12 +23,12 @@ export const SocketProvider = ({ children }) => {
         });
 
         socketIo.on("connect", () => {
-          console.log("connected ", socketIo.id);
+          // console.log("connected ", socketIo.id);
           setSocket(socketIo);
         });
 
         socketIo.on("notification", (notification) => {
-          console.log(notification);
+          // console.log(notification);
           setNotifications((prev) => [...prev, notification]);
         });
 
@@ -40,7 +40,7 @@ export const SocketProvider = ({ children }) => {
         });
 
         socketIo.on("disconnect", () => {
-          console.log("Socket.IO disconnected");
+          // console.log("Socket.IO disconnected");
           setSocket(null);
         });
       }

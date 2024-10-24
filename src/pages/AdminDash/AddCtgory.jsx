@@ -51,12 +51,10 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
           },
         }
       );
-      console.log(response);
 
       return response.data.Menuitems;
     } catch (error) {
-      set;
-      console.error("Error uploading the image", error);
+      toast.error("Error uploading the image");
       return [];
     }
   }
@@ -87,13 +85,11 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
           },
         }
       );
-      console.log(response.data);
       setUploadStatus("Image uploaded successfully!");
       setShowCay(true);
       setSrefresh(!refresh);
     } catch (error) {
       setUploadStatus("Failed to upload image.");
-      console.error("Error uploading the image", error);
     }
   }
 
@@ -112,11 +108,11 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    console.log(typeof image === "string");
+    // console.log(typeof image === "string");
 
     if (!(typeof image === "string")) formData.append("image", image);
     formData.append("name", name);
-    console.log({ name, image });
+    // console.log({ name, image });
 
     if (JSON.stringify(catchng).length < 3) {
       try {
@@ -125,13 +121,13 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
             token: `resApp ${token}`,
           },
         });
-        console.log(response.data);
+        // console.log(response.data);
         setUploadStatus("Image uploaded successfully!");
         setShowCay(true);
         setSrefresh(!refresh);
       } catch (error) {
         setUploadStatus("Failed to upload image.");
-        console.error("Error uploading the image", error);
+        // console.error("Error uploading the image", error);
       }
     } else {
       try {
@@ -144,13 +140,13 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
             },
           }
         );
-        console.log(response.data);
+        // console.log(response.data);
         setUploadStatus("Image uploaded successfully!");
         setShowCay(true);
         setSrefresh(!refresh);
       } catch (error) {
         setUploadStatus("Failed to upload image.");
-        console.error("Error uploading the image", error);
+        // console.error("Error uploading the image", error);
       }
     }
   };

@@ -5,6 +5,8 @@ import "../pages/signup/signup.css";
 import { toast } from "react-toastify";
 
 function SignUp() {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,7 +32,7 @@ function SignUp() {
 
   const checkEmailExists = async (email) => {
     try {
-      const response = await axios.get(`https://resapp.thedevlab.tech/user/checkEmail`, {
+      const response = await axios.get(`${backendUrl}user/checkEmail`, {
         params: { email },
       });
       return response.data.exists; 
@@ -76,7 +78,7 @@ function SignUp() {
     }
 
     try {
-      const response = await axios.post(`https://resapp.thedevlab.tech/user/signUp`, {
+      const response = await axios.post(`${backendUrl}user/signUp`, {
         firstName,
         lastName,
         email,

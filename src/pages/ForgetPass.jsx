@@ -81,7 +81,7 @@ const ForgetPassword = () => {
         setEmailError("Unexpected response from the server.");
       }
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
       if (error.response && error.response.status === 404) {
         setEmailError("This email is not registered.");
       } else {
@@ -115,7 +115,6 @@ const ForgetPassword = () => {
         otp,
         newPassword,
       });
-      console.log("Response:", response);
       setMessage("Password changed successfully.");
       setSuccessMessageDisplayed(true);
       setStep(3);
@@ -125,7 +124,7 @@ const ForgetPassword = () => {
         navigate("/login");
       }, 1000);
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
       setMessage("Failed to change password, check OTP and try again.");
     } finally {
     }
@@ -141,7 +140,7 @@ const ForgetPassword = () => {
       setMessage("OTP has been resent to your email.");
       startOtpCooldown();
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
       setMessage("Failed to resend OTP, please try again.");
     } finally {
       setIsOtpResending(false);

@@ -6,6 +6,7 @@ import { LoginContext } from "../../context/Login/Login";
 import Spinner from "../../components/Spinner";
 import UsersTable from "./UsersTable";
 import TablePagination from "../../components/TablePagination";
+import { toast } from "react-toastify";
 function Users() {
   const [showc, setShowC] = useState(false);
   const [users, setUsers] = useState([]);
@@ -23,7 +24,7 @@ function Users() {
       });
       return response.data;
     } catch (error) {
-      console.error("Error fetching users:", error);
+      toast.error("Error fetching users:", error);
     }
   };
 
@@ -65,7 +66,7 @@ function Users() {
       {users.length > 0 ? (
         <div className=" px-[10px] md:px-[40px] py-[40px] w-[95%] mx-auto min-h-[70vh] flex flex-col justify-between">
           {" "}
-          <div >
+          <div>
             Users List
             <UsersTable
               className=""
@@ -75,7 +76,6 @@ function Users() {
             />
           </div>
           <TablePagination
-          
             totalPages={totalPages}
             currentPage={currentPage}
             handlePageChange={handlePageChange}
