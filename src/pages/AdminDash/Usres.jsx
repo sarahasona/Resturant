@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import UserCard from "./UserCard";
-import Confirm from "./Confirm";
+import Confirm from "./confirm";
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
 import Spinner from "../../components/Spinner";
