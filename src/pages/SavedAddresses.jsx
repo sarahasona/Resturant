@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 function SavedAddresses() {
   const { userOpject, token, getUserAddress, userAddress, setUserAddress } =
     useContext(LoginContext);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [newAddress, setNewAddress] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,20 +45,17 @@ function SavedAddresses() {
     setDeleteId(null);
   };
 
-
-
   const handleDeleteAddress = async () => {
     try {
-      const response = await axios.delete(
-        `http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/address/${deleteId}`,
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
-      if(response.status == 200){
-        setUserAddress(userAddress.filter((address) => address._id !== deleteId));
+      const response = await axios.delete(`${backendUrl}address/${deleteId}`, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
+      if (response.status == 200) {
+        setUserAddress(
+          userAddress.filter((address) => address._id !== deleteId)
+        );
         toast.warning("Address Deleted Successfuly");
       }
       closeModal();

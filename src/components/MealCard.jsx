@@ -16,19 +16,10 @@ const Cards = ({
 }) => {
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [addOrDeleteCartItems, setAddDeleteCartItems] = useState([]);
-  const {
-    token,
-    userID,
-    getUserCart,
-    userCart,
-    getCartCount,
-    setCartCount,
-    setUserCart,
-    removeMealFromCart,
-    addToCart,
-  } = useContext(LoginContext);
-  // const [itemExist, setItemExist] = useState(false);
+  const { token, userCart, removeMealFromCart, addToCart } =
+    useContext(LoginContext);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const handleHeartClick = async (mealId) => {
     try {
       let isAlreadyFavorite = false;
@@ -36,7 +27,7 @@ const Cards = ({
         isAlreadyFavorite = favourite.some((fav) => fav._id === mealId);
       }
       const response = await axios.post(
-        "https://restaurant-website-dusky-one.vercel.app/menu/favourite",
+        `${backendUrl}menu/favourite`,
         { itemId: mealId },
         {
           headers: {

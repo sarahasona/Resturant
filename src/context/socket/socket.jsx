@@ -11,11 +11,11 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [orderStatus, setOrderStatus] = useState(null);
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const initializeSocket = useCallback(
     (userId) => {
       if (!socket) {
-        const socketIo = io("http://192.168.1.9:5000", {
+        const socketIo = io(backendUrl, {
           query: {
             id: userId,
           },
@@ -34,6 +34,7 @@ export const SocketProvider = ({ children }) => {
 
         socketIo.on("orderStatus", (status) => {
           console.log("Order status received:", status);
+          console.log(orderStatus);
           setOrderStatus(status);
         });
 

@@ -4,6 +4,8 @@ import { LoginContext } from "../context/Login/Login";
 import { toast } from "react-toastify";
 import { useSocket } from "../context/socket/socket";
 function Profile() {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -61,7 +63,7 @@ function Profile() {
     try {
       setLoading(true);
       const response = await axios.patch(
-        `https://restaurant-website-dusky-one.vercel.app/user/`,
+        `${backendUrl}user/`,
         {
           firstName,
           lastName,
@@ -119,7 +121,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "https://restaurant-website-dusky-one.vercel.app/user",
+        `${backendUrl}user`,
         {
           email: newEmail,
         },
@@ -163,7 +165,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "https://restaurant-website-dusky-one.vercel.app/user/updatePassword",
+        `${backendUrl}user/updatePassword`,
         {
           currentPassword,
           newPassword,

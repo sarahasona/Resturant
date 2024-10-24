@@ -4,6 +4,7 @@ export const LoginContext = createContext();
 
 import { toast } from "react-toastify";
 function LoginProvider({ children }) {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [userName, setUserName] = useState("");
   const [admin, setAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,14 +36,11 @@ function LoginProvider({ children }) {
   //geet user address
   const getUserAddress = async () => {
     try {
-      const response = await axios.get(
-        `https://restaurant-website-dusky-one.vercel.app/address`,
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${backendUrl}address`, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       if (response.status === 200) {
         setUserAddress(response.data?.addresses || []);
       } else {
@@ -54,9 +52,7 @@ function LoginProvider({ children }) {
   };
   const getAllCategories = async () => {
     try {
-      const response = await axios.get(
-        "https://restaurant-website-dusky-one.vercel.app/category"
-      );
+      const response = await axios.get(`${backendUrl}category`);
       if (response.status === 200) {
         setCategories(response.data?.categories || []);
       } else {
@@ -89,14 +85,11 @@ function LoginProvider({ children }) {
   };
   const getUserCart = async () => {
     try {
-      const response = await axios.get(
-        "https://restaurant-website-dusky-one.vercel.app/cart",
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${backendUrl}cart`, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       if (response.status === 200 && response.data?.cart?.cart) {
         const cartData = response.data.cart.cart;
         if (cartData.length > 0) {
@@ -129,14 +122,11 @@ function LoginProvider({ children }) {
   };
   const removeMealFromCart = async (mealId) => {
     try {
-      const response = await axios.delete(
-        `https://restaurant-website-dusky-one.vercel.app/cart/${mealId}`,
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${backendUrl}cart/${mealId}`, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       if (response.status === 200) {
         const cartData = response.data.cart.cart;
         setCartCount(cartData.length);
@@ -155,7 +145,7 @@ function LoginProvider({ children }) {
   const addToCart = async (mealId, quantity) => {
     try {
       const response = await axios.post(
-        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/cart/update",
+        `${backendUrl}cart/update`,
         { itemId: mealId, count: quantity },
         {
           headers: {
@@ -178,14 +168,11 @@ function LoginProvider({ children }) {
   };
   const removeAllCartMeals = async () => {
     try {
-      const response = await axios.delete(
-        "http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/cart/clear",
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${backendUrl}cart/clear`, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       if (response.status === 200) {
         setCartCount(0);
         setUserCart([]);
@@ -203,15 +190,11 @@ function LoginProvider({ children }) {
   // get user favourite
   const getAllFavourit = async () => {
     try {
-      const response = await axios.get(
-        `http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/menu/favourite
-`,
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${backendUrl}menu/favourite`, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
       if (response.status === 200) {
         setFavouriteList(response.data.user.favourite);
       } else {
@@ -258,12 +241,12 @@ function LoginProvider({ children }) {
         setIsLoggedIn,
         publicId,
         setPublicId,
-       refresh, 
-       setSrefresh,
-       catchng, 
-       setCatchng,
-       showItems
-       , setShowItems
+        refresh,
+        setSrefresh,
+        catchng,
+        setCatchng,
+        showItems,
+        setShowItems,
       }}
     >
       {children}

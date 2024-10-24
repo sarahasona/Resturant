@@ -1,21 +1,24 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import OrderSummary from "../components/OrderSummary";
-import { LoginContext } from "../context/Login/Login"; 
-
+import { LoginContext } from "../context/Login/Login";
+import { useSocket } from "../context/socket/socket";
+import { toast } from "react-toastify";
 function Orders() {
-  const { token } = useContext(LoginContext); 
+  const { orderStatus } = useSocket();
+  const { token } = useContext(LoginContext);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await axios.get("http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/order", {
+        const response = await axios.get(`${backendUrl}order`, {
           headers: {
-            token: `resApp ${token}`, 
+            token: `resApp ${token}`,
           },
         });
 
@@ -35,21 +38,35 @@ function Orders() {
     if (token) {
       getOrders();
     }
-  }, [token]); 
+  }, [token]);
 
+  useEffect(() => {
+    if (orderStatus) {
+      setOrders((prevOrders) =>
+        prevOrders.map((order) => {
+          if (order.status === "Canceled") {
+            toast.warning('order have cancelled')
+          }
+          return order._id === orderStatus.orderId
+            ? { ...order, status: orderStatus.status }
+            : order;
+        })
+      );
+    }
+  }, [orderStatus]);
   const fetchOrderDetails = async (orderId) => {
     console.log("Fetching details for order:", orderId);
     try {
-      const response = await axios.get(`http://thedevlab.germanywestcentral.cloudapp.azure.com:5000/order/${orderId}`, {
+      const response = await axios.get(`${backendUrl}order/${orderId}`, {
         headers: {
           token: `resApp ${token}`,
         },
       });
-      return response.data.order; 
+      return response.data.order;
     } catch (error) {
       console.error("Error fetching order details:", error);
       setError("Failed to fetch order details.");
-      return null; 
+      return null;
     }
   };
 
@@ -99,10 +116,17 @@ function Orders() {
                 <h3 className="text-sm font-bold">
                   On {new Date(order.updatedAt).toLocaleString()}
                 </h3>
-                <p className={`text-xs ${order.orderStatus.trim().toLowerCase() === 'delivered' ? 'text-green-600' : 
-                                order.orderStatus.trim().toLowerCase() === 'canceled' ? 'text-red-600' : 
-                                order.orderStatus.trim().toLowerCase() === 'pending' ? 'text-yellow-600' : 
-                                'text-gray-500'}`}>
+                <p
+                  className={`text-xs ${
+                    order.orderStatus.trim().toLowerCase() === "delivered"
+                      ? "text-green-600"
+                      : order.orderStatus.trim().toLowerCase() === "canceled"
+                        ? "text-red-600"
+                        : order.orderStatus.trim().toLowerCase() === "pending"
+                          ? "text-yellow-600"
+                          : "text-gray-500"
+                  }`}
+                >
                   {order.orderStatus}
                 </p>
                 <p className="text-sm font-bold mt-1">

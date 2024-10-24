@@ -11,6 +11,8 @@ import Spinner from "../components/Spinner";
 import NewAddressBtn from "../components/Addresses/NewAddressBtn";
 import RadioBtns from "../components/Addresses/RadioBtns";
 const Checkout = () => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const {
     getUserCart,
     userCart,
@@ -110,15 +112,12 @@ const Checkout = () => {
     // Make API call to save the order data
     try {
       setSavingData(true);
-      const response = await axios.post(
-        "https://restaurant-website-dusky-one.vercel.app/order/",
-        orderData,
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
+      const response = await axios.post(`${backendUrl}order/`, orderData, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
+      console.log(response);
       if (response.status === 200) {
         setSavingData(false);
         toast.success("Order placed successfully");
@@ -144,14 +143,11 @@ const Checkout = () => {
 
   //get user Adresses
   const getUserAddresses = async () => {
-    const response = await axios.get(
-      "https://restaurant-website-dusky-one.vercel.app/address",
-      {
-        headers: {
-          token: `resApp ${token}`,
-        },
-      }
-    );
+    const response = await axios.get(`${backendUrl}address`, {
+      headers: {
+        token: `resApp ${token}`,
+      },
+    });
     if (response.status == 200) {
       setUserAddress(response.data.addresses);
       setSelectAddress(response.data.addresses[0]._id);

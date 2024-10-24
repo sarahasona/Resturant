@@ -1,8 +1,19 @@
-import React, { useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useContext, useState, useEffect } from "react";
+import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
 
-function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, setCatchng ,setSrefresh}) {
+function ChangeItems({
+  setShowCay,
+  catchng,
+  item,
+  setCatC,
+  publicId,
+  refresh,
+  setCatchng,
+  setSrefresh,
+}) {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
@@ -14,17 +25,14 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
   const [orderedTimes, setOrderedTimes] = useState("");
   const [averageRating, setAverageRating] = useState("");
   const [ingredients, setIngredients] = useState([]);
-  const { token  } = useContext(LoginContext);
-
+  const { token } = useContext(LoginContext);
 
   function handle() {
     setShowCay(true);
     setCatchng([]);
-    setSrefresh(!refresh)
+    setSrefresh(!refresh);
   }
 
-
-  
   useEffect(() => {
     if (JSON.stringify(item).length > 3 && item) {
       setPrice(item.price);
@@ -36,7 +44,7 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
       setImageUrl(item.image.secure_url);
       setName(item.name);
     }
-  }, [item,publicId]);
+  }, [item, publicId]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -50,29 +58,23 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
 
   const handleIngredientsChange = (e) => {
     const inputValue = e.target.value;
-    const ingredientsArray = inputValue.split(",").map((ingredient) => ingredient.trim()); 
+    const ingredientsArray = inputValue
+      .split(",")
+      .map((ingredient) => ingredient.trim());
     setIngredients(ingredientsArray);
     console.log(ingredients);
-    
   };
 
- async function handleDelete(e) {
+  async function handleDelete(e) {
     e.preventDefault();
     try {
-      const response = await axios.delete(
-        `https://restaurant-website-dusky-one.vercel.app/menu/${item._id}`,
-        {
-          headers: {
-            token: `resApp ${token}` 
-          },
-        }
-      );
-    
-
-      
-      
+      const response = await axios.delete(`${backendUrl}menu/${item._id}`, {
+        headers: {
+          token: `resApp ${token}`,
+        },
+      });
     } catch (error) {
-        if(error.message ==="Request failed with status code 404") return[]
+      if (error.message === "Request failed with status code 404") return [];
     }
   }
 
@@ -81,57 +83,45 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
     setAvailable(available === "true" ? true : false);
     const formData = new FormData();
 
-  ;
-    if (JSON.stringify(item).length > 3 ) {
-      
-      
-        if(image)formData.append('image', image);
-        
-        formData.append('name', name);
-        formData.append('price', price);
-        formData.append('available', available)
-    }else{
-     
-      
-      formData.append('image', image);
-      formData.append('name', name);
-      formData.append('price', price);
-      formData.append('available', available)
+    if (JSON.stringify(item).length > 3) {
+      if (image) formData.append("image", image);
+
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("available", available);
+    } else {
+      formData.append("image", image);
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("available", available);
     }
-    
-    
-    
+
     try {
-      const response = JSON.stringify(item).length > 3
-        ? await axios.patch(
-           
-            `https://restaurant-website-dusky-one.vercel.app/menu/${item._id}`,
-            formData,
-            {
+      const response =
+        JSON.stringify(item).length > 3
+          ? await axios.patch(`${backendUrl}menu/${item._id}`, formData, {
               headers: {
-                'Content-Type': 'multipart/form-data',
+                "Content-Type": "multipart/form-data",
                 token: `resApp ${token}`,
               },
-            }
-          )
-        : await axios.post(
-            `https://restaurant-website-dusky-one.vercel.app/menu?category=${publicId._id}`,
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                token: `resApp ${token}`,
-              },
-            }
-          );
-          
-          handle()
-      
+            })
+          : await axios.post(
+              `${backendUrl}menu?category=${publicId._id}`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  token: `resApp ${token}`,
+                },
+              }
+            );
+
+      handle();
     } catch (error) {
-      console.error('Error uploading the image', error.response);
+      console.error("Error uploading the image", error.response);
     }
   }
-  
+
   return (
     <div>
       <form
@@ -142,7 +132,9 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
         <h2 className="text-lg font-semibold text-orange-600">Item Details</h2>
         <div className="grid grid-cols-1 gap-4 mb-4">
           <div className="border border-gray-300 shadow-md rounded-md p-4">
-            <label className="block text-sm font-medium text-gray-700">Item Name</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Item Name
+            </label>
             <input
               type="text"
               value={name}
@@ -152,7 +144,9 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
           </div>
 
           <div className="border border-gray-300 shadow-md rounded-md p-4">
-            <label className="block text-sm font-medium text-gray-700">Item Price</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Item Price
+            </label>
             <input
               type="text"
               value={price}
@@ -162,7 +156,9 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
           </div>
 
           <div className="border border-gray-300 shadow-md rounded-md p-4">
-            <label className="block text-sm font-medium text-gray-700">Available?</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Available?
+            </label>
             <input
               type="text"
               value={available}
@@ -170,27 +166,33 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
               className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
-          
+
           <div className="border border-gray-300 shadow-md rounded-md p-4">
-            <label className="block text-sm font-medium text-gray-700">Ordered Times</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Ordered Times
+            </label>
             <input
               type="text"
               value={orderedTimes}
               className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
-          
+
           <div className="border border-gray-300 shadow-md rounded-md p-4">
-            <label className="block text-sm font-medium text-gray-700">Average Ratings</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Average Ratings
+            </label>
             <input
               type="text"
               value={averageRating}
               className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
-          
+
           <div className="border border-gray-300 shadow-md rounded-md p-4">
-            <label className="block text-sm font-medium text-gray-700">Ingredients (comma separated)</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Ingredients (comma separated)
+            </label>
             <input
               type="text"
               value={ingredients.join(", ")} // Display ingredients as comma-separated string
@@ -198,9 +200,11 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
               className="mt-1 block w-full border border-gray-300 shadow-sm rounded-md p-2 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
-          
+
           <div className="border border-gray-300 shadow-md rounded-md p-4">
-            <label className="block text-sm font-medium text-gray-700">Upload Image</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Upload Image
+            </label>
             <input
               type="file"
               onChange={handleImageChange}
@@ -215,16 +219,14 @@ function ChangeItems({ setShowCay, catchng, item, setCatC, publicId, refresh, se
         >
           Update
         </button>
-        
-        
       </form>
-<button
-          type="submit"
-          onClick={handleDelete}
-          className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
-        >
-          Delete
-        </button>
+      <button
+        type="submit"
+        onClick={handleDelete}
+        className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
+      >
+        Delete
+      </button>
       <button
         type="button"
         onClick={handle}

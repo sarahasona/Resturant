@@ -23,6 +23,7 @@ function AddAddress({
   const [newAddress, setNewAddress] = useState(
     JSON.parse(localStorage.getItem("adress"))
   );
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (modalContent === "edit") {
@@ -89,7 +90,7 @@ function AddAddress({
       if (modalContent === "add") {
         try {
           const response = await axios.post(
-            `https://restaurant-website-dusky-one.vercel.app/address`,
+            `${backendUrl}address`,
             {
               city,
               country,
@@ -104,17 +105,17 @@ function AddAddress({
             }
           );
           setUserAddress((prev) => [...prev, response.data.address]);
-          console.log(response.data.address)
+          console.log(response.data.address);
           setModalOpen(false);
-          toast.success('Address Added Successfuly')
+          toast.success("Address Added Successfuly");
           return response.data;
         } catch (error) {
-          toast.error('Error Adding Address ',error.message)
+          toast.error("Error Adding Address ", error.message);
         }
       } else {
         try {
           const response = await axios.put(
-            `https://restaurant-website-dusky-one.vercel.app/address/${editeId}`,
+            `${backendUrl}address/${editeId}`,
             {
               city,
               country,
@@ -134,10 +135,10 @@ function AddAddress({
             )
           );
           setModalOpen(false);
-          toast.success('Address Edited Successfuly')
+          toast.success("Address Edited Successfuly");
           return response.data;
         } catch (error) {
-          toast.error('Error Editing Address ',error.message)
+          toast.error("Error Editing Address ", error.message);
         }
       }
 

@@ -5,6 +5,7 @@ import { LoginContext } from "../context/Login/Login";
 import { toast } from "react-toastify";
 
 const Payment = ({ orderId }) => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const { token, setUserCart, setCartCount, setTotalPrice } =
     useContext(LoginContext);
@@ -25,7 +26,7 @@ const Payment = ({ orderId }) => {
             createOrder: async (data, actions) => {
               try {
                 const response = await axios.post(
-                  "https://restaurant-website-dusky-one.vercel.app/pay/intiate",
+                  `${backendUrl}pay/intiate`,
                   {
                     orderId: orderId,
                   },
@@ -45,7 +46,7 @@ const Payment = ({ orderId }) => {
               try {
                 const details = await actions.order.capture();
                 await axios.post(
-                  "https://restaurant-website-dusky-one.vercel.app/pay/update",
+                  `${backendUrl}pay/update`,
                   {
                     orderId: orderId,
                     paypalOrderId: details.id,

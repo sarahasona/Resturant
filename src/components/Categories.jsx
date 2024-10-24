@@ -1,46 +1,21 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useEffect, useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/Login/Login";
 
-import axios from "axios";
 const Catagories = () => {
   const { getAllCategories, category } = useContext(LoginContext);
   const navigate = useNavigate();
-  // const userToken = localStorage.getItem("token");
-  // const [categories, setCategories] = useState([]);
-  // const getAllCategories = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://restaurant-website-dusky-one.vercel.app/category",
-  //       {
-  //         headers: {
-  //           token: `resApp ${userToken}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(response);
-  //     if (response.status == 200) {
-  //       response.data?.categories
-  //         ? setCategories(response.data.categories)
-  //         : setCategories([]);
-  //     }
-  //     console.log(await response.data.categories);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+
   const navigateToCatMenu = (category, id) => {
     console.log(category);
     const cat = category.split(" ");
-    // console.log(cat.join(''))
     navigate(`/menu/${cat.join("_")}`, { state: { catId: id } });
   };
   useEffect(() => {
     getAllCategories();
-    // console.log(category);
   }, []);
   var settings = {
     dots: true,

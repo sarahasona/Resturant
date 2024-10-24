@@ -10,6 +10,7 @@ import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 
 function MenuView() {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const {
     getAllCategories,
@@ -71,9 +72,7 @@ function MenuView() {
   //get category according to category id
   const getCategoryMeals = async () => {
     try {
-      const response = await axios.get(
-        `https://restaurant-website-dusky-one.vercel.app/menu/category/${catId}`
-      );
+      const response = await axios.get(`${backendUrl}menu/category/${catId}`);
       if (response.status == 200) {
         setMenu(response.data);
         setFilteredMenu(response.data.Menuitems);
@@ -94,9 +93,7 @@ function MenuView() {
   //get All meals
   const getAllMeals = async () => {
     try {
-      const response = await axios.get(
-        "https://restaurant-website-dusky-one.vercel.app/menu"
-      );
+      const response = await axios.get(`${backendUrl}menu`);
       if (response.status == 200) {
         setMenu(response.data.allMenu);
         setFilteredMenu(response.data.allMenu);
@@ -222,7 +219,6 @@ function MenuView() {
             currentItems.length > 0 ? (
               <>
                 <div className="meals-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-
                   {currentItems.map((item) => (
                     <MealCard
                       key={item._id}
