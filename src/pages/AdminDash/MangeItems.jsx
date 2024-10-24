@@ -17,6 +17,8 @@ function Manue() {
   const location = useLocation();
 
   function handelShow() {
+    setAddCat(true)
+    setCatchng([]);
     setPublicId([]);
   }
 
@@ -61,7 +63,7 @@ function Manue() {
       } else {
       }
     });
-  }, [refresh, publicId]);
+  }, [refresh, publicId,item]);
 
   return (
     <>
@@ -72,7 +74,8 @@ function Manue() {
         Show all
       </button>
       {addCt ? (
-        <div className="container grid grid-cols-2 justify-between items-center gap-[30px] w-[80%] h-fit m-auto relative">
+        <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-between items-center gap-[30px] w-[80%] h-fit m-auto relative
+">
           {categories && categories.length > 0 ? (
             categories.map((category, index) => (
               <ShowItem

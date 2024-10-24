@@ -24,6 +24,7 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
   const [preview, setPreview] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const [name, setName] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   function handle() {
     setShowCay(true);
@@ -155,62 +156,103 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
     }
   };
 
-  return (
-    <div>
-      <h2>Upload Image</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Category Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        <button
-          type="submit"
-          className="btn bg-orange-500 text-white w[50%] py-2 rounded flex items-center justify-center mt-5"
-        >
-          Upload
-        </button>
-      </form>
+  const handleDeleteClick = () => {
+    setShowPopup(true);
+  };
 
-      {preview && (
-        <div>
-          <h3>Image Preview:</h3>
-          <img
-            src={preview}
-            alt="Preview"
-            style={{ width: "200px", height: "auto" }}
+  const confirmDelete = () => {
+
+    setShowPopup(false);
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+  };
+
+    return (
+      <div className="flex flex-col items-center">
+        <h2>Upload Image</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
+          <input
+            type="text"
+            placeholder="Category Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-[40%] border border-gray-300 shadow-sm rounded p-2"
           />
-        </div>
-      )}
-
-      {uploadStatus && <p>{uploadStatus}</p>}
-
-      <button
-        type="button"
-        onClick={handle}
-        className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
-      >
-        Cancel
-      </button>
-      <button
-        type="button"
-        // onClick={delet}
-        className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
-      >
-        Delete
-      </button>
-      <button
-        type="button"
-        onClick={cahngeToitems}
-        className="btn bg-orange-500 text-white w-[50%] mx-auto py-2 rounded flex items-center justify-center mt-5"
-      >
-        show the items
-      </button>
-    </div>
-  );
-}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-[40%] border border-gray-300 shadow-sm rounded p-2"
+          />
+          <button
+            type="submit"
+            className="btn bg-orange-500 text-white w-[40%] py-2 rounded flex items-center justify-center mt-5"
+          >
+            Upload
+          </button>
+        </form>
+  
+        {preview && (
+          <div className="mt-4">
+            <h3>Image Preview:</h3> <i class="fa-solid fa-image"></i>
+            <img
+              src={preview}
+              alt="Preview"
+              className="w-[300px] sm:w-[300px] md:w-[300px] lg:w-[300px] mx-auto"
+            />
+          </div>
+        )}
+  
+        {uploadStatus && <p>{uploadStatus}</p>}
+  
+        <button
+          type="button"
+          onClick={handle}
+          className="btn bg-orange-500 text-white w-[40%] mx-auto py-2 rounded flex items-center justify-center mt-5"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          onClick={handleDeleteClick}
+          className="btn bg-orange-500 text-white w-[40%] mx-auto py-2 rounded flex items-center justify-center mt-5"
+        >
+          Delete
+        </button>
+        <button
+          type="button"
+          onClick={cahngeToitems}
+          className="btn bg-orange-500 text-white w-[40%] mx-auto py-2 rounded flex items-center justify-center mt-5"
+        >
+          Show the items
+        </button>
+  
+        {showPopup && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-5 rounded shadow-md">
+              <h3>Are you sure you want to delete this item?</h3>
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={confirmDelete}
+                  className="btn bg-red-500 text-white rounded px-4 py-2"
+                >
+                  Yes, Delete
+                </button>
+                <button
+                  onClick={cancelDelete}
+                  className="btn bg-gray-300 text-black rounded px-4 py-2"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
 export default AddCtgory;
