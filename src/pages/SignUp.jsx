@@ -15,6 +15,7 @@ function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  
   const [isLoading, setIsLoading] = useState(false);
 
   const resetErrors = () => {
@@ -48,10 +49,8 @@ function SignUp() {
       setConfirmPasswordError("Passwords do not match");
       return;
     }
-    if (!validatePassword()) {
-      setPasswordError(
-        "Password must contain uppercase, lowercase, numbers, and symbols"
-      );
+    if (password.length < 8 || !validatePassowrd) {
+      setPasswordError("Password length should be at least 8 characters");
       return;
     }
     if (firstName.trim() === "" || firstName.length < 4) {
@@ -88,7 +87,11 @@ function SignUp() {
       toast.success("Account created successfully!");
       navigate("/login", { replace: true });
     } catch (error) {
-      setEmailError("Enter a valid email.");
+      if (error.response && error.response.status === 409) {
+        setEmailError("Email already exists");
+      } else {
+        setEmailError("An unexpected error occurred. Please try again later.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -99,10 +102,11 @@ function SignUp() {
     return emailRegex.test(email);
   };
 
-  const validatePassword = () => {
-    const passwordRegex =
+  const validatePassowrd = () => {
+    const emailRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
+    emailRegex.test(password);
+    return emailRegex.test(password);
   };
 
   return (
