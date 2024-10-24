@@ -16,14 +16,7 @@ function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [city, setCity] = useState(null);
-  const [country, setCountry] = useState("");
-  const [buildingNumber, setBuildingNumber] = useState(1);
-  const [floorNumber, setFloorNumber] = useState(1);
-  const [addressLabel, setAddressLabel] = useState("");
-  const [addressEerro, setAddressError] = useState(null);
-  const [address, setAddress] = useState(false);
-  const [droplist, setdroplist] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const resetErrors = () => {
@@ -45,8 +38,8 @@ function SignUp() {
       setConfirmPasswordError("Passwords do not match");
       return;
     }
-    if (password.length < 8 || !validatePassowrd) {
-      setPasswordError("Password length should be at least 8 characters");
+    if (password.length < 8 || !validatePassowrd()) {
+      setPasswordError("Password length should be at least 8 characters and capital letter number and social capteal");
       return;
     }
     if (firstName.trim() === "" || firstName.length < 4) {
@@ -81,7 +74,8 @@ function SignUp() {
       if (error.response && error.response.status === 409) {
         setEmailError("Email already exists");
       } else {
-        setEmailError("An unexpected error occurred. Please try again later.");
+        console.error("Error creating user:");
+        
       }
     } finally {
       setIsLoading(false);
@@ -94,10 +88,11 @@ function SignUp() {
   };
 
   const validatePassowrd = () => {
-    const emailRegex =
+    const passREg =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    emailRegex.test(password);
-    return emailRegex.test(password);
+      console.log(passREg.test(password));
+      
+    return passREg.test(password);
   };
 
  

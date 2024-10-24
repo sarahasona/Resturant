@@ -24,7 +24,7 @@ function Profile() {
   const [successMessage, setSuccessMessage] = useState("");
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const { token, userOpject } = useContext(LoginContext);
+  const { token, userOpject,setUserOpject } = useContext(LoginContext);
   const [loading, setLoading] = useState(false);
   const oneTime = React.useRef(false);
   const { initializeSocket } = useSocket();
@@ -37,6 +37,7 @@ function Profile() {
     setPhoneNumber(mobileNumber || "");
   }, [userOpject]);
 
+  
   
 
   const handleSubmit = async (e) => {
@@ -57,6 +58,7 @@ function Profile() {
       return;
     }
 
+    
     try {
       setLoading(true);
       const response = await axios.patch(
@@ -75,13 +77,20 @@ function Profile() {
       );
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response.data.updatedUser));
+
+        setUserOpject(JSON.parse(localStorage.getItem("user")));
+
         setLoading(false);
         toast.success("Profile updated successfully!");
+
+        
       } else {
         toast.error("Error updating profile.");
         setLoading(false);
       }
     } catch (error) {
+
+      
       toast.error("An error occurred. Please try again.");
       setLoading(false);
     }
@@ -110,35 +119,44 @@ function Profile() {
     );
   };
 
-  const handleChangeEmail = async () => {
-    if (!newEmail) {
-      setEmailError("Email cannot be empty.");
-      return;
-    }
-
-    try {
-      const response = await axios.put(
-        `${backendUrl}user`,
-        {
-          email: newEmail,
-        },
-        {
-          headers: {
-            token: `resApp ${token}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setEmail(newEmail);
-        setSuccessMessage("Email updated successfully!");
-        setShowEmailModal(false);
-      } else {
-        toast.error("Error updating email.");
-      }
-    } catch (error) {
-      toast.error("An error occurred while updating email. Please try again.");
-    }
-  };
+  // const handleChangeEmail = async () => {
+  //   if (!newEmail) {
+  //     setEmailError("Email cannot be empty.");
+  //     return;
+  //   }
+  //   console.log( firstName,
+  //     lastName,
+  //     mobileNumber,);
+    
+  //   try {
+  //     const response = await axios.patch(
+  //       `${backendUrl}user`,
+  //       firstName,
+  //       lastName,
+  //       mobileNumber,
+  //       newEmail,
+        
+  //       {
+  //         headers: {
+  //           token: `resApp ${token}`,
+  //         },
+  //       }
+  //     );
+  //     console.log(response);
+      
+  //     if (response.status === 200) {
+  //       setEmail(newEmail);
+  //       setSuccessMessage("Email updated successfully!");
+  //       setShowEmailModal(false);
+  //     } else {
+  //       toast.error("Error updating email.");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+      
+  //     toast.error("An error occurred while updating email. Please try again.");
+  //   }
+  // };
 
   const handleChangePassword = async () => {
     resetErrors();
@@ -203,7 +221,7 @@ function Profile() {
             value={email}
             id="email"
             className="p-2 border border-blue-200 outline-none rounded w-full md:w-2/3 text-sm"
-            readOnly
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
@@ -284,12 +302,12 @@ function Profile() {
       </form>
 
       <div className="flex justify-center gap-4 mt-4">
-        <button
+        {/* <button
           onClick={() => setShowEmailModal(true)}
           className=" text-green-500 py-2 px-4 "
         >
           CHANGE EMAIL
-        </button>
+        </button> */}
         <button
           onClick={() => setShowPasswordModal(true)}
           className=" text-green-500 py-2 px-4"
@@ -299,7 +317,7 @@ function Profile() {
       </div>
 
       {/* Email Modal */}
-      {showEmailModal && (
+      {/* {showEmailModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg">
             <h2 className="text-xl mb-4">Change Email</h2>
@@ -327,7 +345,7 @@ function Profile() {
             {emailError && <p className="text-red-500">{emailError}</p>}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Change Password Modal */}
       {showPasswordModal && (
