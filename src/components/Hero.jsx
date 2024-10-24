@@ -12,25 +12,19 @@ function Hero() {
     {
       subtitle: "Welcome",
       title: "To Food Place",
-      description: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-              tenetur id debitis libero impedit nam pariatur itaque eveniet,
-              repellendus, odio similique eos sed`,
+      description: `Discover a variety of flavorful dishes made to satisfy your cravings. Enjoy a great dining experience with us.`,
       img: "Hero/img1.jpeg",
     },
     {
       subtitle: "The Elegent",
       title: "Resturant",
-      description: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-              tenetur id debitis libero impedit nam pariatur itaque eveniet,
-              repellendus, odio similique eos sed`,
+      description: `Experience fine dining with a sophisticated atmosphere and exquisite meals crafted to perfection.`,
       img: "Hero/img2.jpeg",
     },
     {
       subtitle: "Delicious",
       title: "Spicy Masalas",
-      description: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-              tenetur id debitis libero impedit nam pariatur itaque eveniet,
-              repellendus, odio similique eos sed`,
+      description: `Indulge in the rich and aromatic flavors of our authentic spicy dishes, made with the finest ingredients.`,
       img: "Hero/img3.jpeg",
     },
   ];

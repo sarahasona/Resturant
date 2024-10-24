@@ -116,7 +116,7 @@ const Checkout = () => {
           token: `resApp ${token}`,
         },
       });
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         setSavingData(false);
         toast.success("Order placed successfully");

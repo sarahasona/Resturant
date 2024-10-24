@@ -28,7 +28,7 @@ function Orders() {
           setError("No orders found");
         }
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        // console.error("Error fetching orders:", error);
         setError("Failed to fetch orders.");
       } finally {
         setIsLoading(false);
@@ -41,7 +41,6 @@ function Orders() {
   }, [token]);
 
   useEffect(() => {
-    console.log(orderStatus);
     if (orderStatus) {
       setOrders((prevOrders) =>
         prevOrders.map((order) => {
@@ -57,7 +56,7 @@ function Orders() {
     }
   }, [orderStatus, notification]);
   const fetchOrderDetails = async (orderId) => {
-    console.log("Fetching details for order:", orderId);
+    // console.log("Fetching details for order:", orderId);
     try {
       const response = await axios.get(`${backendUrl}order/${orderId}`, {
         headers: {
@@ -66,7 +65,7 @@ function Orders() {
       });
       return response.data.order;
     } catch (error) {
-      console.error("Error fetching order details:", error);
+      // console.error("Error fetching order details:", error);
       setError("Failed to fetch order details.");
       return null;
     }

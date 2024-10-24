@@ -43,7 +43,7 @@ function Login() {
       } else {
         setAdmin(false);
       }
-      console.log(response.data.user._id);
+      // console.log(response.data.user._id);
       if (response.status === 200) {
         const { token } = response.data;
 

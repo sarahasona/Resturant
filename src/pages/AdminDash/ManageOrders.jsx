@@ -19,11 +19,9 @@ function ManageOrders() {
         });
         if (response.data && Array.isArray(response.data.orders)) {
           setAllOrders(response.data.orders);
-        } else {
-          console.error("Unexpected response format:", response.data);
-        }
+        } 
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        // console.error("Error fetching orders:", error);
       }
     };
 
