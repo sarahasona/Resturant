@@ -84,7 +84,9 @@ function ChangeItems({
 
   async function update(e) {
     e.preventDefault();
-    setAvailable(available === "true" ? true : false);
+  
+
+
     const formData = new FormData();
 
     if (JSON.stringify(item).length > 3) {

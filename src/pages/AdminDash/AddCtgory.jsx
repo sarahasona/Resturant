@@ -55,7 +55,7 @@ function AddCtgory({ setShowCay, catC, setCatC }) {
 
       return response.data.Menuitems;
     } catch (error) {
-      set;
+      
       console.error("Error uploading the image", error);
       return [];
     }
