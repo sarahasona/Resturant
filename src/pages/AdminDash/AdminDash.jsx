@@ -34,8 +34,8 @@ function AdminDash() {
             <li>
             <i className="fa-solid fa-user mr-3"></i>
               <Link
-                to="user"
-                className={isActive("/dash/user") ? "text-primary-hover" : ""}
+                to="/dash"
+                className={isActive("/dash") ? "text-primary-hover" : ""}
               >
                 Users
               </Link>

@@ -2,10 +2,10 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import OrderSummary from "../components/OrderSummary";
 import { LoginContext } from "../context/Login/Login";
-import { useSocket } from "../context/socket/socket";
+// import { useSocket } from "../context/socket/socket";
 import { toast } from "react-toastify";
 function Orders() {
-  const { orderStatus } = useSocket();
+  // const { orderStatus } = useSocket();
   const { token } = useContext(LoginContext);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orders, setOrders] = useState([]);
@@ -40,20 +40,20 @@ function Orders() {
     }
   }, [token]);
 
-  useEffect(() => {
-    if (orderStatus) {
-      setOrders((prevOrders) =>
-        prevOrders.map((order) => {
-          if (order.status === "Canceled") {
-            toast.warning('order have cancelled')
-          }
-          return order._id === orderStatus.orderId
-            ? { ...order, status: orderStatus.status }
-            : order;
-        })
-      );
-    }
-  }, [orderStatus]);
+  // useEffect(() => {
+  //   if (orderStatus) {
+  //     setOrders((prevOrders) =>
+  //       prevOrders.map((order) => {
+  //         if (order.status === "Canceled") {
+  //           toast.warning('order have cancelled')
+  //         }
+  //         return order._id === orderStatus.orderId
+  //           ? { ...order, status: orderStatus.status }
+  //           : order;
+  //       })
+  //     );
+  //   }
+  // }, [orderStatus]);
   const fetchOrderDetails = async (orderId) => {
     console.log("Fetching details for order:", orderId);
     try {

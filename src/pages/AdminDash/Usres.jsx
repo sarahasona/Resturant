@@ -3,7 +3,9 @@ import UserCard from "./UserCard";
 import Confirm from "./Confirm";
 import axios from "axios";
 import { LoginContext } from "../../context/Login/Login";
-
+import Spinner from "../../components/Spinner";
+import UsersTable from "./UsersTable";
+import TablePagination from "../../components/TablePagination";
 function Users() {
   const [showc, setShowC] = useState(false);
   const [users, setUsers] = useState([]);
@@ -34,6 +36,19 @@ function Users() {
     });
   }, [refresh]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  // Calculate total number of pages
+  const rowsPerPage = 5;
+  const totalPages = Math.ceil(users.length / rowsPerPage);
+  // Get current data slice for the current page
+  const currentData = users.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+  // handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
     <div
       className="overflow-y-scroll scrollbar-hidden h-[90vh]"
@@ -47,30 +62,27 @@ function Users() {
           refresh={refresh}
         />
       )}
-
-      <div className="flex justify-between w-[80%] m-[5%] p-2 border bg-blue-50">
-        <h3>#</h3>
-        <h3>Name</h3>
-        <h3>Email</h3>
-        <h3>Role</h3>
-        <h3>Action</h3>
-      </div>
       {users.length > 0 ? (
-        users.map((user, index) => (
-          <UserCard
-            setDelet={setDelet}
-            id={user._id}
-            key={user._id}
-            user={user}
-            order={index}
-            name={user.firstName + " " + user.lastName}
-            role={user.role}
-            email={user.email}
-            setShowC={setShowC}
+        <div className=" px-[10px] md:px-[40px] py-[40px] w-[95%] mx-auto min-h-[70vh] flex flex-col justify-between">
+          {" "}
+          <div >
+            Users List
+            <UsersTable
+              className=""
+              users={currentData}
+              setDelet={setDelet}
+              setShowC={setShowC}
+            />
+          </div>
+          <TablePagination
+          
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
           />
-        ))
+        </div>
       ) : (
-        <p>No users found or loading...</p>
+        <Spinner />
       )}
     </div>
   );

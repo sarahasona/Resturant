@@ -1,5 +1,3 @@
-import React from "react";
-
 function UserCard(data, setShowC, setDelet) {
   function delet() {
     if (data.role != "Admin") {
@@ -10,20 +8,15 @@ function UserCard(data, setShowC, setDelet) {
   }
 
   return (
-    <div
-      className=' "
-'
-    >
-      <div className="flex justify-between w-[80%] m-[5%] p-2 border">
-        <p className="text-primary-hover">{data.order}</p>
-        <p>{data.name}</p>
-        <p className="text-primary-hover">{data.email}</p>
-        <p>{data.role}</p>
-        <button className="text-primary-hover">
-          <i className="fa-solid fa-user-slash" onClick={delet}></i>
-        </button>
-      </div>
-    </div>
+    <>
+      <td className="text-start border border-gray-300 p-1">{data.name}</td>
+      <td className="text-start border border-gray-300 p-1">{data.email}</td>
+      <td className="align-middle border border-gray-300 p-1">{data.role}</td>
+      <td className="align-middle border border-gray-300 p-1"><button className="text-primary-hover">
+        <i className="fa-solid fa-user-slash" onClick={delet}></i>
+      </button></td>
+      
+    </>
   );
 }
 
